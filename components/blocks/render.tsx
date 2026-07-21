@@ -73,7 +73,7 @@ function CapGrid({ p }: { p: P }) {
   return (
     <section className={`section${p.surface === "tint" ? " section--tint" : ""}`}>
       <div className="container">
-        <Reveal as={SectionHead as any} eyebrow={p.eyebrow} title={p.title} lead={p.lead} />
+        <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} lead={p.lead} /></Reveal>
         <div className={`grid-${p.cols || 3}`}>
           {(p.items || []).map((it: P, i: number) => (
             <Reveal className="cap" key={i}>
@@ -100,7 +100,7 @@ function StepsNavy({ p }: { p: P }) {
   return (
     <section className="section section--navy on-dark">
       <div className="container">
-        <Reveal as={SectionHead as any} eyebrow={p.eyebrow} title={p.title} lead={p.lead} />
+        <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} lead={p.lead} /></Reveal>
         <div className="steps">
           {(p.steps || []).map((s: P, i: number) => (
             <Reveal className="step" key={i}>
@@ -125,7 +125,7 @@ function StepsVertical({ p }: { p: P }) {
   return (
     <section className="section section--tint">
       <div className="container">
-        <Reveal as={SectionHead as any} eyebrow={p.eyebrow} title={p.title} />
+        <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} /></Reveal>
         <div className="steps-v">
           {(p.steps || []).map((s: P, i: number) => (
             <Reveal className="step-row" key={i}>
@@ -144,7 +144,7 @@ function IndCards({ p }: { p: P }) {
   return (
     <section className={`section${p.surface === "tint" ? " section--tint" : ""}`} id={p.anchor}>
       <div className="container">
-        <Reveal as={SectionHead as any} eyebrow={p.eyebrow} title={p.title} lead={p.lead} />
+        <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} lead={p.lead} /></Reveal>
         <div className={`grid-${p.cols || 3}`}>
           {(p.cards || []).map((c: P, i: number) => (
             <Reveal as={Link as any} className="ind-card" href={c.href || "#"} key={i}
@@ -191,7 +191,7 @@ function Faq({ p }: { p: P }) {
   return (
     <section className={`section${p.surface === "tint" ? " section--tint" : ""}`}>
       <div className="container">
-        <Reveal as={SectionHead as any} eyebrow={p.eyebrow} title={p.title} />
+        <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} /></Reveal>
         <Reveal className="faq">
           {(p.items || []).map((f: P, i: number) => (
             <details key={i}>
@@ -232,7 +232,7 @@ function Contrast({ p }: { p: P }) {
   return (
     <section className="section">
       <div className="container">
-        <Reveal as={SectionHead as any} eyebrow={p.eyebrow} title={p.title} lead={p.lead} />
+        <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} lead={p.lead} /></Reveal>
         <div className="contrast">
           {(p.cards || []).map((c: P, i: number) => (
             <Reveal className="c" key={i}>
@@ -294,7 +294,7 @@ function TechLayer({ p }: { p: P }) {
   return (
     <section className="section section--navy on-dark">
       <div className="container">
-        <Reveal as={SectionHead as any} eyebrow={p.eyebrow} title={p.title} lead={p.lead} />
+        <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} lead={p.lead} /></Reveal>
         <Reveal style={{ marginBottom: "var(--space-8)" }}><CommandCenter /></Reveal>
         <div className="grid-3">
           {(p.caps || []).map((c: P, i: number) => (
@@ -318,7 +318,7 @@ function Compare({ p }: { p: P }) {
   return (
     <section className="section section--tint">
       <div className="container">
-        <Reveal as={SectionHead as any} eyebrow={p.eyebrow} title={p.title} />
+        <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} /></Reveal>
         <Reveal className="compare-wrap">
           <table className="compare">
             <thead>
@@ -404,7 +404,7 @@ function ProofBlockNavy({ p }: { p: P }) {
   return (
     <section className="section section--navy on-dark">
       <div className="container">
-        <Reveal as={SectionHead as any} eyebrow={p.eyebrow} title={p.title} style={{ marginBottom: "var(--space-6)" }} />
+        <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} style={{ marginBottom: "var(--space-6)" }} /></Reveal>
         <Reveal className="proof-block">
           <p className="q">{p.quote}</p>
           <div className="cite">{p.cite}</div>
@@ -451,7 +451,7 @@ function Founders({ p }: { p: P }) {
   return (
     <section className="section">
       <div className="container">
-        <Reveal as={SectionHead as any} eyebrow={p.eyebrow} title={p.title} />
+        <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} /></Reveal>
         <div className="grid-4">
           {(p.people || []).map((m: P, i: number) => (
             <Reveal className="founder" key={i}>
@@ -600,7 +600,7 @@ function Requirements({ p }: { p: P }) {
   return (
     <section className="section">
       <div className="container">
-        <Reveal as={SectionHead as any} eyebrow={p.eyebrow} title={p.title} />
+        <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} /></Reveal>
         <Reveal className="req-cols">
           <div><h4>Must have</h4><ul className="jd-list">{(p.must || []).map((l: string, i: number) => <li key={i}><Rich html={l} /></li>)}</ul></div>
           <div><h4>Nice to have</h4><ul className="jd-list">{(p.nice || []).map((l: string, i: number) => <li key={i}><Rich html={l} /></li>)}</ul></div>
@@ -617,7 +617,7 @@ function Offer({ p }: { p: P }) {
   return (
     <section className="section section--tint">
       <div className="container">
-        <Reveal as={SectionHead as any} eyebrow={p.eyebrow} title={p.title} />
+        <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} /></Reveal>
         <Reveal className="grid-2">
           <ul className="jd-list">{(p.colA || []).map((l: string, i: number) => <li key={i}>{l}</li>)}</ul>
           <ul className="jd-list">{(p.colB || []).map((l: string, i: number) => <li key={i}>{l}</li>)}</ul>
@@ -632,7 +632,7 @@ function HiringSteps({ p }: { p: P }) {
   return (
     <section className="section">
       <div className="container">
-        <Reveal as={SectionHead as any} eyebrow={p.eyebrow} title={p.title} />
+        <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} /></Reveal>
         <Reveal className="hire-steps">
           {(p.steps || []).map((s: string, i: number) => (
             <div className="hire-step" key={i}><div className="hn">{i + 1}</div><p>{s}</p></div>
