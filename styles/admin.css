@@ -87,4 +87,33 @@
 .ed-preview .header { position: static; }
 .ed-preview .hero-media img { animation: none !important; }
 
+/* ── Inline (Elementor-style) editing ── */
+.ed-blk { position: relative; }
+.ed-mode .ed-blk { outline: 1px dashed transparent; outline-offset: -1px; transition: outline-color .12s; cursor: default; }
+.ed-mode .ed-blk:hover { outline-color: var(--vivo-green); }
+.ed-mode .ed-blk.sel { outline: 2px solid var(--vivo-green); outline-offset: -2px; }
+.ed-blk-hidden { opacity: .45; }
+.ed-blk-badge { position: absolute; top: 0; left: 0; z-index: 6; background: var(--vivo-navy); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 0 0 8px 0; pointer-events: none; font-family: var(--font-body); letter-spacing: .04em; }
+.ed-blk.sel > .ed-blk-badge { background: var(--vivo-green); color: var(--vivo-navy); }
+
+/* editable text nodes */
+.ed-mode [data-ep] { outline: 1px dotted rgba(4,217,139,.6); outline-offset: 2px; cursor: text; border-radius: 3px; transition: background .12s; }
+.ed-mode [data-ep]:hover { background: rgba(4,217,139,.10); }
+.ed-mode [data-ep]:focus { outline: 2px solid var(--vivo-green); background: rgba(4,217,139,.06); }
+.ed-mode [data-epimg] { cursor: pointer; }
+.ed-mode [data-epimg]:hover { outline: 2px solid var(--vivo-green); outline-offset: 2px; }
+.ed-imgbtn { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(1,22,64,.45); color: #fff; font-weight: 700; font-size: 13px; opacity: 0; transition: opacity .12s; z-index: 4; pointer-events: none; }
+.ed-mode [data-epimg]:hover .ed-imgbtn { opacity: 1; }
+
+/* floating section toolbar */
+.ed-toolbar { position: fixed; z-index: 80; display: flex; gap: 2px; background: var(--vivo-navy); border-radius: 8px; padding: 3px; box-shadow: var(--shadow-md); }
+.ed-toolbar button { width: 30px; height: 30px; display: grid; place-items: center; border: 0; background: none; color: rgba(255,255,255,.85); border-radius: 6px; cursor: pointer; }
+.ed-toolbar button:hover { background: rgba(255,255,255,.14); color: #fff; }
+.ed-toolbar button:disabled { opacity: .3; cursor: default; }
+.ed-toolbar .lbl { color: var(--vivo-green); font-size: 11px; font-weight: 700; padding: 0 8px; display: flex; align-items: center; letter-spacing: .03em; }
+
+.ed-preview-toggle { display: flex; gap: 6px; align-items: center; margin-left: auto; }
+.ed-preview-toggle button { font-size: 12px; font-weight: 700; border: 1px solid var(--vivo-border); background: #fff; color: var(--vivo-navy); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+.ed-preview-toggle button.on { background: var(--vivo-green); border-color: var(--vivo-green); color: var(--vivo-navy); }
+
 @media (max-width: 860px) { .ed { grid-template-columns: 1fr; height: auto; } .ed-preview { display: none; } }

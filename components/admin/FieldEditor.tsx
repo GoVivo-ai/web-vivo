@@ -1,8 +1,51 @@
 "use client";
+import { useState } from "react";
 import { Icon } from "../Icon";
 import type { FieldDef } from "@/lib/blocks/types";
 
 type Val = any;
+
+export function ImageField({ value, onChange, label, help }: { value?: string; onChange: (v: string) => void; label?: string; help?: string }) {
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  async function upload(file: File) {
+    setBusy(true);
+    setErr(null);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      const j = await res.json();
+      if (j.ok) onChange(j.url);
+      else setErr(j.error || "Upload failed");
+    } catch {
+      setErr("Upload failed");
+    }
+    setBusy(false);
+  }
+  return (
+    <div className="ed-field">
+      {label && <label>{label}</label>}
+      {help && <div className="help">{help}</div>}
+      {value ? (
+        <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 6 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={value} alt="" style={{ width: 54, height: 40, objectFit: "cover", borderRadius: 6, border: "1px solid var(--vivo-border)" }} />
+          <button className="ed-icobtn" title="Remove" onClick={() => onChange("")}><Icon name="x" size={15} /></button>
+        </div>
+      ) : null}
+      <div style={{ display: "flex", gap: 6 }}>
+        <input className="ed-input" value={value ?? ""} onChange={(e) => onChange(e.target.value)} placeholder="/photos/… or upload →" />
+        <label className="adm-btn ghost sm" style={{ whiteSpace: "nowrap", cursor: "pointer" }}>
+          {busy ? "…" : "Upload"}
+          <input type="file" accept="image/*" style={{ display: "none" }} disabled={busy}
+            onChange={(e) => { const f = e.target.files?.[0]; if (f) upload(f); e.currentTarget.value = ""; }} />
+        </label>
+      </div>
+      {err && <div className="help" style={{ color: "#b42318" }}>{err}</div>}
+    </div>
+  );
+}
 
 function ListEditor({ field, value, onChange }: { field: FieldDef; value: Val; onChange: (v: Val) => void }) {
   const arr: string[] = Array.isArray(value) ? value : [];
@@ -93,12 +136,7 @@ export function FieldEditor({ field, value, onChange }: { field: FieldDef; value
     case "richtext":
       return <div className="ed-field">{labelBlock}<textarea className="ed-textarea" value={value ?? ""} onChange={(e) => onChange(e.target.value)} /></div>;
     case "image":
-      return (
-        <div className="ed-field">
-          {labelBlock}
-          <input className="ed-input" value={value ?? ""} onChange={(e) => onChange(e.target.value)} placeholder="/photos/… or https://…" />
-        </div>
-      );
+      return <ImageField value={value} onChange={onChange} label={field.label} help={field.help} />;
     case "select":
       return (
         <div className="ed-field">

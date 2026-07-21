@@ -684,13 +684,19 @@ const MAP: Record<string, (a: { p: P }) => JSX.Element | null> = {
   bookHero: ({ p }) => <BookForm {...(p as any)} />,
 };
 
-export function BlockView({ block }: { block: Block }) {
-  if (block.hidden) return null;
+export function BlockView({ block, editable }: { block: Block; editable?: boolean }) {
   const Cmp = MAP[block.type];
   if (!Cmp) return null;
-  return <Cmp p={block.props as P} />;
+  if (block.hidden && !editable) return null;
+  const el = <Cmp p={block.props as P} />;
+  if (!editable) return el;
+  return (
+    <div className={`ed-blk${block.hidden ? " ed-blk-hidden" : ""}`} data-bid={block.id}>
+      {el}
+    </div>
+  );
 }
 
-export function BlocksView({ blocks }: { blocks: Block[] }) {
-  return <>{blocks.map((b) => <BlockView key={b.id} block={b} />)}</>;
+export function BlocksView({ blocks, editable }: { blocks: Block[]; editable?: boolean }) {
+  return <>{blocks.map((b) => <BlockView key={b.id} block={b} editable={editable} />)}</>;
 }
