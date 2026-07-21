@@ -1,7 +1,8 @@
 /* ═══════════════════════════════════════════════════════════════
    Vivo — marketing site styles (ported from design handoff site.css)
    ═══════════════════════════════════════════════════════════════ */
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--font-body);
