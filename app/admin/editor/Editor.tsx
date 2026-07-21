@@ -178,18 +178,22 @@ export function Editor({ initial, initialPath, canSave }: { initial: SiteContent
         be.spellcheck = false;
       }
     }
-    // first top-level image field → clickable image/placeholder
+    // first top-level image field → clickable image/placeholder (host = the box we overlay)
     const imgField = def.fields.find((f) => f.type === "image");
     if (imgField) {
       const holder = block.querySelector<HTMLElement>("img, .ph");
       if (holder) {
-        const wrap = (holder.tagName === "IMG" ? holder.parentElement : holder) as HTMLElement;
-        (holder.tagName === "IMG" ? holder : holder).setAttribute("data-epimg", imgField.key);
-        const btn = document.createElement("div");
-        btn.className = "ed-imgbtn";
-        btn.textContent = "Click to upload";
-        (wrap || holder).style.position = (wrap || holder).style.position || "relative";
-        (holder.tagName === "IMG" ? holder.parentElement || holder : holder).appendChild(btn);
+        const host = (holder.tagName === "IMG" ? holder.parentElement || holder : holder) as HTMLElement;
+        host.setAttribute("data-epimg", imgField.key);
+        // Only add relative positioning when the host is statically positioned —
+        // never override an already-absolute overlay (e.g. the hero background).
+        if (getComputedStyle(host).position === "static") host.style.position = "relative";
+        if (!host.querySelector(".ed-imgbtn")) {
+          const btn = document.createElement("div");
+          btn.className = "ed-imgbtn";
+          btn.textContent = "Click to upload";
+          host.appendChild(btn);
+        }
       }
     }
   }, [selectedId, def, content, inlineMode, page]);

@@ -2,6 +2,60 @@
    Vivo backoffice (admin) — chrome for the visual editor
    ═══════════════════════════════════════════════════════════════ */
 .adm { min-height: 100vh; background: var(--vivo-gray-050); color: var(--vivo-ink); font-family: var(--font-body); }
+
+/* ══ WordPress-style shell ══ */
+.wp { display: grid; grid-template-columns: 232px 1fr; min-height: 100vh; background: var(--vivo-gray-050); }
+.wp-side { background: var(--vivo-navy-900); color: rgba(255,255,255,0.82); display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+.wp-brand { display: flex; align-items: center; gap: 8px; padding: 18px 20px; font-family: var(--font-heading); font-weight: 900; letter-spacing: 0.14em; font-size: 16px; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.wp-brand span { color: var(--vivo-green); }
+.wp-nav { flex: 1; padding: 12px 10px; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; }
+.wp-nav a { display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 9px; color: rgba(255,255,255,0.72); font-size: 14px; font-weight: 600; transition: background .12s, color .12s; }
+.wp-nav a:hover { background: rgba(255,255,255,0.07); color: #fff; }
+.wp-nav a.on { background: var(--vivo-green); color: var(--vivo-navy); }
+.wp-nav a.on svg { color: var(--vivo-navy); }
+.wp-nav a svg { width: 18px; height: 18px; opacity: .9; }
+.wp-nav .grp { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,0.38); font-weight: 700; padding: 14px 12px 6px; }
+.wp-side-foot { padding: 14px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 12px; }
+.wp-side-foot .who { color: rgba(255,255,255,0.6); margin-bottom: 8px; word-break: break-all; }
+.wp-side-foot a, .wp-side-foot button { color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 600; background: none; border: 0; cursor: pointer; padding: 0; }
+.wp-side-foot .row { display: flex; gap: 14px; }
+.wp-main { min-width: 0; display: flex; flex-direction: column; }
+.wp-topbar { display: flex; align-items: center; gap: 12px; padding: 0 28px; height: 60px; background: #fff; border-bottom: 1px solid var(--vivo-border); position: sticky; top: 0; z-index: 20; }
+.wp-topbar h1 { font-family: var(--font-heading); font-size: 20px; color: var(--vivo-navy); font-weight: 800; }
+.wp-topbar .sp { flex: 1; }
+.wp-content { padding: 28px; max-width: 1100px; width: 100%; }
+.wp-content .muted { color: var(--vivo-mid); font-size: 14px; }
+
+.wp-stat-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px,1fr)); gap: 14px; margin: 8px 0 26px; }
+.wp-stat { background: #fff; border: 1px solid var(--vivo-border); border-radius: 14px; padding: 18px; }
+.wp-stat .n { font-family: var(--font-heading); font-weight: 900; font-size: 30px; color: var(--vivo-navy); line-height: 1; }
+.wp-stat .l { color: var(--vivo-mid); font-size: 13px; margin-top: 8px; }
+
+.wp-panel { background: #fff; border: 1px solid var(--vivo-border); border-radius: 14px; overflow: hidden; margin-bottom: 22px; }
+.wp-panel h2 { font-family: var(--font-heading); font-size: 15px; color: var(--vivo-navy); padding: 14px 18px; border-bottom: 1px solid var(--vivo-border); font-weight: 800; }
+.wp-row { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--vivo-lgray); }
+.wp-row:last-child { border-bottom: 0; }
+.wp-row .t { font-weight: 700; color: var(--vivo-navy); font-size: 14px; }
+.wp-row .s { color: var(--vivo-mid); font-size: 13px; }
+.wp-row .path { font-family: ui-monospace, monospace; font-size: 12px; color: var(--vivo-green-700); }
+.wp-row .sp { flex: 1; }
+.wp-row .badge { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: var(--vivo-green-050); color: var(--vivo-green-700); border: 1px solid var(--vivo-green-100); }
+.wp-row .badge.gray { background: var(--vivo-lgray); color: var(--vivo-mid); border-color: var(--vivo-border); }
+
+.wp-media { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 12px; }
+.wp-media .cell { border: 1px solid var(--vivo-border); border-radius: 12px; overflow: hidden; background: #fff; }
+.wp-media .cell img { width: 100%; height: 110px; object-fit: cover; display: block; }
+.wp-media .cell .meta { padding: 8px 10px; font-size: 11px; color: var(--vivo-mid); display: flex; align-items: center; gap: 6px; }
+.wp-media .cell .meta button { margin-left: auto; background: none; border: 0; color: var(--vivo-mid); cursor: pointer; }
+.wp-media .cell .meta button:hover { color: #b42318; }
+
+.wp-form { max-width: 460px; display: flex; flex-direction: column; gap: 12px; }
+.wp-form label { font-size: 13px; font-weight: 700; color: var(--vivo-navy); }
+.wp-flabel { display: block; font-size: 13px; font-weight: 700; color: var(--vivo-navy); margin-bottom: 5px; }
+.wp-uploadzone { border: 2px dashed var(--vivo-slate); border-radius: 12px; padding: 30px; text-align: center; color: var(--vivo-mid); font-size: 14px; background: #fff; cursor: pointer; }
+.wp-uploadzone:hover { border-color: var(--vivo-green); background: var(--vivo-green-050); }
+
+@media (max-width: 800px) { .wp { grid-template-columns: 1fr; } .wp-side { position: static; height: auto; flex-direction: row; overflow-x: auto; } .wp-nav { flex-direction: row; } .wp-side-foot { display: none; } }
 .adm-topbar { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 16px; height: 58px; padding: 0 20px; background: var(--vivo-navy-900); color: #fff; }
 .adm-topbar .brand { font-family: var(--font-heading); font-weight: 900; letter-spacing: 0.12em; font-size: 16px; }
 .adm-topbar .brand span { color: var(--vivo-green); }
