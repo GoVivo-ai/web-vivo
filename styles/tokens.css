@@ -1,0 +1,98 @@
+/* ═══════════════════════════════════════════════════════════════
+   Vivo Design System — tokens (ported from design handoff)
+   Fonts are provided via next/font as --font-heading / --font-body.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  /* ── Colors: core brand ── */
+  --vivo-navy:   #011640;
+  --vivo-green:  #04D98B;
+  --vivo-yellow: #F2E205;
+  --vivo-white:  #FFFFFF;
+
+  --vivo-navy-900: #010E29;
+  --vivo-navy-800: #011640;
+  --vivo-navy-700: #0A2352;
+  --vivo-navy-600: #16346B;
+  --vivo-green-600: #03BF7A;
+  --vivo-green-700: #03A268;
+  --vivo-green-100: #D6F9EC;
+  --vivo-green-050: #EBFCF5;
+  --vivo-yellow-600: #D9CB04;
+  --vivo-yellow-100: #FCFACC;
+
+  --vivo-ink:    #1E293B;
+  --vivo-dgray:  #334155;
+  --vivo-mid:    #64748B;
+  --vivo-slate:  #94A3B8;
+  --vivo-border: #D1D5DB;
+  --vivo-lgray:  #F2F4F7;
+  --vivo-gray-050: #F8FAFC;
+
+  --color-bg:            var(--vivo-white);
+  --color-bg-subtle:     var(--vivo-lgray);
+  --color-bg-inverse:    var(--vivo-navy);
+  --surface-card:        var(--vivo-white);
+  --surface-raised:      var(--vivo-navy-700);
+
+  --text-primary:        var(--vivo-navy);
+  --text-body:           var(--vivo-ink);
+  --text-muted:          var(--vivo-mid);
+  --text-on-dark:        var(--vivo-white);
+  --text-on-dark-muted:  rgba(255,255,255,0.66);
+
+  --accent:              var(--vivo-green);
+  --accent-hover:        var(--vivo-green-600);
+  --accent-press:        var(--vivo-green-700);
+  --accent-contrast:     var(--vivo-navy);
+  --emphasis:            var(--vivo-yellow);
+  --emphasis-contrast:   var(--vivo-navy);
+
+  --border-default:      var(--vivo-border);
+  --border-strong:       var(--vivo-slate);
+  --border-on-dark:      rgba(255,255,255,0.20);
+
+  --focus-ring:          rgba(4,217,139,0.45);
+  --link:                var(--vivo-green-700);
+  --link-hover:          var(--vivo-navy);
+
+  /* ── Typography ── */
+  --font-heading: var(--font-nunito), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body:    var(--font-nunito-sans), system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --fw-light: 300;  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600;
+  --fw-bold: 700;   --fw-extrabold: 800; --fw-black: 900;
+
+  --fs-display: clamp(3rem, 6vw, 5rem);
+  --fs-h1: 3rem;  --fs-h2: 2.25rem; --fs-h3: 1.5rem; --fs-h4: 1.25rem;
+  --fs-lead: 1.1875rem; --fs-body: 1rem; --fs-sm: 0.875rem; --fs-xs: 0.75rem;
+
+  --lh-tight: 1.1; --lh-snug: 1.25; --lh-normal: 1.55; --lh-relaxed: 1.7;
+  --tracking-tight: -0.02em; --tracking-normal: 0; --tracking-wide: 0.08em; --tracking-wider: 0.14em;
+
+  /* ── Spacing (4px grid) ── */
+  --space-0: 0; --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+  --space-4: 1rem; --space-5: 1.5rem; --space-6: 2rem; --space-7: 2.5rem;
+  --space-8: 3rem; --space-10: 4rem; --space-12: 5rem; --space-16: 7rem;
+  --container: 1200px; --container-narrow: 860px;
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+
+  /* ── Effects ── */
+  --radius-xs: 4px; --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
+  --radius-xl: 24px; --radius-2xl: 32px; --radius-pill: 999px;
+  --border-hairline: 1px solid var(--border-default);
+
+  --shadow-xs: 0 1px 2px rgba(1,22,64,0.06);
+  --shadow-sm: 0 2px 6px rgba(1,22,64,0.08);
+  --shadow-md: 0 8px 24px rgba(1,22,64,0.10);
+  --shadow-lg: 0 18px 48px rgba(1,22,64,0.14);
+  --shadow-green: 0 10px 28px rgba(4,217,139,0.30);
+  --ring: 0 0 0 3px var(--focus-ring);
+
+  --ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 140ms; --dur-base: 220ms; --dur-slow: 360ms;
+
+  --gradient-ribbon: linear-gradient(100deg, var(--vivo-yellow) 0%, var(--vivo-green) 45%, #0B8C8C 100%);
+  --gradient-navy:   linear-gradient(160deg, var(--vivo-navy-900) 0%, var(--vivo-navy) 60%, var(--vivo-navy-700) 100%);
+  --scrim-navy: linear-gradient(90deg, rgba(1,14,41,0.94) 0%, rgba(1,14,41,0.78) 42%, rgba(1,14,41,0.10) 100%);
+}
