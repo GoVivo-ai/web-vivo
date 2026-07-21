@@ -197,26 +197,31 @@ export function Editor({ initial, initialPath, canSave }: { initial: SiteContent
     const block = pv.querySelector<HTMLElement>(`[data-bid="${selectedId}"]`); if (!block) return;
     const props = page.blocks.find((b) => b.id === selectedId)?.props || {};
 
-    // text targets → smallest matching element
+    // text targets → the field's ROOT text element (outermost text-tag whose
+    // parent text-tag doesn't also match). This ignores inline formatting spans
+    // (e.g. a <span style="color:…"> produced by the color picker), so repeated
+    // formatting always writes back to the same node and never reverts.
+    const TEXT_TAGS = new Set(["H1", "H2", "H3", "H4", "H5", "P", "SPAN", "B", "STRONG", "I", "EM", "U", "A", "SUMMARY", "LI"]);
     const claimed = new Set<Element>();
     for (const t of collectTargets(def.fields, props)) {
       const target = plainText(t.value);
       if (!target) continue;
-      let best: HTMLElement | null = null, bestCount = Infinity;
-      block.querySelectorAll<HTMLElement>("*").forEach((el) => {
-        if (claimed.has(el) || el.closest(".win")) return;
-        if ((el.textContent || "").trim() === target) {
-          const c = el.querySelectorAll("*").length;
-          if (c < bestCount) { best = el; bestCount = c; }
-        }
-      });
+      let best: HTMLElement | null = null;
+      const all = block.querySelectorAll<HTMLElement>("*"); // document order: parents before children
+      for (const el of Array.from(all)) {
+        if (claimed.has(el) || el.closest(".win")) continue;
+        if (!TEXT_TAGS.has(el.tagName)) continue;
+        if ((el.textContent || "").trim() !== target) continue;
+        const p = el.parentElement;
+        const parentAlsoMatches = !!p && TEXT_TAGS.has(p.tagName) && (p.textContent || "").trim() === target && !claimed.has(p);
+        if (!parentAlsoMatches) { best = el; break; }
+      }
       if (best) {
         claimed.add(best);
-        const be = best as HTMLElement;
-        be.setAttribute("data-ep", t.path);
-        if (t.rich) be.setAttribute("data-eprich", "1");
-        be.contentEditable = "true";
-        be.spellcheck = false;
+        best.setAttribute("data-ep", t.path);
+        if (t.rich) best.setAttribute("data-eprich", "1");
+        best.contentEditable = "true";
+        best.spellcheck = false;
       }
     }
     // first top-level image field → clickable image/placeholder (host = the box we overlay)
