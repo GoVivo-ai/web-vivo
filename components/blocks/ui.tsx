@@ -5,9 +5,9 @@ import type { ReactNode } from "react";
 export type Cta = { label?: string; href?: string; icon?: string };
 
 /** Rich inline HTML from content (bold, span.hl, span.em, br). Content is authored in-house. */
-export function Rich({ html, className, as: Tag = "span" }: { html?: string; className?: string; as?: keyof React.JSX.IntrinsicElements }) {
+export function Rich({ html, className, style, as: Tag = "span" }: { html?: string; className?: string; style?: React.CSSProperties; as?: keyof React.JSX.IntrinsicElements }) {
   const T = Tag as React.ElementType;
-  return <T className={className} dangerouslySetInnerHTML={{ __html: html || "" }} />;
+  return <T className={className} style={style} dangerouslySetInnerHTML={{ __html: html || "" }} />;
 }
 
 export function Btn({
@@ -93,9 +93,9 @@ export function SectionHead({
 }) {
   return (
     <div className={`section-head${className ? " " + className : ""}`} style={{ ...(center ? { textAlign: "center", margin: "0 auto" } : {}), ...style }}>
-      {eyebrow && <span className="eyebrow" style={center ? { justifyContent: "center" } : undefined}>{eyebrow}</span>}
-      {title && <h2>{title}</h2>}
-      {lead && <p className="lead">{lead}</p>}
+      {eyebrow && <Rich as="span" className="eyebrow" html={eyebrow} style={center ? { justifyContent: "center" } : undefined} />}
+      {title && <Rich as="h2" html={title} />}
+      {lead && <Rich as="p" className="lead" html={lead} />}
     </div>
   );
 }

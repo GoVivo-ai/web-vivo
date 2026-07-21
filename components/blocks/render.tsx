@@ -29,13 +29,9 @@ function Hero({ p }: { p: P }) {
               <Icon name="arrow-left" /> {p.crumb}
             </Link>
           )}
-          <span className="eyebrow">{p.eyebrow}</span>
-          {p.h1Small ? (
-            <h1 style={{ fontSize: "var(--fs-h1)", margin: "22px 0 24px" }}>{p.title}</h1>
-          ) : (
-            <h1>{p.title}</h1>
-          )}
-          {p.lead && <p className="lead">{p.lead}</p>}
+          <Rich as="span" className="eyebrow" html={p.eyebrow} />
+          <Rich as="h1" html={p.title} style={p.h1Small ? { fontSize: "var(--fs-h1)", margin: "22px 0 24px" } : undefined} />
+          {p.lead && <Rich as="p" className="lead" html={p.lead} />}
           {Array.isArray(p.roleMeta) && p.roleMeta.length > 0 && (
             <div className="role-meta">
               {p.roleMeta.map((m: P, i: number) => (
@@ -78,8 +74,8 @@ function CapGrid({ p }: { p: P }) {
           {(p.items || []).map((it: P, i: number) => (
             <Reveal className="cap" key={i}>
               <div className="ic"><Icon name={it.icon} /></div>
-              <h4>{it.title}</h4>
-              <p>{it.text}</p>
+              <Rich as="h4" html={it.title} />
+              <Rich as="p" html={it.text} />
             </Reveal>
           ))}
         </div>
@@ -105,8 +101,8 @@ function StepsNavy({ p }: { p: P }) {
           {(p.steps || []).map((s: P, i: number) => (
             <Reveal className="step" key={i}>
               <div className="num">{s.num || i + 1}</div>
-              <h4>{s.title}</h4>
-              <p>{s.text}</p>
+              <Rich as="h4" html={s.title} />
+              <Rich as="p" html={s.text} />
             </Reveal>
           ))}
         </div>
@@ -130,7 +126,7 @@ function StepsVertical({ p }: { p: P }) {
           {(p.steps || []).map((s: P, i: number) => (
             <Reveal className="step-row" key={i}>
               <div className="num">{s.num || i + 1}<small>{s.label}</small></div>
-              <div><h4>{s.title}</h4><p>{s.text}</p></div>
+              <div><Rich as="h4" html={s.title} /><Rich as="p" html={s.text} /></div>
             </Reveal>
           ))}
         </div>
@@ -150,7 +146,7 @@ function IndCards({ p }: { p: P }) {
             <Reveal as={Link as any} className="ind-card" href={c.href || "#"} key={i}
               style={c.topColor ? { borderTopColor: c.topColor } : undefined}>
               <span className="tag"><Rich html={c.tag} /></span>
-              <h4>{c.title}</h4>
+              <Rich as="h4" html={c.title} />
               <p><Rich html={c.text} /></p>
               <span className="go"><Rich html={c.label} /> <Icon name="arrow-right" /></span>
             </Reveal>
@@ -177,7 +173,7 @@ function CostGridNavy({ p }: { p: P }) {
           {(p.items || []).map((it: P, i: number) => (
             <Reveal className="cost-item" key={i} style={{ background: "rgba(255,255,255,0.04)", borderColor: "var(--border-on-dark)" }}>
               <span className="ck"><Icon name={it.icon} /></span>
-              <div><b style={onDark}>{it.title}</b><p style={mutedDark}>{it.text}</p></div>
+              <div><Rich as="b" style={onDark} html={it.title} /><Rich as="p" style={mutedDark} html={it.text} /></div>
             </Reveal>
           ))}
         </div>
@@ -195,7 +191,7 @@ function Faq({ p }: { p: P }) {
         <Reveal className="faq">
           {(p.items || []).map((f: P, i: number) => (
             <details key={i}>
-              <summary>{f.q}</summary>
+              <summary><Rich html={f.q} /></summary>
               <p><Rich html={f.a} /></p>
             </details>
           ))}
@@ -237,7 +233,7 @@ function Contrast({ p }: { p: P }) {
           {(p.cards || []).map((c: P, i: number) => (
             <Reveal className="c" key={i}>
               <h4><Rich html={c.title} /></h4>
-              <p>{c.text}</p>
+              <Rich as="p" html={c.text} />
             </Reveal>
           ))}
         </div>
@@ -456,9 +452,9 @@ function Founders({ p }: { p: P }) {
           {(p.people || []).map((m: P, i: number) => (
             <Reveal className="founder" key={i}>
               <PhotoSlot src={m.image} variant="portrait" tag="Founder portrait" label={m.phLabel || "Editorial, chest-up, eye-level."} spec={m.phSpec || "1200×1500 · 4:5 · <180 KB"} />
-              <h4>{m.name}</h4>
-              <div className="role">{m.role}</div>
-              <p>{m.text}</p>
+              <Rich as="h4" html={m.name} />
+              <Rich as="div" className="role" html={m.role} />
+              <Rich as="p" html={m.text} />
             </Reveal>
           ))}
         </div>

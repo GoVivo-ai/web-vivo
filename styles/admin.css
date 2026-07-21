@@ -166,6 +166,15 @@
 .ed-toolbar button:disabled { opacity: .3; cursor: default; }
 .ed-toolbar .lbl { color: var(--vivo-green); font-size: 11px; font-weight: 700; padding: 0 8px; display: flex; align-items: center; letter-spacing: .03em; }
 
+/* floating rich-text format toolbar (Elementor-style) */
+.ed-fmt { position: fixed; z-index: 90; display: flex; align-items: center; gap: 1px; background: var(--vivo-navy); border-radius: 9px; padding: 4px; box-shadow: var(--shadow-lg); }
+.ed-fmt button { min-width: 28px; height: 28px; padding: 0 6px; display: grid; place-items: center; border: 0; background: none; color: #fff; border-radius: 6px; cursor: pointer; font-size: 14px; font-family: var(--font-body); }
+.ed-fmt button:hover { background: rgba(255,255,255,0.16); }
+.ed-fmt .div { width: 1px; height: 18px; background: rgba(255,255,255,0.2); margin: 0 3px; }
+.ed-fmt .sw { width: 20px; height: 20px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; padding: 0; }
+.ed-fmt label.sw { display: inline-flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+.ed-fmt label.sw input { position: absolute; inset: -4px; width: 30px; height: 30px; cursor: pointer; border: 0; padding: 0; background: none; }
+
 .ed-preview-toggle { display: flex; gap: 6px; align-items: center; margin-left: auto; }
 .ed-preview-toggle button { font-size: 12px; font-weight: 700; border: 1px solid var(--vivo-border); background: #fff; color: var(--vivo-navy); border-radius: 999px; padding: 4px 12px; cursor: pointer; }
 .ed-preview-toggle button.on { background: var(--vivo-green); border-color: var(--vivo-green); color: var(--vivo-navy); }

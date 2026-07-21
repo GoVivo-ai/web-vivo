@@ -56,9 +56,27 @@ export function Editor({ initial, initialPath, canSave }: { initial: SiteContent
   const [dirty, setDirty] = useState(false);
   const [inlineMode, setInlineMode] = useState(true);
   const [rect, setRect] = useState<DOMRect | null>(null);
+  const [fmtPos, setFmtPos] = useState<{ top: number; left: number } | null>(null);
   const previewRef = useRef<HTMLDivElement | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
   const imgFieldRef = useRef<string | null>(null);
+  const activeEpRef = useRef<HTMLElement | null>(null);
+  const savedRange = useRef<Range | null>(null);
+
+  const saveRange = () => { const s = window.getSelection(); if (s && s.rangeCount) savedRange.current = s.getRangeAt(0).cloneRange(); };
+  const restoreRange = () => { const r = savedRange.current; if (r) { const s = window.getSelection(); s?.removeAllRanges(); s?.addRange(r); } };
+  const exec = (cmd: string, val?: string) => {
+    activeEpRef.current?.focus();
+    restoreRange();
+    try { document.execCommand("styleWithCSS", false, "true"); } catch { /* noop */ }
+    document.execCommand(cmd, false, val);
+    // keep the selection saved for chained formatting; content persists on blur
+    saveRange();
+  };
+  const SWATCHES = [
+    { n: "Navy", v: "#011640" }, { n: "Green", v: "#04D98B" }, { n: "Green dark", v: "#03A268" },
+    { n: "Yellow", v: "#D9CB04" }, { n: "White", v: "#FFFFFF" }, { n: "Ink", v: "#1E293B" }, { n: "Muted", v: "#64748B" },
+  ];
 
   const pageIndex = content.pages.findIndex((p) => p.path === path);
   const page = content.pages[pageIndex];
@@ -121,6 +139,10 @@ export function Editor({ initial, initialPath, canSave }: { initial: SiteContent
     if (!selectedId || !previewRef.current) { setRect(null); return; }
     const el = previewRef.current.querySelector(`[data-bid="${selectedId}"]`);
     setRect(el ? el.getBoundingClientRect() : null);
+    if (activeEpRef.current) {
+      const r = activeEpRef.current.getBoundingClientRect();
+      setFmtPos({ top: Math.max(6, r.top - 44), left: Math.max(8, r.left) });
+    }
   }, [selectedId]);
 
   useEffect(() => {
@@ -143,6 +165,25 @@ export function Editor({ initial, initialPath, canSave }: { initial: SiteContent
     };
     pv.addEventListener("click", onClick);
     return () => pv.removeEventListener("click", onClick);
+  }, [inlineMode]);
+
+  /* ── show the formatting toolbar while editing a text node ── */
+  useEffect(() => {
+    if (!inlineMode) return;
+    const pv = previewRef.current; if (!pv) return;
+    const onFocusIn = (e: FocusEvent) => {
+      const el = (e.target as HTMLElement).closest?.("[data-ep]") as HTMLElement | null;
+      if (el) { activeEpRef.current = el; const r = el.getBoundingClientRect(); setFmtPos({ top: Math.max(6, r.top - 44), left: Math.max(8, r.left) }); }
+    };
+    const onSel = () => { if (activeEpRef.current) saveRange(); };
+    const onFocusOut = () => setTimeout(() => {
+      const a = document.activeElement as HTMLElement | null;
+      if (!a?.closest?.(".ed-fmt") && !a?.closest?.("[data-ep]")) { setFmtPos(null); activeEpRef.current = null; }
+    }, 150);
+    pv.addEventListener("focusin", onFocusIn);
+    pv.addEventListener("focusout", onFocusOut);
+    document.addEventListener("selectionchange", onSel);
+    return () => { pv.removeEventListener("focusin", onFocusIn); pv.removeEventListener("focusout", onFocusOut); document.removeEventListener("selectionchange", onSel); };
   }, [inlineMode]);
 
   /* ── annotate the selected block's text/images as inline-editable ── */
@@ -205,8 +246,9 @@ export function Editor({ initial, initialPath, canSave }: { initial: SiteContent
       const el = (e.target as HTMLElement).closest<HTMLElement>("[data-ep]");
       if (!el || !selectedId) return;
       const path = el.getAttribute("data-ep")!;
-      const rich = el.hasAttribute("data-eprich");
-      const value = rich ? el.innerHTML : (el.textContent || "");
+      // Save inner HTML so inline formatting (bold, color, links) is preserved.
+      const html = el.innerHTML;
+      const value = /<[a-z][\s\S]*>/i.test(html) ? html : (el.textContent || "");
       patchPath(selectedId, path, value);
     };
     const onImgClick = (e: MouseEvent) => {
@@ -302,6 +344,24 @@ export function Editor({ initial, initialPath, canSave }: { initial: SiteContent
           <button title={page.blocks.find((b) => b.id === selectedId)?.hidden ? "Show" : "Hide"} onClick={() => toggleHidden(selectedId)}><Icon name="eye" size={15} /></button>
           <button title="Add section below" onClick={() => setPaletteOpen(true)}><Icon name="plus" size={16} /></button>
           <button title="Delete" onClick={() => { if (confirm("Delete this section?")) remove(selectedId); }}><Icon name="trash-2" size={15} /></button>
+        </div>, document.body)}
+
+      {/* floating rich-text formatting toolbar */}
+      {inlineMode && fmtPos && typeof document !== "undefined" && createPortal(
+        <div className="ed-fmt" style={{ top: fmtPos.top, left: fmtPos.left }} onMouseDown={(e) => e.preventDefault()}>
+          <button title="Bold" onMouseDown={(e) => { e.preventDefault(); exec("bold"); }}><b>B</b></button>
+          <button title="Italic" onMouseDown={(e) => { e.preventDefault(); exec("italic"); }}><i>I</i></button>
+          <button title="Underline" onMouseDown={(e) => { e.preventDefault(); exec("underline"); }}><u>U</u></button>
+          <span className="div" />
+          {SWATCHES.map((c) => (
+            <button key={c.v} className="sw" title={c.n} style={{ background: c.v }} onMouseDown={(e) => { e.preventDefault(); exec("foreColor", c.v); }} />
+          ))}
+          <label className="sw" title="Custom color" style={{ background: "conic-gradient(red,orange,yellow,lime,cyan,blue,magenta,red)" }} onMouseDown={(e) => e.preventDefault()}>
+            <input type="color" onChange={(e) => exec("foreColor", e.target.value)} onFocus={saveRange} />
+          </label>
+          <span className="div" />
+          <button title="Link" onMouseDown={(e) => { e.preventDefault(); const u = prompt("Link URL (https://…)"); if (u) exec("createLink", u); }}><Icon name="link" size={15} /></button>
+          <button title="Clear formatting" onMouseDown={(e) => { e.preventDefault(); exec("removeFormat"); exec("unlink"); }}><Icon name="eraser" size={15} /></button>
         </div>, document.body)}
 
       <input ref={fileRef} type="file" accept="image/*" style={{ display: "none" }} onChange={onPickFile} />
