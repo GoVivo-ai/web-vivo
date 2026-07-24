@@ -7,6 +7,17 @@ import { supabaseAdmin } from "@/lib/supabase/server";
 const SINGLETON_ID = "main";
 
 /**
+ * Pages added to the seed after the site was first saved don't exist in the
+ * stored doc. Append any seed page whose path the stored doc doesn't have, so
+ * new pages ship with a deploy without overwriting edited content.
+ */
+function withNewSeedPages(doc: SiteContent): SiteContent {
+  const have = new Set(doc.pages.map((p) => p.path));
+  const missing = SEED.pages.filter((p) => !have.has(p.path));
+  return missing.length ? { ...doc, pages: [...doc.pages, ...missing] } : doc;
+}
+
+/**
  * The entire site content is stored as one JSON document in the `site_content`
  * table (id = 'main'). This keeps the editor simple and atomic. Falls back to
  * the seed when Supabase isn't configured or the row doesn't exist yet.
@@ -17,7 +28,7 @@ export async function getSiteContent(): Promise<SiteContent> {
     const sb = supabaseAdmin();
     const { data, error } = await sb.from("site_content").select("doc").eq("id", SINGLETON_ID).maybeSingle();
     if (error || !data?.doc) return SEED;
-    return data.doc as SiteContent;
+    return withNewSeedPages(data.doc as SiteContent);
   } catch {
     return SEED;
   }

@@ -93,31 +93,11 @@ const howItWorks: PageDoc = {
   description: "The canonical Vivo model: owner control, a 4-step build, cost vs value, and the technology layer.",
   blocks: [
     b("hiw-hero", "hero", {
-      variant: "photo", image: "/photos/meet.png", imageAlt: "A team collaborating around a table",
+      variant: "photo", compact: true, image: "/photos/meet.png", imageAlt: "A team collaborating around a table",
       eyebrow: "How it works",
       title: "You built this. We help you run it, while you keep control.",
       lead: "Vivo works alongside you. Your team operates to your standards, in your voice, on your tools — co-managed until you trust it to run on its own.",
       primaryCta: { label: "Book a clarity call", href: "/book" },
-    }),
-    b("hiw-hesitate", "contrast", {
-      eyebrow: "Why owners hesitate",
-      title: "You've been burned before. This is built differently.",
-      lead: "In-house hiring was expensive and slow. Software you bought never got used. Traditional outsourcing gave you low cost and lower quality. Vivo is built for the owner who is done with all three.",
-      cards: [
-        { title: 'Dedicated <span class="em">to your business</span>', text: "Your team works only your account, with its own standards and voice." },
-        { title: 'Co-managed <span class="em">until it runs</span>', text: "We run alongside you until the team operates on its own." },
-        { title: 'Built <span class="em">to your standards</span>', text: "The team learns your operation and represents your business the way you would." },
-      ],
-    }),
-    b("hiw-process", "stepsVertical", {
-      eyebrow: "The process, step by step",
-      title: "How a Vivo team gets built.",
-      steps: [
-        { num: 1, label: "Discovery", title: "We map how your business actually runs", text: "Where calls come from, where leads leak, what eats your day, which tools you already use. We build around your workflow instead of forcing you into ours." },
-        { num: 2, label: "Build", title: "We recruit and train around your process", text: "Bilingual specialists learn your industry language, your standards, and your systems before they touch a live customer." },
-        { num: 3, label: "Co-manage", title: "Your team goes live with us running alongside", text: "Onboarded in the first month, with metrics and SLAs in place by the second. You always have visibility into what is happening." },
-        { num: 4, label: "Independent", title: "The team runs to your standard without you in every decision", text: "Your time moves from inside the business to on top of it." },
-      ],
     }),
     b("hiw-cost", "costValue", {
       eyebrow: "Cost & value",
@@ -137,6 +117,26 @@ const howItWorks: PageDoc = {
         { title: "Begin with a 3-month pilot.", text: "Low commitment, real evaluation. You judge Vivo on what changes in your operation, not on a promise." },
       ],
       cta: { label: "Book a clarity call for a quote built around your operation", href: "/book" },
+    }),
+    b("hiw-hesitate", "contrast", {
+      eyebrow: "Why owners hesitate",
+      title: "You've been burned before. This is built differently.",
+      lead: "In-house hiring was expensive and slow. Software you bought never got used. Traditional outsourcing gave you low cost and lower quality. Vivo is built for the owner who is done with all three.",
+      cards: [
+        { title: 'Dedicated <span class="em">to your business</span>', text: "Your team works only your account, with its own standards and voice." },
+        { title: 'Co-managed <span class="em">until it runs</span>', text: "We run alongside you until the team operates on its own." },
+        { title: 'Built <span class="em">to your standards</span>', text: "The team learns your operation and represents your business the way you would." },
+      ],
+    }),
+    b("hiw-process", "stepsVertical", {
+      eyebrow: "The process, step by step",
+      title: "How a Vivo team gets built.",
+      steps: [
+        { num: 1, label: "Discovery", title: "We map how your business actually runs", text: "Where calls come from, where leads leak, what eats your day, which tools you already use. We build around your workflow instead of forcing you into ours.", image: "/images/how-it-works/step-1-map.jpg", imageAlt: "Two people reviewing an operations map in a workshop office" },
+        { num: 2, label: "Build", title: "We recruit and train around your process", text: "Bilingual specialists learn your industry language, your standards, and your systems before they touch a live customer.", image: "/images/how-it-works/step-2-recruit.jpg", imageAlt: "Specialist being trained on the team's process" },
+        { num: 3, label: "Co-manage", title: "Your team goes live with us running alongside", text: "Onboarded in the first month, with metrics and SLAs in place by the second. You always have visibility into what is happening.", image: "/images/how-it-works/step-3-live.jpg", imageAlt: "Team live on calls with metrics in view" },
+        { num: 4, label: "Independent", title: "The team runs to your standard without you in every decision", text: "Your time moves from inside the business to on top of it.", image: "/images/how-it-works/step-4-runs.jpg", imageAlt: "Owner reviewing results while the team runs the operation" },
+      ],
     }),
     b("hiw-tech", "techLayer", {
       eyebrow: "Talent + technology",
@@ -194,7 +194,7 @@ const homeServices: PageDoc = {
   description: "When the phone is your office, every missed call is a job you never booked. Vivo answers, follows up, and coordinates crews.",
   blocks: [
     b("hs-hero", "hero", {
-      variant: "placeholder",
+      variant: "placeholder", compact: true,
       eyebrow: "Home Services",
       title: "When the phone is your office, every missed call is a job you never booked.",
       lead: "Vivo builds you a dedicated team that answers every call, follows up on every quote, and coordinates your crews — so the work stops slipping through the cracks while you're on a job.",
@@ -249,7 +249,7 @@ const transportation: PageDoc = {
   description: "In regulated transport, one missed pickup can cost the contract. Vivo scales dispatch and support while holding your SLAs.",
   blocks: [
     b("tr-hero", "hero", {
-      variant: "placeholder",
+      variant: "placeholder", compact: true,
       eyebrow: "NEMT &amp; Student Transportation",
       title: "In regulated transport, one missed pickup can cost you the contract.",
       lead: "Vivo scales your dispatch and support with bilingual teams that already understand NEMT and student transportation — so you hold your SLAs even through demand spikes.",
@@ -300,7 +300,7 @@ const logistics: PageDoc = {
   description: "Track and trace, carrier sales, and back office support that scales with your volume.",
   blocks: [
     b("lg-hero", "hero", {
-      variant: "placeholder",
+      variant: "placeholder", compact: true,
       eyebrow: "3PL &amp; Logistics",
       title: "When shipments go dark, customers call and your team stops shipping.",
       lead: "Vivo adds specialized support for track and trace, carrier sales, and back office — so your operation scales without pulling your team off the floor.",
@@ -401,9 +401,73 @@ const insights: PageDoc = {
         cta: { label: "See what this could do for your operation", href: "/book" },
       },
       articles: [
+        { cat: "Home Services · Article", title: "Rising Costs for Home Service Businesses in 2026: What Owners Can Control", text: "Tariffs, labor costs, and new regulations are squeezing home service margins in 2026. Here's what business owners can still control.", href: "/insights/rising-costs-home-service-businesses-2026", phLabel: "Rising-costs / margins theme.", phSpec: "800×533 · <90 KB" },
         { cat: "Home Services · Article", title: "The real cost of a missed call for a home services business", text: "[ Real content needed — first article. Ties to the primary buyer's pain and a real search query. ]", phLabel: "Missed-call / home-services theme.", phSpec: "800×533 · <90 KB" },
       ],
       launchNote: "The technology case study above satisfies the launch gate (one real, fully anonymized case). Add the first article before opening the hub more widely. No dummy posts.",
+    }),
+  ],
+};
+
+/* ══════════════ INSIGHT ARTICLE: RISING COSTS 2026 ══════════════ */
+const risingCosts2026: PageDoc = {
+  slug: "insights/rising-costs-home-service-businesses-2026",
+  path: "/insights/rising-costs-home-service-businesses-2026",
+  title: "Rising Costs for Home Service Businesses in 2026",
+  navGroup: "insights",
+  description: "Tariffs, labor costs, and new regulations are squeezing home service margins in 2026. Here's what business owners can still control.",
+  blocks: [
+    b("rc-article", "article", {
+      cat: "Home Services · Article",
+      date: "July 24, 2026",
+      readTime: "5 min read",
+      title: "Rising Costs for Home Service Businesses in 2026: What Owners Can Control",
+      lead: "If it feels like every estimate is getting harder to price than it was six months ago, you're not imagining it.",
+      intro: [
+        "Across HVAC, refrigeration, cleaning, and pest control, owners are facing a new wave of cost pressure. Different industries. Different regulations. Same outcome: <b>tighter margins</b>.",
+        "While tariffs, labor laws, and environmental regulations are outside your control, how your business responds to those pressures isn't. These four developments explain why operating costs continue to rise — and why operational efficiency matters more than ever.",
+      ],
+      showJump: true,
+      sections: [
+        {
+          anchor: "hvac-costs", jumpLabel: "HVAC &amp; refrigeration costs",
+          heading: "Why HVAC contractors are still facing higher costs",
+          paras: [
+            "Many HVAC contractors expected recent tariff adjustments to ease pricing pressure. Instead, equipment and repair costs continue moving in the opposite direction.",
+            "On June 1st, the Trump administration adjusted Section 232 tariffs, lowering the rate on derivative components used in residential HVAC systems from 25% to 15%, in effect through 2027 (ACHR News, June 22). But that tariff relief isn't showing up in lower prices for customers. In Texas, contractors report new HVAC systems now cost <b>10&ndash;12% more than a year ago</b>, and some repairs run as much as <b>30% higher</b> than 12&ndash;18 months ago, driven by copper, refrigerant changes, and labor (NBC DFW, June 26).",
+            "Even with lower tariff rates, material costs, refrigerant transitions, and labor continue putting pressure on pricing. Contractors may find quoting jobs and protecting margins more difficult than they did a year ago.",
+          ],
+        },
+        {
+          anchor: "cleaning-labor", jumpLabel: "Cleaning labor costs",
+          heading: "Why cleaning labor costs keep climbing",
+          paras: [
+            "Labor has always been one of the largest expenses in cleaning. In 2026, that pressure continues accelerating.",
+            "Labor costs in cleaning keep rising <b>8&ndash;12% a year</b> (JaniJobs 2026 Cleaning Labor Outlook), pushed by minimum wage increases across 22 states and 66 counties and cities as of January 1, 2026 (National Employment Law Project). The sector's median wage already sits 32% below the national median, and <b>80% of cleaning companies report they can't fully staff</b> at current wages (CleanerHQ, updated July 16, 2026).",
+            "When hiring becomes more expensive and staffing remains difficult, productivity matters just as much as payroll. Every missed appointment, delayed quote, or unanswered call becomes more costly.",
+          ],
+        },
+        {
+          anchor: "pest-control-margins", jumpLabel: "Pest control profit margins",
+          heading: "Why pest control margins are shrinking despite market growth",
+          paras: [
+            "Demand continues growing across the pest control industry, but stronger revenue doesn't automatically translate into healthier margins.",
+            "The US pest control market is growing toward a <b>$29.1 billion valuation in 2026</b>, but the industry's 55&ndash;57% gross margin sweet spot is under pressure. Labor runs 25.8&ndash;50% of revenue, chemical costs are climbing from biological resistance (up to 25% higher) and new tariffs on active ingredients like S-Metolachlor and 2,4-D, and 89% of companies plan to raise wages to retain technicians (NPMA/PCO Bookkeepers 2025 Industry Cost Study, cited by Solea AI, June 16, 2026).",
+            "Growing revenue means little if labor, chemical costs, and technician retention continue outpacing pricing power. Margin protection increasingly depends on operational discipline rather than market demand alone.",
+          ],
+        },
+        {
+          anchor: "what-you-control", jumpLabel: "What owners can control",
+          heading: "What this means for your business",
+          paras: [
+            "Tariffs, EPA regulations, and minimum wage increases all operate on timelines outside an owner's control. <b>Operational performance doesn't.</b>",
+            "Home service businesses miss an average of <b>27% of inbound calls</b>, and only a fraction of qualified opportunities ultimately become booked work. At a time when every percentage point of margin matters, protecting existing demand often creates more value than chasing new demand.",
+            "That's why operational systems matter more during periods of rising costs. Businesses that answer every call, follow up consistently, and price work with accurate operational data are better positioned to absorb external pressure than businesses relying solely on growth.",
+          ],
+        },
+      ],
+      note: "Vivo helps home service businesses build nearshore operations teams across customer service, sales, dispatch, and back-office support. By strengthening the systems owners can control, businesses become more resilient when the next round of tariffs, regulations, or wage increases arrives.",
+      cta: { label: "Book a clarity call", href: "/book" },
     }),
   ],
 };
@@ -414,7 +478,7 @@ const careers: PageDoc = {
   description: "Work with U.S. businesses. Grow inside a team that invests in you. Paid in USD. Fully remote.",
   blocks: [
     b("ca-hero", "hero", {
-      variant: "placeholder",
+      variant: "placeholder", compact: true,
       eyebrow: "Careers",
       title: "Work with U.S. businesses. Grow inside a team that invests in you.",
       lead: "Vivo is not a place that places you and disappears. You join a dedicated team, you're trained and supported, and you build a real career working directly with U.S. companies. Paid in USD. Fully remote.",
@@ -427,9 +491,9 @@ const careers: PageDoc = {
       title: "Three ways to build your career with U.S. companies.",
       cols: 3,
       cards: [
-        { tag: "Customer Service", title: "Customer Service Representative", text: "Be the voice a U.S. business trusts with every customer. You own the account, start to finish.", label: "View role · C1 English", href: "/careers/customer-service-representative", topColor: "var(--vivo-green)" },
-        { tag: "Sales", title: "Sales Representative", text: "Turn conversations into booked business. You own a real pipeline. USD plus bonuses.", label: "View role · C1 English", href: "/careers/sales-representative", topColor: "var(--vivo-green)" },
-        { tag: "Back Office", title: "Back Office Representative", text: "Keep a U.S. operation running clean behind the scenes. Accuracy is the job.", label: "View role · high B2 English", href: "/careers/back-office-representative", topColor: "var(--vivo-green)" },
+        { tag: "Customer Service", title: "Customer Service Representative", text: "Be the voice a U.S. business trusts with every customer. You own the account, start to finish.", label: "View role · C1 English", href: "/careers/customer-service-representative", topColor: "var(--vivo-green)", image: "/images/careers/customer-service.jpg", imageAlt: "Customer service representative on a call with a headset" },
+        { tag: "Sales", title: "Sales Representative", text: "Turn conversations into booked business. You own a real pipeline. USD plus bonuses.", label: "View role · C1 English", href: "/careers/sales-representative", topColor: "var(--vivo-green)", image: "/images/careers/sales.jpg", imageAlt: "Sales representative working a pipeline at her desk" },
+        { tag: "Back Office", title: "Back Office Representative", text: "Keep a U.S. operation running clean behind the scenes. Accuracy is the job.", label: "View role · high B2 English", href: "/careers/back-office-representative", topColor: "var(--vivo-green)", image: "/images/careers/back-office.jpg", imageAlt: "Back office representative keeping records accurate" },
       ],
     }),
     b("ca-culture", "splitText", {
@@ -465,7 +529,7 @@ function rolePage(opts: {
     description: opts.heroLead,
     blocks: [
       b(`${opts.slug}-hero`, "hero", {
-        variant: "placeholder", crumb: "All roles", crumbHref: "/careers",
+        variant: "placeholder", compact: true, crumb: "All roles", crumbHref: "/careers",
         eyebrow: opts.eyebrow, title: opts.heroTitle, lead: opts.heroLead,
         roleMeta: [
           { icon: "map-pin", text: "Remote · Latin America" },
@@ -665,5 +729,5 @@ export const SETTINGS = {
 
 export const SEED: SiteContent = {
   settings: SETTINGS,
-  pages: [home, howItWorks, homeServices, transportation, logistics, about, insights, careers, csr, sales, backoffice, book],
+  pages: [home, howItWorks, homeServices, transportation, logistics, about, insights, risingCosts2026, careers, csr, sales, backoffice, book],
 };

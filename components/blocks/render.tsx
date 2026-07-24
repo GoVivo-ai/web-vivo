@@ -4,6 +4,9 @@ import { Icon } from "../Icon";
 import { Reveal } from "../Reveal";
 import { CommandCenter } from "../CommandCenter";
 import { Btn, Rich, PhotoSlot, SectionHead, type Cta } from "./ui";
+import { HeroCanvas } from "../fx/HeroCanvas";
+import { StepsScrolly } from "../fx/StepsScrolly";
+import { FaqList } from "../fx/FaqList";
 import type { Block } from "@/lib/blocks/types";
 
 type P = Record<string, any>;
@@ -14,7 +17,7 @@ const mutedDark = { color: "var(--text-on-dark-muted)" } as const;
 function Hero({ p }: { p: P }) {
   const placeholder = p.variant === "placeholder";
   return (
-    <section className={`hero on-dark${placeholder ? " hero--placeholder" : ""}`}>
+    <section className={`hero on-dark${placeholder ? " hero--placeholder" : ""}${p.compact ? " banner" : ""}`}>
       {!placeholder && p.image && (
         <div className="hero-media">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -22,6 +25,7 @@ function Hero({ p }: { p: P }) {
         </div>
       )}
       {!placeholder && <div className="hero-scrim" />}
+      <HeroCanvas dim={!placeholder} />
       <div className="container">
         <Reveal className="hero-inner">
           {p.crumb && (
@@ -94,10 +98,11 @@ function CapGrid({ p }: { p: P }) {
 /* ── STEPS (navy, 4 tiles) ── */
 function StepsNavy({ p }: { p: P }) {
   return (
-    <section className="section section--navy on-dark">
+    <section className="section section--navy on-dark steps-flow">
       <div className="container">
         <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} lead={p.lead} /></Reveal>
         <div className="steps">
+          <span className="steps-line" aria-hidden="true"><span className="steps-line-fill" /></span>
           {(p.steps || []).map((s: P, i: number) => (
             <Reveal className="step" key={i}>
               <div className="num">{s.num || i + 1}</div>
@@ -118,15 +123,21 @@ function StepsNavy({ p }: { p: P }) {
 
 /* ── STEPS VERTICAL (how it works) ── */
 function StepsVertical({ p }: { p: P }) {
+  const steps: P[] = Array.isArray(p.steps) ? p.steps : [];
   return (
-    <section className="section section--tint">
+    <section className="section section--tint steps-scrolly">
       <div className="container">
         <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} /></Reveal>
-        <div className="steps-v">
-          {(p.steps || []).map((s: P, i: number) => (
-            <Reveal className="step-row" key={i}>
+        {steps.length > 1 && <StepsScrolly steps={steps as any} />}
+        <div className={`steps-v${steps.length > 1 ? " steps-v--fallback" : ""}`}>
+          {steps.map((s: P, i: number) => (
+            <Reveal className={`step-row${s.image ? " step-row--img" : ""}`} key={i}>
               <div className="num">{s.num || i + 1}<small>{s.label}</small></div>
               <div><Rich as="h4" html={s.title} /><Rich as="p" html={s.text} /></div>
+              {s.image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="step-img" src={s.image} alt={s.imageAlt || s.title || ""} loading="lazy" />
+              )}
             </Reveal>
           ))}
         </div>
@@ -145,6 +156,10 @@ function IndCards({ p }: { p: P }) {
           {(p.cards || []).map((c: P, i: number) => (
             <Reveal as={Link as any} className="ind-card" href={c.href || "#"} key={i}
               style={c.topColor ? { borderTopColor: c.topColor } : undefined}>
+              {c.image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="card-img" src={c.image} alt={c.imageAlt || c.title || ""} loading="lazy" />
+              )}
               <span className="tag"><Rich html={c.tag} /></span>
               <Rich as="h4" html={c.title} />
               <p><Rich html={c.text} /></p>
@@ -189,12 +204,7 @@ function Faq({ p }: { p: P }) {
       <div className="container">
         <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} /></Reveal>
         <Reveal className="faq">
-          {(p.items || []).map((f: P, i: number) => (
-            <details key={i}>
-              <summary><Rich html={f.q} /></summary>
-              <p><Rich html={f.a} /></p>
-            </details>
-          ))}
+          <FaqList items={(p.items || []) as { q?: string; a?: string }[]} />
         </Reveal>
       </div>
     </section>
@@ -223,15 +233,17 @@ function CtaBand({ p }: { p: P }) {
   );
 }
 
-/* ── CONTRAST CARDS ── */
+/* ── CONTRAST CARDS (navy band, glass cards) ── */
 function Contrast({ p }: { p: P }) {
   return (
-    <section className="section">
-      <div className="container">
+    <section className="section section--navy on-dark contrast-dark" style={{ position: "relative", overflow: "hidden" }}>
+      <HeroCanvas dim />
+      <div className="container" style={{ position: "relative" }}>
         <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} lead={p.lead} /></Reveal>
         <div className="contrast">
           {(p.cards || []).map((c: P, i: number) => (
             <Reveal className="c" key={i}>
+              <span className="idx">{String(i + 1).padStart(2, "0")}</span>
               <h4><Rich html={c.title} /></h4>
               <Rich as="p" html={c.text} />
             </Reveal>
@@ -430,11 +442,12 @@ function LeadSection({ p }: { p: P }) {
 /* ── ABOUT ORIGIN (navy narrow) ── */
 function OriginNavy({ p }: { p: P }) {
   return (
-    <section className="section section--navy on-dark">
-      <div className="container narrow">
+    <section className="section section--navy on-dark banner" style={{ position: "relative", overflow: "hidden" }}>
+      <HeroCanvas />
+      <div className="container narrow" style={{ position: "relative" }}>
         <Reveal>
           <span className="eyebrow">{p.eyebrow}</span>
-          <h1 style={{ fontSize: "var(--fs-h1)", margin: "22px 0 24px" }}>{p.title}</h1>
+          <h1>{p.title}</h1>
           <p className="lead"><Rich html={p.lead} /></p>
         </Reveal>
       </div>
@@ -499,11 +512,12 @@ function SplitText({ p }: { p: P }) {
 /* ── INSIGHTS HERO (centered tint) ── */
 function InsightsHero({ p }: { p: P }) {
   return (
-    <section className="section section--tint">
-      <div className="container narrow" style={{ margin: "0 auto" }}>
+    <section className="section section--navy on-dark banner" style={{ position: "relative", overflow: "hidden" }}>
+      <HeroCanvas />
+      <div className="container narrow" style={{ margin: "0 auto", position: "relative" }}>
         <Reveal style={{ textAlign: "center" }}>
           <span className="eyebrow" style={{ justifyContent: "center" }}>{p.eyebrow}</span>
-          <h1 style={{ fontSize: "var(--fs-h1)", margin: "22px 0 20px" }}>{p.title}</h1>
+          <h1>{p.title}</h1>
           <p className="lead" style={{ margin: "0 auto" }}>{p.lead}</p>
         </Reveal>
       </div>
@@ -534,17 +548,26 @@ function InsightsHub({ p }: { p: P }) {
           </div>
         </Reveal>
         <div className="grid-3">
-          {(p.articles || []).map((a: P, i: number) => (
-            <Reveal className="art-card" key={i}>
-              <PhotoSlot variant="card" tag="Card image" label={a.phLabel} spec={a.phSpec} />
-              <div className="body">
-                <span className="cat">{a.cat}</span>
-                <h4>{a.title}</h4>
-                <p style={{ fontFamily: "ui-monospace,monospace", fontSize: 12 }}>{a.text}</p>
-                <span className="read">Read <Icon name="arrow-right" /></span>
-              </div>
-            </Reveal>
-          ))}
+          {(p.articles || []).map((a: P, i: number) => {
+            const body = (
+              <>
+                <PhotoSlot src={a.image} variant="card" tag="Card image" label={a.phLabel} spec={a.phSpec} />
+                <div className="body">
+                  <span className="cat">{a.cat}</span>
+                  <h4>{a.title}</h4>
+                  {a.href ? <p>{a.text}</p> : <p style={{ fontFamily: "ui-monospace,monospace", fontSize: 12 }}>{a.text}</p>}
+                  <span className="read">Read <Icon name="arrow-right" /></span>
+                </div>
+              </>
+            );
+            return a.href ? (
+              <Reveal key={i}>
+                <Link className="art-card art-card--link" href={a.href}>{body}</Link>
+              </Reveal>
+            ) : (
+              <Reveal className="art-card" key={i}>{body}</Reveal>
+            );
+          })}
         </div>
         {p.launchNote && (
           <Reveal className="data-note" style={{ borderColor: "var(--vivo-border)", color: "var(--vivo-mid)", background: "var(--vivo-gray-050)", marginTop: "var(--space-7)" }}>
@@ -554,6 +577,66 @@ function InsightsHub({ p }: { p: P }) {
         )}
       </div>
     </section>
+  );
+}
+
+/* ── ARTICLE (long-form post) ── */
+function Article({ p }: { p: P }) {
+  const sections: P[] = Array.isArray(p.sections) ? p.sections : [];
+  const jump = sections.filter((s) => s.anchor && (s.jumpLabel || s.heading));
+  return (
+    <>
+      <section className="section section--navy on-dark article-head banner" style={{ position: "relative", overflow: "hidden" }}>
+        <HeroCanvas />
+        <div className="container narrow" style={{ margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <Link className="role-crumb" href="/insights"><Icon name="arrow-left" /> All insights</Link>
+            <div className="article-meta">
+              {p.cat && <span className="cat">{p.cat}</span>}
+              {p.date && <span className="dot">·</span>}
+              {p.date && <span>{p.date}</span>}
+              {p.readTime && <span className="dot">·</span>}
+              {p.readTime && <span>{p.readTime}</span>}
+            </div>
+            <Rich as="h1" html={p.title} />
+            {p.lead && <Rich as="p" className="lead" html={p.lead} />}
+          </Reveal>
+        </div>
+      </section>
+      <section className="section article-body">
+        <div className="container narrow" style={{ margin: "0 auto" }}>
+          {(p.intro || []).map((t: string, i: number) => (
+            <Reveal key={`i${i}`}><Rich as="p" html={t} /></Reveal>
+          ))}
+          {p.showJump && jump.length > 0 && (
+            <Reveal className="article-jump">
+              <span className="label">Jump to</span>
+              {jump.map((s: P, i: number) => (
+                <a key={i} href={`#${s.anchor}`}><Rich html={s.jumpLabel || s.heading} /></a>
+              ))}
+            </Reveal>
+          )}
+          {sections.map((s: P, i: number) => (
+            <Reveal key={i} className="article-section" id={s.anchor || undefined}>
+              {s.heading && <Rich as="h2" html={s.heading} />}
+              {(s.paras || []).map((t: string, j: number) => (
+                <Rich as="p" key={j} html={t} />
+              ))}
+            </Reveal>
+          ))}
+          {(p.note || p.cta?.label) && (
+            <Reveal className="article-note">
+              {p.note && <Rich as="p" html={p.note} />}
+              {p.cta?.label && (
+                <div style={{ marginTop: "var(--space-5)" }}>
+                  <Btn cta={p.cta} showArrow />
+                </div>
+              )}
+            </Reveal>
+          )}
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -671,6 +754,7 @@ const MAP: Record<string, (a: { p: P }) => JSX.Element | null> = {
   splitText: SplitText,
   insightsHero: InsightsHero,
   insightsHub: InsightsHub,
+  article: Article,
   roleIntro: RoleIntro,
   roleSplitLists: RoleSplitLists,
   requirements: Requirements,

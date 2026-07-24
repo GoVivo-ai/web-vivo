@@ -20,6 +20,7 @@ export const BLOCKS: BlockDef[] = [
     type: "hero", label: "Hero", icon: "panel-top", group: "Headers",
     fields: [
       { key: "variant", label: "Background", type: "select", options: ["photo", "placeholder"] },
+      { key: "compact", label: "Compact banner (interior pages)", type: "boolean" },
       { key: "image", label: "Background photo", type: "image", help: "Used when Background = photo." },
       txt("imageAlt", "Photo alt text"),
       txt("crumb", "Back link label (role pages)"),
@@ -63,7 +64,7 @@ export const BLOCKS: BlockDef[] = [
     type: "stepsVertical", label: "Steps (vertical)", icon: "list-tree", group: "Content",
     fields: [
       txt("eyebrow", "Eyebrow"), area("title", "Title"),
-      { key: "steps", label: "Steps", type: "items", itemLabel: "step", fields: [txt("num", "Number"), txt("label", "Small label"), txt("title", "Title"), area("text", "Text")] },
+      { key: "steps", label: "Steps", type: "items", itemLabel: "step", fields: [txt("num", "Number"), txt("label", "Small label"), txt("title", "Title"), area("text", "Text"), { key: "image", label: "Image", type: "image" }, txt("imageAlt", "Image alt text")] },
     ],
     defaults: { eyebrow: "The process", title: "Title", steps: [] },
   },
@@ -74,7 +75,7 @@ export const BLOCKS: BlockDef[] = [
       txt("anchor", "Anchor id (optional)"),
       txt("eyebrow", "Eyebrow"), area("title", "Title"), area("lead", "Lead"),
       { key: "cols", label: "Columns", type: "select", options: ["2", "3"] },
-      { key: "cards", label: "Cards", type: "items", itemLabel: "card", fields: [rich("tag", "Tag"), txt("title", "Title"), area("text", "Text"), rich("label", "Link label"), txt("href", "Link href"), txt("topColor", "Top border color (optional)")] },
+      { key: "cards", label: "Cards", type: "items", itemLabel: "card", fields: [rich("tag", "Tag"), txt("title", "Title"), area("text", "Text"), rich("label", "Link label"), txt("href", "Link href"), txt("topColor", "Top border color (optional)"), { key: "image", label: "Card image (optional)", type: "image" }, txt("imageAlt", "Image alt text")] },
     ],
     defaults: { cols: "3", eyebrow: "Industries", title: "Title", cards: [] },
   },
@@ -213,10 +214,31 @@ export const BLOCKS: BlockDef[] = [
     fields: [
       { key: "chips", label: "Filter chips", type: "list", itemLabel: "chip", richItems: true },
       { key: "featured", label: "Featured case study", type: "items", itemLabel: "featured", fields: [txt("cat", "Category"), area("title", "Title"), area("text", "Text"), { key: "bullets", label: "Bullets", type: "list", itemLabel: "bullet" }, cta("cta", "Button")] },
-      { key: "articles", label: "Article cards", type: "items", itemLabel: "article", fields: [txt("cat", "Category"), txt("title", "Title"), area("text", "Text"), txt("phLabel", "Image label"), txt("phSpec", "Image spec")] },
+      { key: "articles", label: "Article cards", type: "items", itemLabel: "article", fields: [txt("cat", "Category"), txt("title", "Title"), area("text", "Text"), txt("href", "Article link (e.g. /insights/my-article)"), { key: "image", label: "Card image", type: "image" }, txt("phLabel", "Image label"), txt("phSpec", "Image spec")] },
       area("launchNote", "Launch note"),
     ],
     defaults: { chips: [], articles: [] },
+  },
+  {
+    type: "article", label: "Article", icon: "file-text", group: "Content",
+    fields: [
+      txt("cat", "Category label"),
+      txt("date", "Publish date"),
+      txt("readTime", "Read time (optional)"),
+      area("title", "Title (H1)"),
+      rich("lead", "Opening hook", RICH_HELP),
+      { key: "intro", label: "Intro paragraphs", type: "list", itemLabel: "paragraph", richItems: true },
+      { key: "showJump", label: "Show jump-to links", type: "boolean" },
+      { key: "sections", label: "Sections", type: "items", itemLabel: "section", fields: [
+        { key: "anchor", label: "Anchor id", type: "text", help: "Used for jump links, e.g. hvac-costs." },
+        txt("jumpLabel", "Jump link label"),
+        area("heading", "Section heading (H2)"),
+        { key: "paras", label: "Paragraphs", type: "list", itemLabel: "paragraph", richItems: true },
+      ] },
+      rich("note", "Closing note (highlighted)", RICH_HELP),
+      cta("cta", "Button (optional)"),
+    ],
+    defaults: { cat: "Article", showJump: true, intro: [], sections: [], cta: { label: "Book a clarity call", href: "/book" } },
   },
   {
     type: "roleIntro", label: "Role intro", icon: "user-round", group: "Content",
