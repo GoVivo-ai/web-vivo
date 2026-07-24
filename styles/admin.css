@@ -104,7 +104,8 @@
 .ed-preview-frame { }
 
 .ed-side-head { padding: 14px 16px; border-bottom: 1px solid var(--vivo-border); display: flex; align-items: center; gap: 8px; }
-.ed-side-head select { flex: 1; font-family: var(--font-body); font-size: 14px; font-weight: 700; color: var(--vivo-navy); border: 1px solid var(--vivo-border); border-radius: 8px; padding: 8px 10px; background: #fff; }
+.ed-side-head select { flex: 1; min-width: 0; text-overflow: ellipsis; font-family: var(--font-body); font-size: 14px; font-weight: 700; color: var(--vivo-navy); border: 1px solid var(--vivo-border); border-radius: 8px; padding: 8px 10px; background: #fff; }
+.ed-side-head .adm-btn { flex-shrink: 0; }
 
 .ed-blocklist { padding: 10px; display: flex; flex-direction: column; gap: 6px; }
 .ed-block { border: 1px solid var(--vivo-border); border-radius: 10px; background: #fff; }
