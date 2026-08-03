@@ -509,6 +509,7 @@ const careers: PageDoc = {
         "Training and a clear path to grow into senior and team-lead roles.",
         "You work with one business and own your account, supported by a team that invests in you.",
       ],
+      image: "/images/careers/culture-benefits.jpg",
       phTag: "Photo · team / workspace", phLabel: "Candid, real people. Consistency of lighting.", phSpec: "1600px · 3:2 · <200 KB",
     }),
   ],
