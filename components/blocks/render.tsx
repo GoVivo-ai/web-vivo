@@ -551,7 +551,7 @@ function InsightsHub({ p }: { p: P }) {
           {(p.articles || []).map((a: P, i: number) => {
             const body = (
               <>
-                <PhotoSlot src={a.image} variant="card" tag="Card image" label={a.phLabel} spec={a.phSpec} />
+                <PhotoSlot src={a.image} alt={a.imageAlt} variant="card" tag="Card image" label={a.phLabel} spec={a.phSpec} />
                 <div className="body">
                   <span className="cat">{a.cat}</span>
                   <h4>{a.title}</h4>
@@ -605,6 +605,12 @@ function Article({ p }: { p: P }) {
       </section>
       <section className="section article-body">
         <div className="container narrow" style={{ margin: "0 auto" }}>
+          {p.image && (
+            <Reveal style={{ margin: "0 0 var(--space-6)" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={p.image} alt={p.imageAlt || ""} style={{ width: "100%", display: "block", borderRadius: "var(--radius-lg, 14px)", border: "1px solid var(--vivo-border)" }} />
+            </Reveal>
+          )}
           {(p.intro || []).map((t: string, i: number) => (
             <Reveal key={`i${i}`}><Rich as="p" html={t} /></Reveal>
           ))}

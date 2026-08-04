@@ -7,10 +7,14 @@ import { BlocksView } from "@/components/blocks/render";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { BLOCKS, BLOCK_BY_TYPE, blockLabel } from "@/lib/blocks/registry";
-import type { Block, FieldDef, SiteContent } from "@/lib/blocks/types";
+import type { Block, FieldDef, PageDoc, SiteContent } from "@/lib/blocks/types";
 
 let uidCounter = 0;
 const uid = () => `b-${Date.now().toString(36)}-${uidCounter++}`;
+
+const slugify = (s: string) =>
+  s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80);
 
 /** decode entities/tags in an authored value to the plain text the DOM shows */
 function plainText(v: unknown): string {
@@ -119,6 +123,50 @@ export function Editor({ initial, initialPath, canSave }: { initial: SiteContent
     mutatePage((bs) => [...bs.slice(0, at), nb, ...bs.slice(at)]);
     setSelectedId(nb.id); setPaletteOpen(false);
   };
+
+  /** Create a new blog post: an /insights/<slug> page with an article block,
+   *  plus its card on the Insights hub so it's discoverable right away. */
+  function newBlogPost() {
+    const title = prompt("Title of the new blog post:")?.trim();
+    if (!title) return;
+    const slug = slugify(title);
+    if (!slug) return;
+    const newPath = `/insights/${slug}`;
+    if (content.pages.some((p) => p.path === newPath)) {
+      setToast("A post with that title already exists."); setTimeout(() => setToast(null), 2500);
+      setPath(newPath);
+      return;
+    }
+    const date = new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+    const article: Block = {
+      id: uid(), type: "article",
+      props: { ...structuredClone(BLOCK_BY_TYPE.article?.defaults || {}), title, date, lead: "" },
+    };
+    const pageDoc: PageDoc = {
+      slug: `insights/${slug}`, path: newPath, title, navGroup: "insights", description: "", blocks: [article],
+    };
+    setContent((c) => ({
+      ...c,
+      pages: [
+        ...c.pages.map((p) => {
+          if (p.path !== "/insights") return p;
+          return {
+            ...p,
+            blocks: p.blocks.map((b) => {
+              if (b.type !== "insightsHub") return b;
+              const cards = Array.isArray((b.props as any).articles) ? (b.props as any).articles : [];
+              return { ...b, props: { ...b.props, articles: [...cards, { cat: "Article", title, text: "", href: newPath }] } };
+            }),
+          };
+        }),
+        pageDoc,
+      ],
+    }));
+    setDirty(true);
+    setPath(newPath);
+    setSelectedId(article.id);
+    setToast("Post created — edit it, then Save."); setTimeout(() => setToast(null), 3000);
+  }
 
   async function save() {
     if (!canSave) { setToast("Connect Supabase to save."); setTimeout(() => setToast(null), 2500); return; }
@@ -292,6 +340,7 @@ export function Editor({ initial, initialPath, canSave }: { initial: SiteContent
           </select>
           <button className="adm-btn sm" onClick={save} disabled={saving}>{saving ? "Saving…" : dirty ? "Save" : "Saved"}</button>
         </div>
+        <button className="ed-additem" style={{ margin: "8px 12px 0", width: "calc(100% - 24px)" }} onClick={newBlogPost} title="Create a new blog post under /insights">＋ New blog post</button>
 
         <div className="ed-blocklist">
           {page?.blocks.map((b, i) => (

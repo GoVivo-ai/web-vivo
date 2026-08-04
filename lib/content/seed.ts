@@ -401,10 +401,8 @@ const insights: PageDoc = {
         cta: { label: "See what this could do for your operation", href: "/book" },
       },
       articles: [
-        { cat: "Home Services · Article", title: "Rising Costs for Home Service Businesses in 2026: What Owners Can Control", text: "Tariffs, labor costs, and new regulations are squeezing home service margins in 2026. Here's what business owners can still control.", href: "/insights/rising-costs-home-service-businesses-2026", phLabel: "Rising-costs / margins theme.", phSpec: "800×533 · <90 KB" },
-        { cat: "Home Services · Article", title: "The real cost of a missed call for a home services business", text: "[ Real content needed — first article. Ties to the primary buyer's pain and a real search query. ]", phLabel: "Missed-call / home-services theme.", phSpec: "800×533 · <90 KB" },
+        { cat: "Home Services · Article", title: "Rising Costs for Home Service Businesses in 2026: What Owners Can Control", text: "Tariffs, labor costs, and new regulations are squeezing home service margins in 2026. Here's what business owners can still control.", href: "/insights/rising-costs-home-service-businesses-2026", image: "/images/insights/rising-costs-2026-cover.jpg", imageAlt: "Technician reviewing rising equipment and labor costs on a job site" },
       ],
-      launchNote: "The technology case study above satisfies the launch gate (one real, fully anonymized case). Add the first article before opening the hub more widely. No dummy posts.",
     }),
   ],
 };
@@ -419,6 +417,8 @@ const risingCosts2026: PageDoc = {
   blocks: [
     b("rc-article", "article", {
       cat: "Home Services · Article",
+      image: "/images/insights/rising-costs-2026-cover.jpg",
+      imageAlt: "Technician reviewing rising equipment and labor costs on a job site",
       date: "July 24, 2026",
       readTime: "5 min read",
       title: "Rising Costs for Home Service Businesses in 2026: What Owners Can Control",

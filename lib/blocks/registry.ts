@@ -214,7 +214,7 @@ export const BLOCKS: BlockDef[] = [
     fields: [
       { key: "chips", label: "Filter chips", type: "list", itemLabel: "chip", richItems: true },
       { key: "featured", label: "Featured case study", type: "items", itemLabel: "featured", fields: [txt("cat", "Category"), area("title", "Title"), area("text", "Text"), { key: "bullets", label: "Bullets", type: "list", itemLabel: "bullet" }, cta("cta", "Button")] },
-      { key: "articles", label: "Article cards", type: "items", itemLabel: "article", fields: [txt("cat", "Category"), txt("title", "Title"), area("text", "Text"), txt("href", "Article link (e.g. /insights/my-article)"), { key: "image", label: "Card image", type: "image" }, txt("phLabel", "Image label"), txt("phSpec", "Image spec")] },
+      { key: "articles", label: "Article cards", type: "items", itemLabel: "article", fields: [txt("cat", "Category"), txt("title", "Title"), area("text", "Text"), txt("href", "Article link (e.g. /insights/my-article)"), { key: "image", label: "Card image", type: "image" }, txt("imageAlt", "Image alt text"), txt("phLabel", "Image label"), txt("phSpec", "Image spec")] },
       area("launchNote", "Launch note"),
     ],
     defaults: { chips: [], articles: [] },
@@ -223,6 +223,8 @@ export const BLOCKS: BlockDef[] = [
     type: "article", label: "Article", icon: "file-text", group: "Content",
     fields: [
       txt("cat", "Category label"),
+      { key: "image", label: "Cover image", type: "image" },
+      txt("imageAlt", "Cover image alt text"),
       txt("date", "Publish date"),
       txt("readTime", "Read time (optional)"),
       area("title", "Title (H1)"),
