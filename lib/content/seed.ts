@@ -36,10 +36,10 @@ const home: PageDoc = {
       eyebrow: "How we build your team",
       title: "From your operation to a team that runs it. In your first 60 days.",
       steps: [
-        { num: 1, title: "We map your operation", text: "We learn how your business actually runs — your tools, your standards, your workflow. No rip and replace." },
-        { num: 2, title: "We build your team", text: "Bilingual specialists, hired and trained around your process, in your time zone." },
-        { num: 3, title: "We co-manage", text: "We run alongside you while the team ramps. Onboarded in month one, metrics in place by month two." },
-        { num: 4, title: "It runs without you in every decision", text: "You move from working inside the business to working on it." },
+        { num: 1, title: "We map your operation", text: "We learn how your business actually runs — your tools, your standards, your workflow. No rip and replace.", image: "/images/how-it-works/step-1-map.jpg", imageAlt: "Two people reviewing an operations map" },
+        { num: 2, title: "We build your team", text: "Bilingual specialists, hired and trained around your process, in your time zone.", image: "/images/how-it-works/step-2-recruit.jpg", imageAlt: "Specialist being trained on the team's process" },
+        { num: 3, title: "We co-manage", text: "We run alongside you while the team ramps. Onboarded in month one, metrics in place by month two.", image: "/images/how-it-works/step-3-live.jpg", imageAlt: "Team live on calls with metrics in view" },
+        { num: 4, title: "It runs without you in every decision", text: "You move from working inside the business to working on it.", image: "/images/how-it-works/step-4-runs.jpg", imageAlt: "Owner reviewing results while the team runs the operation" },
       ],
       cta: { label: "See the full process", href: "/how-it-works" },
     }),
@@ -47,6 +47,7 @@ const home: PageDoc = {
       eyebrow: "Industries",
       title: "Built for the operation you actually run.",
       cols: 3,
+      flip: true,
       cards: [
         { tag: "Home Services", title: "When the phone is your office", text: "Cleaning, landscaping, pest control, HVAC, plumbing. Every missed call is lost revenue. Build a team that never lets one ring out.", label: "Home Services", href: "/industries/home-services" },
         { tag: "NEMT &amp; Student Transportation", title: "Regulated rides under strict SLAs", text: "One missed pickup can cost the contract. Scale dispatch and support without dropping standards.", label: "Transportation", href: "/industries/transportation" },
@@ -724,7 +725,9 @@ export const SETTINGS = {
       ] },
     ],
     copyright: "© 2026 Vivo. Grow faster. Operate smarter.",
-    contactLine: "[ add phone ] · [ add email ] · Latin America · US-aligned time zones",
+    phone: "(385) 342-5646",
+    email: "info@govivo.ai",
+    contactLine: "Latin America · US-aligned time zones",
   },
 };
 

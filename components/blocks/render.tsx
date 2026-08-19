@@ -13,8 +13,19 @@ type P = Record<string, any>;
 const onDark = { color: "#fff" } as const;
 const mutedDark = { color: "var(--text-on-dark-muted)" } as const;
 
+/** Touch devices have no hover: first tap flips the card, second tap follows the link. */
+function flipOnTouch(e: React.MouseEvent<HTMLAnchorElement>) {
+  if (typeof window === "undefined" || !window.matchMedia("(hover: none)").matches) return;
+  const el = e.currentTarget;
+  if (!el.classList.contains("is-flipped")) {
+    e.preventDefault();
+    document.querySelectorAll(".ind-card--flip.is-flipped").forEach((n) => n.classList.remove("is-flipped"));
+    el.classList.add("is-flipped");
+  }
+}
+
 /* ── HERO (photo or placeholder) ── */
-function Hero({ p }: { p: P }) {
+function Hero({ p, editable }: { p: P; editable?: boolean }) {
   const placeholder = p.variant === "placeholder";
   return (
     <section className={`hero on-dark${placeholder ? " hero--placeholder" : ""}${p.compact ? " banner" : ""}`}>
@@ -47,7 +58,7 @@ function Hero({ p }: { p: P }) {
             <Btn cta={p.primaryCta} size="lg" showArrow />
             <Btn cta={p.secondaryCta} variant="secondary" size="lg" />
           </div>
-          {p.photoNote && (
+          {editable && p.photoNote && (
             <div className="photo-note"><b>Photo</b> <Rich html={p.photoNote} /></div>
           )}
         </Reveal>
@@ -104,7 +115,11 @@ function StepsNavy({ p }: { p: P }) {
         <div className="steps">
           <span className="steps-line" aria-hidden="true"><span className="steps-line-fill" /></span>
           {(p.steps || []).map((s: P, i: number) => (
-            <Reveal className="step" key={i}>
+            <Reveal className={`step${s.image ? " step--img" : ""}`} key={i}>
+              {s.image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="step-photo" src={s.image} alt={s.imageAlt || s.title || ""} loading="lazy" />
+              )}
               <div className="num">{s.num || i + 1}</div>
               <Rich as="h4" html={s.title} />
               <Rich as="p" html={s.text} />
@@ -153,19 +168,45 @@ function IndCards({ p }: { p: P }) {
       <div className="container">
         <Reveal><SectionHead eyebrow={p.eyebrow} title={p.title} lead={p.lead} /></Reveal>
         <div className={`grid-${p.cols || 3}`}>
-          {(p.cards || []).map((c: P, i: number) => (
-            <Reveal as={Link as any} className="ind-card" href={c.href || "#"} key={i}
-              style={c.topColor ? { borderTopColor: c.topColor } : undefined}>
-              {c.image && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img className="card-img" src={c.image} alt={c.imageAlt || c.title || ""} loading="lazy" />
-              )}
-              <span className="tag"><Rich html={c.tag} /></span>
-              <Rich as="h4" html={c.title} />
-              <p><Rich html={c.text} /></p>
-              <span className="go"><Rich html={c.label} /> <Icon name="arrow-right" /></span>
-            </Reveal>
-          ))}
+          {(p.cards || []).map((c: P, i: number) => {
+            const flip = p.flip === true && !!c.image;
+            if (flip) {
+              return (
+                <Reveal as={Link as any} className="ind-card ind-card--flip" href={c.href || "#"} key={i}
+                  aria-label={c.title} onClick={flipOnTouch}>
+                  <span className="flip-inner">
+                    <span className="flip-face flip-front">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={c.image} alt={c.imageAlt || c.title || ""} loading="lazy" />
+                      <span className="flip-front-text">
+                        <span className="tag"><Rich html={c.tag} /></span>
+                        <Rich as="h4" html={c.title} />
+                      </span>
+                    </span>
+                    <span className="flip-face flip-back">
+                      <span className="tag"><Rich html={c.tag} /></span>
+                      <Rich as="h4" html={c.title} />
+                      <p><Rich html={c.text} /></p>
+                      <span className="go"><Rich html={c.label} /> <Icon name="arrow-right" /></span>
+                    </span>
+                  </span>
+                </Reveal>
+              );
+            }
+            return (
+              <Reveal as={Link as any} className="ind-card" href={c.href || "#"} key={i}
+                style={c.topColor ? { borderTopColor: c.topColor } : undefined}>
+                {c.image && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img className="card-img" src={c.image} alt={c.imageAlt || c.title || ""} loading="lazy" />
+                )}
+                <span className="tag"><Rich html={c.tag} /></span>
+                <Rich as="h4" html={c.title} />
+                <p><Rich html={c.text} /></p>
+                <span className="go"><Rich html={c.label} /> <Icon name="arrow-right" /></span>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -737,7 +778,7 @@ function ApplyBlock({ p }: { p: P }) {
 /* ── BOOK HERO ── */
 import { BookBlock as BookForm } from "./BookForm";
 
-const MAP: Record<string, (a: { p: P }) => JSX.Element | null> = {
+const MAP: Record<string, (a: { p: P; editable?: boolean }) => JSX.Element | null> = {
   hero: Hero,
   proof: Proof,
   capGrid: CapGrid,
@@ -774,7 +815,7 @@ export function BlockView({ block, editable }: { block: Block; editable?: boolea
   const Cmp = MAP[block.type];
   if (!Cmp) return null;
   if (block.hidden && !editable) return null;
-  const el = <Cmp p={block.props as P} />;
+  const el = <Cmp p={block.props as P} editable={editable} />;
   if (!editable) return el;
   return (
     <div className={`ed-blk${block.hidden ? " ed-blk-hidden" : ""}`} data-bid={block.id}>

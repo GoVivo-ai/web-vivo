@@ -24,6 +24,7 @@ export function Btn({
   children?: ReactNode;
 }) {
   if (!cta?.label) return null;
+  if (!cta.href || cta.href === "#") return null; // unwired button: hide instead of shipping a dead link
   const cls = `btn btn-${variant}${size ? " btn-" + size : ""}`;
   const inner = (
     <>

@@ -516,3 +516,32 @@ textarea.input { resize: vertical; min-height: 120px; }
   .footer-top { grid-template-columns: 1fr; }
   .hero-media img { object-position: 72% center; }
 }
+
+/* ── Steps (navy) with photos ── */
+.step--img { padding-top: 0; overflow: hidden; }
+.step--img .step-photo { display: block; width: calc(100% + var(--space-5) * 2); max-width: none; margin: 0 calc(-1 * var(--space-5)) var(--space-4); aspect-ratio: 16 / 10; object-fit: cover; border-bottom: 1px solid var(--border-on-dark); }
+.steps:has(.step--img) .steps-line { display: none; }
+
+/* ── Flip cards (industries): photo front, copy on hover / focus / tap ── */
+.ind-card--flip { padding: 0; border-top: 0; background: transparent; box-shadow: none; perspective: 1400px; min-height: 420px; display: block; }
+.ind-card--flip:hover { transform: none; box-shadow: none; }
+.ind-card--flip .flip-inner { position: relative; display: block; width: 100%; height: 100%; min-height: 420px; transform-style: preserve-3d; transition: transform 0.65s var(--ease-out); }
+.ind-card--flip:hover .flip-inner, .ind-card--flip:focus-visible .flip-inner, .ind-card--flip.is-flipped .flip-inner { transform: rotateY(180deg); }
+.ind-card--flip .flip-face { position: absolute; inset: 0; display: flex; flex-direction: column; border-radius: var(--radius-xl); overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; border: 1px solid var(--vivo-border); box-shadow: var(--shadow-sm); }
+.ind-card--flip .flip-front { background: var(--vivo-navy-900); justify-content: flex-end; }
+.ind-card--flip .flip-front img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ind-card--flip .flip-front-text { position: relative; padding: var(--space-6); background: linear-gradient(180deg, rgba(1,14,41,0) 0%, rgba(1,14,41,0.82) 55%, rgba(1,14,41,0.95) 100%); padding-top: var(--space-10); }
+.ind-card--flip .flip-front-text .tag { color: var(--vivo-green); margin-bottom: 10px; }
+.ind-card--flip .flip-front-text h4 { color: #fff; margin: 0; }
+.ind-card--flip .flip-back { transform: rotateY(180deg); background: var(--surface-card); padding: var(--space-6); border-top: 4px solid var(--vivo-green); justify-content: flex-start; }
+.ind-card--flip .flip-back p { flex: 1; }
+@media (hover: none) { .ind-card--flip .flip-inner { transition-duration: 0.5s; } }
+@media (prefers-reduced-motion: reduce) { .ind-card--flip .flip-inner { transition: none; } }
+
+/* ── Real photos drop the dashed placeholder frame ── */
+.ph:has(> img) { border: 0; background: none; }
+.ph:has(> img) > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.footer-contact { font-family: ui-monospace, monospace; }
+.footer-contact a { color: rgba(255,255,255,0.75); text-decoration: none; }
+.footer-contact a:hover { color: var(--vivo-green); }
+

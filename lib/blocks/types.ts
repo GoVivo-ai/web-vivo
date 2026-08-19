@@ -60,5 +60,7 @@ export interface SiteSettings {
     columns: { heading: string; links: { label: string; href: string }[] }[];
     copyright: string;
     contactLine: string;
+    phone?: string;
+    email?: string;
   };
 }

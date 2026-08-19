@@ -52,8 +52,12 @@ export function SettingsEditor({ initial, canSave }: { initial: SiteContent; can
             <textarea className="ed-textarea" value={s.footer.blurb} onChange={(e) => set((c) => { c.settings.footer.blurb = e.target.value; return c; })} /></div>
           <div><label className="wp-flabel">Copyright line</label>
             <input className="ed-input" value={s.footer.copyright} onChange={(e) => set((c) => { c.settings.footer.copyright = e.target.value; return c; })} /></div>
-          <div><label className="wp-flabel">Contact line (phone · email · region)</label>
+          <div><label className="wp-flabel">Contact line (region / extra text)</label>
             <input className="ed-input" value={s.footer.contactLine} onChange={(e) => set((c) => { c.settings.footer.contactLine = e.target.value; return c; })} /></div>
+          <div><label className="wp-flabel">Phone</label>
+            <input className="ed-input" value={s.footer.phone || ""} onChange={(e) => set((c) => { c.settings.footer.phone = e.target.value; return c; })} /></div>
+          <div><label className="wp-flabel">Email</label>
+            <input className="ed-input" value={s.footer.email || ""} onChange={(e) => set((c) => { c.settings.footer.email = e.target.value; return c; })} /></div>
         </div>
       </div>
 

@@ -25,7 +25,13 @@ export function Footer({ settings }: { settings: SiteSettings }) {
         </div>
         <div className="footer-bottom">
           <span>{f.copyright}</span>
-          <span style={{ fontFamily: "ui-monospace,monospace" }}>{f.contactLine}</span>
+          <span className="footer-contact">
+            {f.phone && <a href={`tel:${f.phone.replace(/[^+\d]/g, "")}`}>{f.phone}</a>}
+            {f.phone && f.email && <span aria-hidden="true"> · </span>}
+            {f.email && <a href={`mailto:${f.email}`}>{f.email}</a>}
+            {(f.phone || f.email) && f.contactLine && <span aria-hidden="true"> · </span>}
+            {f.contactLine && <span>{f.contactLine}</span>}
+          </span>
         </div>
       </div>
     </footer>
