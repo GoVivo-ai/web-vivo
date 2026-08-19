@@ -373,7 +373,7 @@ const about: PageDoc = {
       eyebrow: "Connect",
       title: "Meet the people behind Vivo.",
       lead: "Founders and company on LinkedIn.",
-      secondaryCta: { label: "Company LinkedIn", href: "#", icon: "arrow-up-right" },
+      secondaryCta: { label: "Company LinkedIn", href: "https://www.linkedin.com/company/govivoai/", icon: "arrow-up-right" },
       primaryCta: { label: "Book a clarity call", href: "/book" },
     }),
   ],

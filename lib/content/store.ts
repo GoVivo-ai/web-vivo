@@ -52,6 +52,14 @@ function withSeedMedia(doc: SiteContent): SiteContent {
       }
     }
   }
+  // Buttons still pointing at "#" take the seed's real href (e.g. Company LinkedIn).
+  for (const page of doc.pages) for (const block of page.blocks) {
+    const seed = seedBlocks.get(block.id); if (!seed) continue;
+    for (const k of ["primaryCta", "secondaryCta", "cta"]) {
+      const cta = (block.props as Record<string, any>)[k], scta = (seed.props as Record<string, any>)[k];
+      if (cta && (!cta.href || cta.href === "#") && scta?.href && scta.href !== "#") cta.href = scta.href;
+    }
+  }
   const f = doc.settings?.footer as Record<string, unknown> | undefined;
   if (f) {
     if (!f.phone || f.phone === "(385) 342-5646") f.phone = SEED.settings.footer.phone;

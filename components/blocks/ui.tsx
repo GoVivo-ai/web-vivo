@@ -37,7 +37,7 @@ export function Btn({
   return href.startsWith("/") ? (
     <Link className={cls} href={href}>{inner}</Link>
   ) : (
-    <a className={cls} href={href}>{inner}</a>
+    <a className={cls} href={href} {...(/^https?:\/\//.test(href) ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{inner}</a>
   );
 }
 
