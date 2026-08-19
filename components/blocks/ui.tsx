@@ -59,7 +59,7 @@ export function PhotoSlot({
   label?: string;
   spec?: string;
 }) {
-  const cls = `ph${variant ? " ph--" + variant : ""}`;
+  const cls = `ph${variant ? " ph--" + variant : ""}${src ? "" : " ph--empty"}`;
   const style = ratio ? ({ ["--ph-ratio" as string]: ratio } as React.CSSProperties) : undefined;
   return (
     <div className={cls} style={style}>

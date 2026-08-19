@@ -545,3 +545,12 @@ textarea.input { resize: vertical; min-height: 120px; }
 .footer-contact a { color: rgba(255,255,255,0.75); text-decoration: none; }
 .footer-contact a:hover { color: var(--vivo-green); }
 
+
+/* ── Never ship an empty photo slot: outside the admin editor, a slot with no
+   image disappears and a split section collapses to its text column. ── */
+.ph--empty { display: none; }
+.split > *:has(> .ph--empty:only-child) { display: none; }
+.split:has(> * > .ph--empty:only-child) { grid-template-columns: 1fr; max-width: 760px; }
+.ed-blk .ph--empty { display: flex; }
+.ed-blk .split > *:has(> .ph--empty:only-child) { display: block; }
+.ed-blk .split:has(> * > .ph--empty:only-child) { grid-template-columns: 1fr 1fr; max-width: none; }
