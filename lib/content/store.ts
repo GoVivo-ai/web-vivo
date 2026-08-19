@@ -17,7 +17,7 @@ function withNewSeedPages(doc: SiteContent): SiteContent {
   return missing.length ? { ...doc, pages: [...doc.pages, ...missing] } : doc;
 }
 
-const MEDIA_KEYS = ["image", "imageAlt", "flip"] as const;
+const MEDIA_KEYS = ["image", "imageAlt", "flip", "center"] as const;
 const ITEM_LISTS = ["steps", "cards", "people", "items"] as const;
 
 function fillMissing(target: Record<string, unknown>, source: Record<string, unknown>) {
@@ -54,7 +54,7 @@ function withSeedMedia(doc: SiteContent): SiteContent {
   }
   const f = doc.settings?.footer as Record<string, unknown> | undefined;
   if (f) {
-    if (!f.phone) f.phone = SEED.settings.footer.phone;
+    if (!f.phone || f.phone === "(385) 342-5646") f.phone = SEED.settings.footer.phone;
     if (!f.email) f.email = SEED.settings.footer.email;
     if (typeof f.contactLine === "string" && /\[ add/.test(f.contactLine)) f.contactLine = SEED.settings.footer.contactLine;
   }

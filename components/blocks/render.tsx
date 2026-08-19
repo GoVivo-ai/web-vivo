@@ -28,7 +28,7 @@ function flipOnTouch(e: React.MouseEvent<HTMLAnchorElement>) {
 function Hero({ p, editable }: { p: P; editable?: boolean }) {
   const placeholder = p.variant === "placeholder";
   return (
-    <section className={`hero on-dark${placeholder ? " hero--placeholder" : ""}${p.compact ? " banner" : ""}`}>
+    <section className={`hero on-dark${placeholder ? " hero--placeholder" : ""}${p.compact ? " banner" : ""}${p.center ? " hero--center" : ""}`}>
       {!placeholder && p.image && (
         <div className="hero-media">
           {/* eslint-disable-next-line @next/next/no-img-element */}

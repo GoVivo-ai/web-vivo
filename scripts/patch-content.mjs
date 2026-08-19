@@ -30,7 +30,7 @@ if (!URL || !KEY) {
 const DRY = process.argv.includes("--dry");
 
 // ── inputs (fill the empty ones when Laura sends them) ──
-const FOOTER = { phone: "(385) 342-5646", email: "info@govivo.ai", contactLine: "Latin America · US-aligned time zones" };
+const FOOTER = { phone: "+1 (385) 342-5646", email: "info@govivo.ai", contactLine: "Latin America · US-aligned time zones" };
 const STEP_IMAGES = [
   { image: "/images/how-it-works/step-1-map.jpg", imageAlt: "Two people reviewing an operations map" },
   { image: "/images/how-it-works/step-2-recruit.jpg", imageAlt: "Specialist being trained on the team's process" },
@@ -40,7 +40,7 @@ const STEP_IMAGES = [
 /** Home → Industries flip-card images (folder "Home-Industries"). Paths under /public or media URLs. */
 const HOME_INDUSTRY_IMAGES = { "/industries/home-services": "/images/home/industries/home-services.jpg", "/industries/transportation": "/images/home/industries/transportation.jpg", "/industries/logistics": "/images/home/industries/logistics.jpg" };
 /** Industries pages: "What we do" split photo (folder "Industries"; logistics from "contenidos"). Heroes stay navy per Laura. */
-const INDUSTRY_SPLIT_IMAGES = { "/industries/home-services": "/images/industries/home-services-crew.jpg", "/industries/transportation": "/images/industries/transportation-driver.jpg", "/industries/logistics": "/images/industries/logistics-tracking.jpg" };
+const INDUSTRY_SPLIT_IMAGES = { "/industries/home-services": "/images/industries/home-services-dispatch-team.jpg", "/industries/transportation": "/images/industries/transportation-driver.jpg", "/industries/logistics": "/images/industries/logistics-tracking.jpg" };
 /** About: founder portraits by name + team / culture photos (folder "About"). */
 const ABOUT_FOUNDERS = { "Daniel Hernández": "/images/about/daniel-hernandez.jpg", "Juan Pablo Rivas": "/images/about/juan-pablo-rivas.jpg", "Felipe Jiménez": "/images/about/felipe-jimenez.jpg", "Víctor Sandoval": "/images/about/victor-sandoval.jpg" };
 const ABOUT_TEAM_IMAGE = "/images/about/team.jpg";

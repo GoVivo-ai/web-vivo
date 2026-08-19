@@ -21,6 +21,7 @@ export const BLOCKS: BlockDef[] = [
     fields: [
       { key: "variant", label: "Background", type: "select", options: ["photo", "placeholder"] },
       { key: "compact", label: "Compact banner (interior pages)", type: "boolean" },
+      { key: "center", label: "Center the text (wide, centered hero)", type: "boolean" },
       { key: "image", label: "Background photo", type: "image", help: "Used when Background = photo." },
       txt("imageAlt", "Photo alt text"),
       txt("crumb", "Back link label (role pages)"),

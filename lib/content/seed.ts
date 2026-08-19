@@ -207,7 +207,7 @@ const homeServices: PageDoc = {
     b("hs-do", "splitDo", {
       eyebrow: "What we do",
       title: "One dedicated team, built around how your service business runs.",
-      imageSide: "right", ratio: "120%", image: "/images/industries/home-services-crew.jpg", imageAlt: "Service crew reviewing the day's jobs together",
+      imageSide: "right", ratio: "120%", image: "/images/industries/home-services-dispatch-team.jpg", imageAlt: "Dispatch team on a video call with the field crew",
       phLabel: "A crew or tech doing real work, or a dispatch coordination moment.", phSpec: "1600px · 3:2 · <200 KB",
       items: [
         { icon: "phone-incoming", title: "Never miss an inbound call", text: "Your team answers, qualifies, and books — in your time zone, in fluent English. Every ring becomes a booked job instead of a voicemail." },
@@ -481,7 +481,7 @@ const careers: PageDoc = {
   description: "Work with U.S. businesses. Grow inside a team that invests in you. Paid in USD. Fully remote.",
   blocks: [
     b("ca-hero", "hero", {
-      variant: "placeholder", compact: true,
+      variant: "placeholder", compact: true, center: true,
       eyebrow: "Careers",
       title: "Work with U.S. businesses. Grow inside a team that invests in you.",
       lead: "Vivo is not a place that places you and disappears. You join a dedicated team, you're trained and supported, and you build a real career working directly with U.S. companies. Paid in USD. Fully remote.",
@@ -727,7 +727,7 @@ export const SETTINGS = {
       ] },
     ],
     copyright: "© 2026 Vivo. Grow faster. Operate smarter.",
-    phone: "(385) 342-5646",
+    phone: "+1 (385) 342-5646",
     email: "info@govivo.ai",
     contactLine: "Latin America · US-aligned time zones",
   },
