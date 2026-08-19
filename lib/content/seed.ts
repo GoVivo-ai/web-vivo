@@ -49,9 +49,9 @@ const home: PageDoc = {
       cols: 3,
       flip: true,
       cards: [
-        { tag: "Home Services", title: "When the phone is your office", text: "Cleaning, landscaping, pest control, HVAC, plumbing. Every missed call is lost revenue. Build a team that never lets one ring out.", label: "Home Services", href: "/industries/home-services" },
-        { tag: "NEMT &amp; Student Transportation", title: "Regulated rides under strict SLAs", text: "One missed pickup can cost the contract. Scale dispatch and support without dropping standards.", label: "Transportation", href: "/industries/transportation" },
-        { tag: "3PL &amp; Logistics", title: "Track, trace, and back office", text: "Carrier sales and back office that consume your team's capacity. Add specialized support that scales with volume.", label: "3PL &amp; Logistics", href: "/industries/logistics" },
+        { tag: "Home Services", title: "When the phone is your office", text: "Cleaning, landscaping, pest control, HVAC, plumbing. Every missed call is lost revenue. Build a team that never lets one ring out.", label: "Home Services", href: "/industries/home-services", image: "/images/home/industries/home-services.jpg", imageAlt: "Residential home with landscaped front yard" },
+        { tag: "NEMT &amp; Student Transportation", title: "Regulated rides under strict SLAs", text: "One missed pickup can cost the contract. Scale dispatch and support without dropping standards.", label: "Transportation", href: "/industries/transportation", image: "/images/home/industries/transportation.jpg", imageAlt: "Driver helping a passenger board an accessible van" },
+        { tag: "3PL &amp; Logistics", title: "Track, trace, and back office", text: "Carrier sales and back office that consume your team's capacity. Add specialized support that scales with volume.", label: "3PL &amp; Logistics", href: "/industries/logistics", image: "/images/home/industries/logistics.jpg", imageAlt: "Warehouse worker scanning shipments at the loading dock" },
       ],
     }),
     b("home-changes", "costGridNavy", {
@@ -207,7 +207,7 @@ const homeServices: PageDoc = {
     b("hs-do", "splitDo", {
       eyebrow: "What we do",
       title: "One dedicated team, built around how your service business runs.",
-      imageSide: "right", ratio: "120%",
+      imageSide: "right", ratio: "120%", image: "/images/industries/home-services-crew.jpg", imageAlt: "Service crew reviewing the day's jobs together",
       phLabel: "A crew or tech doing real work, or a dispatch coordination moment.", phSpec: "1600px · 3:2 · <200 KB",
       items: [
         { icon: "phone-incoming", title: "Never miss an inbound call", text: "Your team answers, qualifies, and books — in your time zone, in fluent English. Every ring becomes a booked job instead of a voicemail." },
@@ -267,7 +267,7 @@ const transportation: PageDoc = {
     b("tr-do", "splitDo", {
       eyebrow: "What we do",
       title: "Teams that speak your operation from day one.",
-      imageSide: "left", ratio: "120%",
+      imageSide: "left", ratio: "120%", image: "/images/industries/transportation-driver.jpg", imageAlt: "Driver taking a dispatch call in transit",
       phLabel: "A dispatch / coordination scene, or a student-transport vehicle.", phSpec: "1600px · 3:2 · <200 KB",
       items: [
         { icon: "phone-call", title: "High-volume inbound", text: "Handle 500 to 6,000 calls a day with the staffing to keep average handle time near target and wait times low." },
@@ -311,7 +311,7 @@ const logistics: PageDoc = {
     b("lg-do", "splitDo", {
       eyebrow: "What we do",
       title: "Logistics support that scales with your volume.",
-      imageSide: "right", ratio: "110%",
+      imageSide: "right", ratio: "110%", image: "/images/industries/logistics-tracking.jpg", imageAlt: "Logistics team tracking shipments",
       phLabel: "Pallets and racking, or a shipment-tracking screen.", phSpec: "1600px · 3:2 · <200 KB",
       items: [
         { icon: "package-search", title: "Track and trace", text: "Proactive shipment updates and status handling — so customers stop calling for visibility you can give them first." },
@@ -346,10 +346,10 @@ const about: PageDoc = {
       eyebrow: "Founders",
       title: "Operators who've run these businesses.",
       people: [
-        { name: "Daniel Hernández", role: "CEO", text: "Operator with direct experience running US businesses, based in Utah, with firsthand knowledge of home services and NEMT / student transportation." },
-        { name: "Juan Pablo Rivas", role: "COO", text: "Leads operations and delivery structure." },
-        { name: "Felipe Jiménez", role: "CGO", text: "Leads product and growth, plus marketing and business development." },
-        { name: "Víctor Sandoval", role: "CTO", text: "Leads the technology layer — the dashboards, integrations, and tracking Vivo builds and operates as part of each team." },
+        { name: "Daniel Hernández", role: "CEO", image: "/images/about/daniel-hernandez.jpg", text: "Operator with direct experience running US businesses, based in Utah, with firsthand knowledge of home services and NEMT / student transportation." },
+        { name: "Juan Pablo Rivas", role: "COO", image: "/images/about/juan-pablo-rivas.jpg", text: "Leads operations and delivery structure." },
+        { name: "Felipe Jiménez", role: "CGO", image: "/images/about/felipe-jimenez.jpg", text: "Leads product and growth, plus marketing and business development." },
+        { name: "Víctor Sandoval", role: "CTO", image: "/images/about/victor-sandoval.jpg", text: "Leads the technology layer — the dashboards, integrations, and tracking Vivo builds and operates as part of each team." },
       ],
     }),
     b("ab-team", "splitText", {
@@ -357,6 +357,7 @@ const about: PageDoc = {
       eyebrow: "Our team",
       title: "A trained team that stays.",
       lead: "Behind every Vivo POD are specialists who are trained, supported, and held to a standard. We hire for capability and English fluency, and we invest in the people who represent your business.",
+      image: "/images/about/team.jpg", imageAlt: "Vivo team working together in the office",
       phTag: "Photo · real Vivo team", phLabel: "Candid group or workspace shot. Consistency of lighting is the rule.", phSpec: "1600px · 3:2 · <200 KB",
     }),
     b("ab-culture", "splitText", {
@@ -364,6 +365,7 @@ const about: PageDoc = {
       eyebrow: "Our culture",
       title: "Flat in voice and respect. Clear in responsibility.",
       lead: "We operate as one team across two countries. Everyone has a voice, everyone owns their outcomes, and no one hides behind a title.",
+      image: "/images/about/culture.jpg", imageAlt: "Remote team meeting on a video call",
       phTag: "Photo · culture", phLabel: "Real people, real workspace, natural moment. No stock.", phSpec: "1600px · 3:2 · <200 KB",
       cta: { label: "See open roles", href: "/careers" },
     }),

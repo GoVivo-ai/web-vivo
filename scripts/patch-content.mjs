@@ -38,15 +38,17 @@ const STEP_IMAGES = [
   { image: "/images/how-it-works/step-4-runs.jpg", imageAlt: "Owner reviewing results while the team runs the operation" },
 ];
 /** Home → Industries flip-card images (folder "Home-Industries"). Paths under /public or media URLs. */
-const HOME_INDUSTRY_IMAGES = { "/industries/home-services": "", "/industries/transportation": "", "/industries/logistics": "" };
-/** Industries page heroes (folder "Industries"). */
-const INDUSTRY_HERO_IMAGES = { "/industries/home-services": "", "/industries/transportation": "", "/industries/logistics": "" };
+const HOME_INDUSTRY_IMAGES = { "/industries/home-services": "/images/home/industries/home-services.jpg", "/industries/transportation": "/images/home/industries/transportation.jpg", "/industries/logistics": "/images/home/industries/logistics.jpg" };
+/** Industries pages: "What we do" split photo (folder "Industries"; logistics from "contenidos"). Heroes stay navy per Laura. */
+const INDUSTRY_SPLIT_IMAGES = { "/industries/home-services": "/images/industries/home-services-crew.jpg", "/industries/transportation": "/images/industries/transportation-driver.jpg", "/industries/logistics": "/images/industries/logistics-tracking.jpg" };
 /** About: founder portraits by name + team / culture photos (folder "About"). */
-const ABOUT_FOUNDERS = { "Daniel Hernández": "", "Juan Pablo Rivas": "", "Felipe Jiménez": "", "Víctor Sandoval": "" };
-const ABOUT_TEAM_IMAGE = "";
-const ABOUT_CULTURE_IMAGE = "";
+const ABOUT_FOUNDERS = { "Daniel Hernández": "/images/about/daniel-hernandez.jpg", "Juan Pablo Rivas": "/images/about/juan-pablo-rivas.jpg", "Felipe Jiménez": "/images/about/felipe-jimenez.jpg", "Víctor Sandoval": "/images/about/victor-sandoval.jpg" };
+const ABOUT_TEAM_IMAGE = "/images/about/team.jpg";
+const ABOUT_CULTURE_IMAGE = "/images/about/culture.jpg";
 const COMPANY_LINKEDIN = ""; // e.g. https://www.linkedin.com/company/…
-const CAREERS_HERO_IMAGE = ""; // "foto de roles"
+const CAREERS_HERO_IMAGE = ""; // Laura: keep the navy hero (Careers/Hero.jpg is at /images/careers/hero.jpg if wanted later)
+const CAREER_ROLE_IMAGES = { "/careers/customer-service-representative": "/images/careers/customer-service.jpg", "/careers/sales-representative": "/images/careers/sales.jpg", "/careers/back-office-representative": "/images/careers/back-office.jpg" };
+const CAREERS_CULTURE_IMAGE = "/images/careers/culture-benefits.jpg";
 const BOOKING_URL = ""; // Google Calendar appointment schedule of info@govivo.ai (embed URL)
 
 // ── patch ──
@@ -74,11 +76,10 @@ const ind = block("/", "home-industries");
 if (ind && ind.props.flip !== true) { ind.props.flip = true; log.push("home-industries.flip"); }
 ind?.props.cards?.forEach((c) => set(c, "image", HOME_INDUSTRY_IMAGES[c.href], `home-industries ${c.href} image`));
 
-// Industries heroes → photo variant when an image is provided
-for (const [path, img] of Object.entries(INDUSTRY_HERO_IMAGES)) {
-  if (!img) continue;
-  const hero = page(path)?.blocks.find((b) => b.type === "hero");
-  if (hero) { set(hero.props, "image", img, `${path} hero image`); set(hero.props, "variant", "photo", `${path} hero variant`); }
+// Industries: "What we do" split photo
+for (const [path, img] of Object.entries(INDUSTRY_SPLIT_IMAGES)) {
+  const split = page(path)?.blocks.find((b) => b.type === "splitDo");
+  set(split?.props, "image", img, `${path} splitDo image`);
 }
 
 // About
@@ -88,7 +89,9 @@ set(block("/about", "ab-culture")?.props, "image", ABOUT_CULTURE_IMAGE, "about c
 const abCta = block("/about", "ab-cta");
 if (abCta?.props.secondaryCta) set(abCta.props.secondaryCta, "href", COMPANY_LINKEDIN, "Company LinkedIn href");
 
-// Careers hero
+// Careers: role card photos + culture photo (+ hero only if provided)
+block("/careers", "ca-roles")?.props.cards?.forEach((c) => set(c, "image", CAREER_ROLE_IMAGES[c.href], `careers role ${c.href} image`));
+{ const cu = block("/careers", "ca-culture"); if (cu && !cu.props.image) set(cu.props, "image", CAREERS_CULTURE_IMAGE, "careers culture image"); }
 const caHero = block("/careers", "ca-hero");
 if (caHero && CAREERS_HERO_IMAGE) { set(caHero.props, "image", CAREERS_HERO_IMAGE, "careers hero image"); set(caHero.props, "variant", "photo", "careers hero variant"); }
 
