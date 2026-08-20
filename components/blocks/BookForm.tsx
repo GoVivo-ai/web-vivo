@@ -41,7 +41,7 @@ function CalInline({ calLink }: { calLink: string }) {
     });
     Cal.ns.vivo("ui", {
       theme: "light",
-      hideEventTypeDetails: true,
+      hideEventTypeDetails: false,
       styles: { branding: { brandColor: "#04D98B" } },
     });
   }, [calLink]);
