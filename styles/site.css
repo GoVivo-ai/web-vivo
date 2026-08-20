@@ -371,6 +371,14 @@ textarea.input { resize: vertical; min-height: 120px; }
 /* Cal.com inline embed sizes itself; just keep it from collapsing while it loads. */
 .cal-inline { min-height: 480px; margin: 0 calc(var(--space-6) * -0.4); }
 .cal-inline iframe { border-radius: var(--radius-lg); }
+/* Wide layout when a live calendar is embedded: intro on top, full-width panel below
+   so Cal.com can lay out details | month | slots side by side instead of stacking. */
+.book-stack { display: flex; flex-direction: column; gap: var(--space-7); }
+.book-head { max-width: 780px; }
+.expect-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+.panel-tabs--center { max-width: 480px; margin-left: auto; margin-right: auto; }
+.book-form { max-width: 640px; margin: 0 auto; }
+@media (max-width: 900px) { .expect-row { grid-template-columns: 1fr; } }
 
 @media (max-width: 900px) {
   .split, .book-grid, .form.two { grid-template-columns: 1fr; }

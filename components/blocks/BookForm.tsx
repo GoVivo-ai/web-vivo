@@ -37,10 +37,11 @@ function CalInline({ calLink }: { calLink: string }) {
     Cal.ns.vivo("inline", {
       elementOrSelector: ref.current,
       calLink,
-      config: { theme: "light" },
+      config: { theme: "light", layout: "month_view" },
     });
     Cal.ns.vivo("ui", {
       theme: "light",
+      layout: "month_view",
       hideEventTypeDetails: false,
       styles: { branding: { brandColor: "#04D98B" } },
     });
@@ -94,12 +95,14 @@ export function BookBlock({
   return (
     <section className="section section--navy on-dark">
       <div className="container">
-        <div className="book-grid">
+        <div className={calendlyUrl ? "book-stack" : "book-grid"}>
           <Reveal>
-            <span className="eyebrow">{eyebrow}</span>
-            <h1 style={{ fontSize: "var(--fs-h1)", margin: "22px 0 22px" }}>{title}</h1>
-            {lead && <p className="lead"><Rich html={lead} /></p>}
-            <ul className="expect-list">
+            <div className={calendlyUrl ? "book-head" : undefined}>
+              <span className="eyebrow">{eyebrow}</span>
+              <h1 style={{ fontSize: "var(--fs-h1)", margin: "22px 0 22px" }}>{title}</h1>
+              {lead && <p className="lead"><Rich html={lead} /></p>}
+            </div>
+            <ul className={`expect-list${calendlyUrl ? " expect-row" : ""}`}>
               {expect.map((t, i) => (
                 <li key={i}><span className="n">{i + 1}</span><p>{t}</p></li>
               ))}
@@ -107,7 +110,7 @@ export function BookBlock({
           </Reveal>
           <Reveal className="panel">
             {calendlyUrl ? (
-              <div className="panel-tabs" role="tablist" aria-label="How would you like to reach us?">
+              <div className="panel-tabs panel-tabs--center" role="tablist" aria-label="How would you like to reach us?">
                 <button type="button" role="tab" aria-selected={tab === "calendar"} className={tab === "calendar" ? "active" : ""} onClick={() => setTab("calendar")}>
                   <Icon name="calendar-clock" style={{ width: 17, height: 17 }} /> {panelTitle}
                 </button>
@@ -145,7 +148,7 @@ export function BookBlock({
               state === "done" ? (
                 <p className="sub" style={{ marginBottom: 0, color: "var(--vivo-navy)" }}>Message sent — we&apos;ll get back to you shortly.</p>
               ) : (
-                <form className="form" onSubmit={onSubmit}>
+                <form className={`form${calendlyUrl ? " book-form" : ""}`} onSubmit={onSubmit}>
                   <div className="field"><label htmlFor="b-name">Name</label><input className="input" id="b-name" name="name" type="text" placeholder="Your name" required /></div>
                   <div className="field"><label htmlFor="b-email">Email</label><input className="input" id="b-email" name="email" type="email" placeholder="you@business.com" required /></div>
                   <div className="field"><label htmlFor="b-msg">What would you like help with?</label><textarea className="input" id="b-msg" name="message" placeholder="A sentence or two about your operation" /></div>
