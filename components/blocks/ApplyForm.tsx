@@ -56,15 +56,15 @@ export function ApplyForm({
             <div className="field"><label>First name</label><input className="input" name="first_name" type="text" placeholder="First name" required /></div>
             <div className="field"><label>Last name</label><input className="input" name="last_name" type="text" placeholder="Last name" required /></div>
             <div className="field"><label>Email</label><input className="input" name="email" type="email" placeholder="you@email.com" required /></div>
-            <div className="field"><label>Phone</label><input className="input" name="phone" type="tel" placeholder="+1 555 000 0000" /></div>
-            <div className="field"><label>LinkedIn</label><input className="input" name="linkedin" type="url" placeholder="linkedin.com/in/you" /></div>
+            <div className="field"><label>Phone</label><input className="input" name="phone" type="tel" placeholder="+1 555 000 0000" required /></div>
+            <div className="field"><label>LinkedIn</label><input className="input" name="linkedin" type="url" placeholder="https://linkedin.com/in/you" required /></div>
             <div className="field"><label>Self-rated English</label>
-              <select className="input" name="english" defaultValue={defaultEnglish}>
+              <select className="input" name="english" defaultValue={defaultEnglish} required>
                 <option>B2</option><option>C1</option><option>C2</option><option>Native</option>
               </select>
             </div>
             <div className="field full"><label>{experienceLabel} <span className="hint">(optional)</span></label><input className="input" name="experience" type="text" placeholder="e.g. 3" /></div>
-            <div className="field full"><label>{storyLabel} <span className="hint">(2–3 sentences)</span></label><textarea className="input" name="story" /></div>
+            <div className="field full"><label>{storyLabel} <span className="hint">(optional · 2–3 sentences)</span></label><textarea className="input" name="story" /></div>
             <div className="field full"><label>Resume</label><label className="file-drop" htmlFor="apply-file">Drop your resume here or click to upload · PDF, DOCX<input id="apply-file" name="resume" type="file" style={{ display: "none" }} /></label></div>
             <div className="field full" style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
               <input type="checkbox" id="apply-consent" required />
