@@ -691,7 +691,7 @@ const book: PageDoc = {
       ],
       panelTitle: "Pick a time",
       panelSub: "Choose a slot that works for you — the call takes about 30 minutes.",
-      calendlyUrl: "",
+      calendlyUrl: "https://cal.com/felipe-jimenez/vivo",
     }),
   ],
 };

@@ -17,7 +17,7 @@ function withNewSeedPages(doc: SiteContent): SiteContent {
   return missing.length ? { ...doc, pages: [...doc.pages, ...missing] } : doc;
 }
 
-const MEDIA_KEYS = ["image", "imageAlt", "flip", "center"] as const;
+const MEDIA_KEYS = ["image", "imageAlt", "flip", "center", "calendlyUrl"] as const;
 const ITEM_LISTS = ["steps", "cards", "people", "items"] as const;
 
 function fillMissing(target: Record<string, unknown>, source: Record<string, unknown>) {

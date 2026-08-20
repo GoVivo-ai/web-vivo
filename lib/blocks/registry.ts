@@ -296,7 +296,7 @@ export const BLOCKS: BlockDef[] = [
       txt("eyebrow", "Eyebrow"), area("title", "Title"), area("lead", "Lead"),
       { key: "expect", label: "What to expect", type: "list", itemLabel: "point" },
       txt("panelTitle", "Panel title"), txt("panelSub", "Panel subtitle"),
-      txt("calendlyUrl", "Calendly embed URL", ),
+      txt("calendlyUrl", "Calendar embed URL (Cal.com / Calendly)", ),
     ],
     defaults: { eyebrow: "Book a clarity call", title: "One conversation. A clear picture.", expect: [] },
   },
