@@ -41,6 +41,10 @@
 .wp-row .sp { flex: 1; }
 .wp-row .badge { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: var(--vivo-green-050); color: var(--vivo-green-700); border: 1px solid var(--vivo-green-100); }
 .wp-row .badge.gray { background: var(--vivo-lgray); color: var(--vivo-mid); border-color: var(--vivo-border); }
+.sub-filters { display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-bottom: 1px solid var(--vivo-lgray); flex-wrap: wrap; }
+.sub-filters .ed-input, .sub-filters .ed-select { width: auto; flex: 0 1 auto; }
+.sub-filters input[type="search"] { flex: 1 1 220px; }
+.sub-filters .s { color: var(--vivo-mid); font-size: 13px; }
 
 .wp-media { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 12px; }
 .wp-media .cell { border: 1px solid var(--vivo-border); border-radius: 12px; overflow: hidden; background: #fff; }
