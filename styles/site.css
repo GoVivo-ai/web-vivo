@@ -80,6 +80,33 @@ p  { text-wrap: pretty; }
 .nav a.active::after { transform: scaleX(1); }
 .header .btn { margin-left: var(--space-4); padding: 11px 22px; }
 
+/* ── Mobile nav ── */
+.nav-toggle {
+  display: none; margin-left: auto; width: 44px; height: 44px;
+  flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+  background: none; border: 0; cursor: pointer; padding: 0; border-radius: var(--radius-sm);
+}
+.nav-toggle span {
+  display: block; width: 22px; height: 2px; border-radius: 999px;
+  background: var(--vivo-navy);
+  transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-fast);
+}
+.menu-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-open .nav-toggle span:nth-child(2) { opacity: 0; }
+.menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-nav {
+  display: none; flex-direction: column; gap: 2px;
+  padding: var(--space-3) var(--space-5) var(--space-5);
+  background: rgba(255,255,255,0.97); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--vivo-border);
+}
+.mobile-nav a {
+  color: var(--vivo-dgray); font-weight: var(--fw-semibold); font-size: var(--fs-body);
+  padding: 13px 10px; border-radius: var(--radius-sm);
+}
+.mobile-nav a.active { color: var(--vivo-navy); box-shadow: inset 3px 0 0 var(--vivo-green); padding-left: 14px; }
+.mobile-nav .btn { margin: var(--space-3) 10px 0; justify-content: center; }
+
 /* ── Sections ── */
 .section { padding: var(--space-16) 0; }
 .section--tight { padding: var(--space-12) 0; }
@@ -514,6 +541,9 @@ textarea.input { resize: vertical; min-height: 120px; }
 }
 @media (max-width: 700px) {
   .nav { display: none; }
+  .header .header-cta { display: none; }
+  .nav-toggle { display: flex; }
+  .menu-open .mobile-nav { display: flex; }
   .grid-3, .grid-4, .grid-2, .steps, .stats, .contrast, .step-row { grid-template-columns: 1fr; }
   .step-row, .step-row--img { grid-template-columns: 64px 1fr; }
   .step-img { grid-column: 1 / -1; }
