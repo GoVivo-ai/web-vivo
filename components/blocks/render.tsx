@@ -508,6 +508,7 @@ function Founders({ p }: { p: P }) {
               <PhotoSlot src={m.image} variant="portrait" tag="Founder portrait" label={m.phLabel || "Editorial, chest-up, eye-level."} spec={m.phSpec || "1200×1500 · 4:5 · <180 KB"} />
               <Rich as="h4" html={m.name} />
               <Rich as="div" className="role" html={m.role} />
+              {m.punch ? <Rich as="p" className="punch" html={m.punch} /> : null}
               <Rich as="p" html={m.text} />
             </Reveal>
           ))}

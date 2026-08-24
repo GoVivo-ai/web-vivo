@@ -344,12 +344,12 @@ const about: PageDoc = {
     }),
     b("ab-founders", "founders", {
       eyebrow: "Founders",
-      title: "Operators who've run these businesses.",
+      title: "The team behind your team.",
       people: [
-        { name: "Daniel Hernández", role: "CEO", image: "/images/about/daniel-hernandez.jpg", text: "Operator with direct experience running US businesses, based in Utah, with firsthand knowledge of home services and NEMT / student transportation." },
-        { name: "Juan Pablo Rivas", role: "COO", image: "/images/about/juan-pablo-rivas.jpg", text: "Leads operations and delivery structure." },
-        { name: "Felipe Jiménez", role: "CGO", image: "/images/about/felipe-jimenez.jpg", text: "Leads product and growth, plus marketing and business development." },
-        { name: "Víctor Sandoval", role: "CTO", image: "/images/about/victor-sandoval.jpg", text: "Leads the technology layer — the dashboards, integrations, and tracking Vivo builds and operates as part of each team." },
+        { name: "Daniel Hernández", role: "CEO", image: "/images/about/daniel-hernandez.jpg", punch: "He's sat in your chair.", text: "Ran home services and NEMT operations inside US businesses. Based in Utah. He knows how the business works before we build the team around it." },
+        { name: "Juan Pablo Rivas", role: "COO", image: "/images/about/juan-pablo-rivas.jpg", punch: "Delivery is never left to chance.", text: "Builds the structure behind every POD. Hiring, training, standards, and the reporting that keeps a team performing long after month one." },
+        { name: "Felipe Jiménez", role: "CGO", image: "/images/about/felipe-jimenez.jpg", punch: "Growth is part of the operation.", text: "Builds the demand side. Positioning, campaigns, and the sales process that turn a stable operation into new revenue." },
+        { name: "Víctor Sandoval", role: "CTO", image: "/images/about/victor-sandoval.jpg", punch: "You stop guessing what's working.", text: "Builds the technology layer under every team. Dashboards, integrations, and tracking, so the results are visible while the work happens." },
       ],
     }),
     b("ab-team", "splitText", {

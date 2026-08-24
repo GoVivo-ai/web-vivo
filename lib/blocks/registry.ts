@@ -189,7 +189,7 @@ export const BLOCKS: BlockDef[] = [
     type: "founders", label: "Founders grid", icon: "users", group: "Content",
     fields: [
       txt("eyebrow", "Eyebrow"), area("title", "Title"),
-      { key: "people", label: "People", type: "items", itemLabel: "person", fields: [{ key: "image", label: "Portrait", type: "image" }, txt("name", "Name"), txt("role", "Role"), area("text", "Bio")] },
+      { key: "people", label: "People", type: "items", itemLabel: "person", fields: [{ key: "image", label: "Portrait", type: "image" }, txt("name", "Name"), txt("role", "Role"), txt("punch", "Punch line"), area("text", "Bio")] },
     ],
     defaults: { eyebrow: "Founders", title: "Title", people: [] },
   },

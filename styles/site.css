@@ -359,6 +359,7 @@ section.banner > .container { min-height: 600px; display: flex; flex-direction: 
 .founder h4 { margin-bottom: 4px; }
 .founder .role { font-size: var(--fs-sm); font-weight: var(--fw-bold); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--vivo-green-700); margin-bottom: 12px; }
 .founder p { color: var(--vivo-mid); font-size: var(--fs-sm); }
+.founder p.punch { font-family: var(--font-heading); font-weight: var(--fw-bold); color: var(--vivo-navy); font-size: var(--fs-body); line-height: 1.35; margin-bottom: 10px; }
 
 .role-block { background: var(--surface-card); border: 1px solid var(--vivo-border); border-left: 4px solid var(--vivo-green); border-radius: var(--radius-lg); padding: var(--space-6); box-shadow: var(--shadow-xs); }
 
