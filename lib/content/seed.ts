@@ -404,6 +404,7 @@ const insights: PageDoc = {
         cta: { label: "See what this could do for your operation", href: "/book" },
       },
       articles: [
+        { cat: "Home Services · Article", title: "Why Home Service Businesses Are Underpricing in 2026", text: "Homeowners already expect repair costs to rise this year. Most owners haven't adjusted their pricing to match — and every missed call now costs more than it did.", href: "/insights/home-service-businesses-underpricing-2026", image: "/images/insights/underpricing-2026-cover.jpg", imageAlt: "Home service technician shaking hands with a homeowner in her living room" },
         { cat: "Home Services · Article", title: "Rising Costs for Home Service Businesses in 2026: What Owners Can Control", text: "Tariffs, labor costs, and new regulations are squeezing home service margins in 2026. Here's what business owners can still control.", href: "/insights/rising-costs-home-service-businesses-2026", image: "/images/insights/rising-costs-2026-cover.jpg", imageAlt: "Technician reviewing rising equipment and labor costs on a job site" },
       ],
     }),
@@ -471,6 +472,70 @@ const risingCosts2026: PageDoc = {
       ],
       note: "Vivo helps home service businesses build nearshore operations teams across customer service, sales, dispatch, and back-office support. By strengthening the systems owners can control, businesses become more resilient when the next round of tariffs, regulations, or wage increases arrives.",
       cta: { label: "Book a clarity call", href: "/book" },
+    }),
+  ],
+};
+
+/* ══════════════ INSIGHT ARTICLE: UNDERPRICING 2026 ══════════════ */
+const underpricing2026: PageDoc = {
+  slug: "insights/home-service-businesses-underpricing-2026",
+  path: "/insights/home-service-businesses-underpricing-2026",
+  title: "Why Home Service Businesses Are Underpricing in 2026",
+  navGroup: "insights",
+  description: "Homeowners already expect repair costs to rise this year. Most home service businesses haven't adjusted their pricing to match.",
+  blocks: [
+    b("up-article", "article", {
+      cat: "Home Services · Article",
+      image: "/images/insights/underpricing-2026-cover.jpg",
+      imageAlt: "Home service technician shaking hands with a homeowner in her living room",
+      date: "August 24, 2026",
+      readTime: "4 min read",
+      title: "Why Home Service Businesses Are Underpricing in 2026",
+      lead: "Most home service businesses are still pricing for a customer who has already moved on.",
+      intro: [
+        "In 2026, that customer expects repair and maintenance costs to rise. The business quoting the job hasn't adjusted to that.",
+        "The client is ready to pay more before the owner is ready to charge it. <b>A timing gap that's already costing money.</b>",
+      ],
+      showJump: true,
+      sections: [
+        {
+          anchor: "job-value", jumpLabel: "The math on every call",
+          heading: "The average job is worth more, and losing one costs more",
+          paras: [
+            "Homeowner participation in home improvement projects dropped to <b>40% in Q1 2026</b>, according to HBS Dealer. At the same time, average spend per project rose <b>36%</b>.",
+            "Fewer easy calls are coming in. The ones that do come in are worth more than they were a year ago.",
+            "HBS Dealer describes this shift as a move toward a &ldquo;repair economy&rdquo;: homeowners doing fewer discretionary projects and spending more on the repairs and maintenance they can't put off. For an owner, that changes the math on every call. A missed call used to mean a missed job. Now it means a missed job at a higher average job value, at a moment when there are fewer jobs coming in to replace it.",
+            "The businesses still operating on last year's call volume assumptions are absorbing a cost they haven't measured: the cost of a missed call has gone up, even if the number of calls hasn't.",
+          ],
+        },
+        {
+          anchor: "price-expectations", jumpLabel: "What clients already expect",
+          heading: "The customer already expects the price increase",
+          paras: [
+            "Kin's 2026 Homeownership Trends Report found that <b>80% of homeowners expect their repair and maintenance costs to rise</b> this year.",
+            "That number matters more than it looks. The price adjustment most owners are avoiding is already priced into the client's expectation for 2026.",
+            "Homeowner price expectations for 2026 are ahead of what most home service businesses are charging. The client already expects costs to go up. What they're watching for is whether the business in front of them understands that too.",
+          ],
+        },
+        {
+          anchor: "what-to-do", jumpLabel: "What to do with it",
+          heading: "What to do with it",
+          paras: [
+            "Raising your price doesn't need an apology. It doesn't need a discount stapled to it either. It needs a reason: material costs, labor, licensing, the level of work you're actually delivering. <b>Said out loud, in the quote, every time.</b>",
+            "Here's what separates the owners winning the higher-value jobs from the ones still losing them: the winners treat every quote like a pitch. The ones still writing quotes like it's 2024 are getting outsold by whoever sounds like they know what 2026 costs.",
+            "None of that matters if the phone doesn't get answered or the quote never gets a follow-up. A missed call, at what a job costs today, is real money walking out the door. A quote nobody follows up on is worse — that's a job you priced correctly and lost anyway, for no reason at all.",
+          ],
+        },
+        {
+          heading: "Sources",
+          paras: [
+            "HBS Dealer, &ldquo;Home improvement spending signals shift toward &lsquo;repair economy&rsquo;&rdquo; (June 25, 2026).",
+            "Kin Insurance, 2026 Homeownership Trends Report (June 24, 2026).",
+          ],
+        },
+      ],
+      note: "That's the gap Vivo's PODs close. Every call gets answered. Every quote gets followed up. Your pricing gets explained with the same reasoning you'd give the client yourself, if you had the time to say it.",
+      cta: { label: "See how a Vivo POD works", href: "/how-it-works" },
     }),
   ],
 };
@@ -735,5 +800,5 @@ export const SETTINGS = {
 
 export const SEED: SiteContent = {
   settings: SETTINGS,
-  pages: [home, howItWorks, homeServices, transportation, logistics, about, insights, risingCosts2026, careers, csr, sales, backoffice, book],
+  pages: [home, howItWorks, homeServices, transportation, logistics, about, insights, underpricing2026, risingCosts2026, careers, csr, sales, backoffice, book],
 };
