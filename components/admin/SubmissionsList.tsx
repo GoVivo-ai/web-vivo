@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Message = {
   id: string;
@@ -24,6 +24,9 @@ type Application = {
   created_at: string;
 };
 
+type Field = { label: string; value: string | null; href?: string; long?: boolean };
+type Detail = { title: string; subtitle: string; fields: Field[] };
+
 const fmt = (d: string) => new Date(d).toLocaleString();
 
 function inDateRange(created: string, from: string, to: string) {
@@ -34,12 +37,81 @@ function inDateRange(created: string, from: string, to: string) {
   return true;
 }
 
+function messageDetail(m: Message): Detail {
+  return {
+    title: m.name || m.email,
+    subtitle: fmt(m.created_at),
+    fields: [
+      { label: "Name", value: m.name },
+      { label: "Email", value: m.email, href: `mailto:${m.email}` },
+      { label: "Received", value: fmt(m.created_at) },
+      { label: "Message", value: m.message, long: true },
+    ],
+  };
+}
+
+function applicationDetail(a: Application): Detail {
+  return {
+    title: `${a.first_name} ${a.last_name}`,
+    subtitle: [a.role, fmt(a.created_at)].filter(Boolean).join(" · "),
+    fields: [
+      { label: "Role", value: a.role },
+      { label: "Email", value: a.email, href: `mailto:${a.email}` },
+      { label: "Phone", value: a.phone, href: `tel:${a.phone}` },
+      { label: "LinkedIn", value: a.linkedin, href: a.linkedin || undefined },
+      { label: "English", value: a.english },
+      { label: "Received", value: fmt(a.created_at) },
+      { label: "Experience", value: a.experience, long: true },
+      { label: "Story", value: a.story, long: true },
+    ],
+  };
+}
+
+function DetailModal({ detail, onClose }: { detail: Detail; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  return (
+    <div className="ed-modal-bg" onClick={onClose}>
+      <div className="ed-modal" role="dialog" aria-modal="true" aria-label={detail.title} onClick={(e) => e.stopPropagation()}>
+        <h3>
+          {detail.title}
+          <span className="sub-detail-sub">{detail.subtitle}</span>
+        </h3>
+        <dl className="sub-detail">
+          {detail.fields.map((f) => (
+            <div className={`sub-detail-row${f.long ? " long" : ""}`} key={f.label}>
+              <dt>{f.label}</dt>
+              <dd>
+                {!f.value ? (
+                  <span className="muted">—</span>
+                ) : f.href ? (
+                  <a href={f.href} target={f.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">{f.value}</a>
+                ) : (
+                  f.value
+                )}
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <div className="sub-detail-foot">
+          <button type="button" className="adm-btn ghost sm" onClick={onClose}>Close</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function SubmissionsList({ messages, applications }: { messages: Message[]; applications: Application[] }) {
   const [msgQuery, setMsgQuery] = useState("");
   const [appQuery, setAppQuery] = useState("");
   const [appRole, setAppRole] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const [detail, setDetail] = useState<Detail | null>(null);
 
   const roles = useMemo(
     () => Array.from(new Set(applications.map((a) => a.role).filter(Boolean))).sort() as string[],
@@ -65,6 +137,16 @@ export function SubmissionsList({ messages, applications }: { messages: Message[
         .some((v) => v?.toLowerCase().includes(q));
     });
   }, [applications, appQuery, appRole, from, to]);
+
+  /** Rows open the detail view on click, Enter or Space. */
+  const openable = (d: Detail) => ({
+    role: "button" as const,
+    tabIndex: 0,
+    onClick: () => setDetail(d),
+    onKeyDown: (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setDetail(d); }
+    },
+  });
 
   return (
     <>
@@ -94,13 +176,14 @@ export function SubmissionsList({ messages, applications }: { messages: Message[
         {filteredMessages.length === 0 ? (
           <div className="wp-row"><span className="s">{messages.length === 0 ? "No messages yet." : "No messages match the filters."}</span></div>
         ) : filteredMessages.map((m) => (
-          <div className="wp-row" key={m.id}>
-            <div>
+          <div className="wp-row sub-row" key={m.id} {...openable(messageDetail(m))}>
+            <div className="sub-row-main">
               <div className="t">{m.name || "—"} · <span className="s">{m.email}</span></div>
-              <div className="s">{m.message}</div>
+              <div className="s clip">{m.message}</div>
             </div>
             <div className="sp" />
             <span className="s">{fmt(m.created_at)}</span>
+            <span className="adm-btn ghost sm">View</span>
           </div>
         ))}
       </div>
@@ -123,17 +206,20 @@ export function SubmissionsList({ messages, applications }: { messages: Message[
         {filteredApplications.length === 0 ? (
           <div className="wp-row"><span className="s">{applications.length === 0 ? "No applications yet." : "No applications match the filters."}</span></div>
         ) : filteredApplications.map((a) => (
-          <div className="wp-row" key={a.id}>
-            <div>
+          <div className="wp-row sub-row" key={a.id} {...openable(applicationDetail(a))}>
+            <div className="sub-row-main">
               <div className="t">{a.first_name} {a.last_name} · <span className="s">{a.role}</span></div>
               <div className="s">{a.email} · {a.phone} · English {a.english}</div>
-              {a.story && <div className="s">{a.story}</div>}
+              {a.story && <div className="s clip">{a.story}</div>}
             </div>
             <div className="sp" />
             <span className="s">{fmt(a.created_at)}</span>
+            <span className="adm-btn ghost sm">View</span>
           </div>
         ))}
       </div>
+
+      {detail && <DetailModal detail={detail} onClose={() => setDetail(null)} />}
     </>
   );
 }
