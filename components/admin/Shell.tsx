@@ -26,7 +26,11 @@ export function Shell({ email, title, actions, children }: { email?: string; tit
   return (
     <div className="wp">
       <aside className="wp-side">
-        <div className="wp-brand">VI<span>V</span>O · Admin</div>
+        <div className="wp-brand">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/logo-white.svg" alt="Vivo" />
+          <span className="tag">Admin</span>
+        </div>
         <nav className="wp-nav">
           {NAV.map((item, i) =>
             "group" in item ? (
