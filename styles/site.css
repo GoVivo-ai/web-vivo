@@ -376,6 +376,10 @@ textarea.input { resize: vertical; min-height: 120px; }
 .file-drop { border: 1px dashed var(--vivo-slate); border-radius: var(--radius-md); padding: 22px; text-align: center; color: var(--vivo-mid); font-size: var(--fs-sm); background: var(--vivo-gray-050); cursor: pointer; position: relative; }
 .file-drop[data-filled] { border-style: solid; border-color: var(--vivo-green); color: var(--vivo-navy); }
 .file-drop:focus-within { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+/* The drop zone is a <label>, so `.on-dark .field label` (below) would paint its
+   text white on the near-white box. On navy it gets its own dark treatment. */
+.on-dark .field label.file-drop { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.38); color: var(--text-on-dark-muted); font-weight: var(--fw-regular); }
+.on-dark .field label.file-drop[data-filled] { background: rgba(4,217,139,0.10); border-color: var(--vivo-green); color: var(--vivo-white); }
 .on-dark .field label { color: #fff; }
 
 /* ── Book layout ── */
