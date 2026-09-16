@@ -373,7 +373,9 @@ section.banner > .container { min-height: 600px; display: flex; flex-direction: 
 .input { font-family: var(--font-body); font-size: var(--fs-body); color: var(--vivo-ink); background: var(--vivo-white); border: 1px solid var(--vivo-border); border-radius: var(--radius-md); padding: 13px 16px; width: 100%; transition: border-color var(--dur-fast), box-shadow var(--dur-fast); }
 textarea.input { resize: vertical; min-height: 120px; }
 .input:focus { outline: none; border-color: var(--vivo-green); box-shadow: var(--ring); }
-.file-drop { border: 1px dashed var(--vivo-slate); border-radius: var(--radius-md); padding: 22px; text-align: center; color: var(--vivo-mid); font-size: var(--fs-sm); background: var(--vivo-gray-050); cursor: pointer; }
+.file-drop { border: 1px dashed var(--vivo-slate); border-radius: var(--radius-md); padding: 22px; text-align: center; color: var(--vivo-mid); font-size: var(--fs-sm); background: var(--vivo-gray-050); cursor: pointer; position: relative; }
+.file-drop[data-filled] { border-style: solid; border-color: var(--vivo-green); color: var(--vivo-navy); }
+.file-drop:focus-within { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
 .on-dark .field label { color: #fff; }
 
 /* ── Book layout ── */

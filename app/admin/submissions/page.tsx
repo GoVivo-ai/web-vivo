@@ -19,6 +19,14 @@ export default async function Submissions() {
     ]);
     messages = m.data || [];
     applications = a.data || [];
+
+    // Resumes live in a private bucket; hand the client short-lived signed URLs.
+    const paths = applications.map((a) => a.resume_path).filter(Boolean) as string[];
+    if (paths.length) {
+      const { data: signed } = await sb.storage.from("applications").createSignedUrls(paths, 60 * 60);
+      const byPath = new Map((signed || []).map((s) => [s.path, s.signedUrl]));
+      applications = applications.map((a) => ({ ...a, resume_url: byPath.get(a.resume_path) || null }));
+    }
   }
 
   return (

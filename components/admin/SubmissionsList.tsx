@@ -21,6 +21,10 @@ type Application = {
   english: string;
   experience: string | null;
   story: string | null;
+  source: string | null;
+  resume_name: string | null;
+  /** Short-lived signed URL, minted server-side; null when there is no resume. */
+  resume_url: string | null;
   created_at: string;
 };
 
@@ -60,6 +64,8 @@ function applicationDetail(a: Application): Detail {
       { label: "Phone", value: a.phone, href: `tel:${a.phone}` },
       { label: "LinkedIn", value: a.linkedin, href: a.linkedin || undefined },
       { label: "English", value: a.english },
+      { label: "Source", value: a.source },
+      { label: "Resume", value: a.resume_url ? a.resume_name || "Download" : null, href: a.resume_url || undefined },
       { label: "Received", value: fmt(a.created_at) },
       { label: "Experience", value: a.experience, long: true },
       { label: "Story", value: a.story, long: true },
@@ -209,7 +215,7 @@ export function SubmissionsList({ messages, applications }: { messages: Message[
           <div className="wp-row sub-row" key={a.id} {...openable(applicationDetail(a))}>
             <div className="sub-row-main">
               <div className="t">{a.first_name} {a.last_name} · <span className="s">{a.role}</span></div>
-              <div className="s">{a.email} · {a.phone} · English {a.english}</div>
+              <div className="s">{a.email} · {a.phone} · English {a.english}{a.source ? ` · ${a.source}` : ""}{a.resume_url ? " · CV" : ""}</div>
               {a.story && <div className="s clip">{a.story}</div>}
             </div>
             <div className="sp" />

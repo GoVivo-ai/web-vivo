@@ -50,7 +50,18 @@ NEXT_PUBLIC_SUPABASE_URL=<your supabase url>
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon key>
 SUPABASE_SERVICE_ROLE_KEY=<service role key>   # server only — never public
 NEXT_PUBLIC_SITE_URL=https://govivo.ai         # for metadata/OG
+
+# Careers notifications (all optional — unset means "log and carry on")
+RESEND_API_KEY=<resend api key>
+MAIL_FROM=Vivo <no-reply@govivo.ai>            # must be a verified Resend sender
+APPLY_NOTIFY_EMAIL=juanpablo@govivo.ai         # comma-separated; who gets new applications
+APPLY_WEBHOOK_URL=<url>                        # comma-separated; POSTed on application.created
+APPLY_WEBHOOK_SECRET=<shared secret>           # sent as X-Webhook-Secret
 ```
+
+Applications notify in two independent ways: an email to `APPLY_NOTIFY_EMAIL` (with a
+7-day signed link to the CV) and a webhook to `APPLY_WEBHOOK_URL` for Martek. Both are
+best-effort — a failure is logged and never fails the applicant's submission.
 
 `NEXT_PUBLIC_*` are inlined at build time — in Coolify set them as **build args** too
 (see Dockerfile). The service-role key is used only server-side for content saves and
@@ -60,6 +71,8 @@ form inserts.
 
 1. Open the SQL editor and run `supabase/migrations/0001_init.sql`.
    It creates `site_content`, `contact_messages`, `applications`, `admin_users`, plus RLS.
+   Then run `supabase/migrations/0002_application_resume.sql`, which adds the resume
+   columns and the private `applications` storage bucket that careers CVs land in.
 2. Create your login: **Authentication → Users → Add user** (email + password).
 3. The **first** authenticated user is treated as admin automatically (bootstrap).
    To lock it down, insert your `user_id` into `admin_users` and remove others.

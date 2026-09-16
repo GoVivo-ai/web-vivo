@@ -21,19 +21,22 @@ export function ApplyForm({
   defaultEnglish?: string;
 }) {
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [error, setError] = useState("");
+  const [resumeName, setResumeName] = useState("");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setState("sending");
+    setError("");
+    // Sent as multipart so the resume file travels with the rest of the answers.
     const fd = new FormData(e.currentTarget);
-    const payload = Object.fromEntries(fd.entries());
+    if (role) fd.set("role", role);
     try {
-      const res = await fetch("/api/apply", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ role, ...payload }),
-      });
-      setState(res.ok ? "done" : "error");
+      const res = await fetch("/api/apply", { method: "POST", body: fd });
+      if (res.ok) return setState("done");
+      const body = await res.json().catch(() => null);
+      setError(body?.error ? String(body.error) : "");
+      setState("error");
     } catch {
       setState("error");
     }
@@ -65,7 +68,22 @@ export function ApplyForm({
             </div>
             <div className="field full"><label>{experienceLabel} <span className="hint">(optional)</span></label><input className="input" name="experience" type="text" placeholder="e.g. 3" /></div>
             <div className="field full"><label>{storyLabel} <span className="hint">(optional · 2–3 sentences)</span></label><textarea className="input" name="story" /></div>
-            <div className="field full"><label>Resume</label><label className="file-drop" htmlFor="apply-file">Drop your resume here or click to upload · PDF, DOCX<input id="apply-file" name="resume" type="file" style={{ display: "none" }} /></label></div>
+            <div className="field full">
+              <label>Resume</label>
+              <label className="file-drop" htmlFor="apply-file" data-filled={resumeName ? "" : undefined}>
+                {resumeName || "Drop your resume here or click to upload · PDF, DOC, DOCX · max 8 MB"}
+                <input
+                  id="apply-file"
+                  name="resume"
+                  type="file"
+                  accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  required
+                  /* Not display:none — a hidden required input is unfocusable and blocks submit. */
+                  style={{ position: "absolute", width: 1, height: 1, opacity: 0, pointerEvents: "none" }}
+                  onChange={(e) => setResumeName(e.target.files?.[0]?.name || "")}
+                />
+              </label>
+            </div>
             <div className="field full" style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
               <input type="checkbox" id="apply-consent" required />
               <label htmlFor="apply-consent" style={{ color: "var(--text-on-dark-muted)", fontWeight: 400 }}>I agree to the privacy policy.</label>
@@ -74,7 +92,11 @@ export function ApplyForm({
               <button className="btn btn-primary btn-lg" type="submit" disabled={state === "sending"}>
                 <span>{state === "sending" ? "Submitting…" : "Submit application"}</span><Icon name="arrow-right" />
               </button>
-              {state === "error" && <p className="sub" style={{ color: "var(--vivo-yellow)", marginTop: 12 }}>Something went wrong. Please try again.</p>}
+              {state === "error" && (
+                <p className="sub" style={{ color: "var(--vivo-yellow)", marginTop: 12 }}>
+                  {error || "Something went wrong. Please try again."}
+                </p>
+              )}
             </div>
           </Reveal>
         )}
