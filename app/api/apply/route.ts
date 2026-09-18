@@ -76,11 +76,27 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
   }
 
+  // Receivers (Martek) can't sign bucket paths themselves, so the webhook
+  // carries a long-lived signed link to the resume alongside the row.
+  const resume_url = await signedResumeUrl(sb, data.resume_path, RESUME_LINK_TTL);
   await Promise.all([
-    fireWebhook("application.created", data),
+    fireWebhook("application.created", { ...data, resume_url }),
     notifyRecruiting(sb, data),
   ]);
   return NextResponse.json({ ok: true });
+}
+
+/** How long a resume link handed to downstream systems stays valid. */
+const RESUME_LINK_TTL = 60 * 60 * 24 * 365;
+
+async function signedResumeUrl(
+  sb: ReturnType<typeof supabaseAdmin>,
+  path: string | null | undefined,
+  ttl: number,
+): Promise<string | null> {
+  if (!path) return null;
+  const { data } = await sb.storage.from("applications").createSignedUrl(path, ttl);
+  return data?.signedUrl ?? null;
 }
 
 /**
