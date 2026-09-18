@@ -61,6 +61,23 @@ export function SettingsEditor({ initial, canSave }: { initial: SiteContent; can
         </div>
       </div>
 
+      <div className="wp-panel">
+        <h2>Integrations</h2>
+        <div style={{ padding: 18, display: "grid", gap: 12, maxWidth: 620 }}>
+          <p style={{ margin: 0, color: "#64748B", fontSize: 13 }}>
+            Every careers application is forwarded to this URL as it arrives. In Martek, open
+            Settings → Connections → Incoming leads webhook, generate the URL and paste it here.
+            Leave empty to stop forwarding.
+          </p>
+          <div><label className="wp-flabel">Lead webhook URL</label>
+            <input className="ed-input" value={s.integrations?.leadWebhookUrl || ""} placeholder="https://…/api/webhooks/leads/…"
+              onChange={(e) => set((c) => { c.settings.integrations = { ...c.settings.integrations, leadWebhookUrl: e.target.value }; return c; })} /></div>
+          <div><label className="wp-flabel">Webhook secret (optional)</label>
+            <input className="ed-input" value={s.integrations?.leadWebhookSecret || ""} placeholder="Only if the receiver asks for one"
+              onChange={(e) => set((c) => { c.settings.integrations = { ...c.settings.integrations, leadWebhookSecret: e.target.value }; return c; })} /></div>
+        </div>
+      </div>
+
       <button className="adm-btn" onClick={save} disabled={saving}><Icon name="save" size={16} /> {saving ? "Saving…" : "Save settings"}</button>
       {msg && <div className="ed-toast">{msg}</div>}
     </>

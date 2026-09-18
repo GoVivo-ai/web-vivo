@@ -63,4 +63,14 @@ export interface SiteSettings {
     phone?: string;
     email?: string;
   };
+  /**
+   * Where careers applications are forwarded (Settings → Integrations). The
+   * URL comes from the receiving tool — Martek's Connections page mints one
+   * per workspace — so no deploy is needed to point the site somewhere new.
+   */
+  integrations?: {
+    leadWebhookUrl?: string;
+    /** Sent as X-Webhook-Secret; only needed by receivers that check it. */
+    leadWebhookSecret?: string;
+  };
 }
