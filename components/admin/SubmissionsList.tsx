@@ -73,7 +73,7 @@ function applicationDetail(a: Application): Detail {
   };
 }
 
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 10;
 
 /** One page of `items`; goes back to the first page whenever the (filtered) list changes. */
 function usePaged<T>(items: T[]) {
