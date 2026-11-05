@@ -73,6 +73,39 @@ function applicationDetail(a: Application): Detail {
   };
 }
 
+const PAGE_SIZE = 25;
+
+/** One page of `items`; goes back to the first page whenever the (filtered) list changes. */
+function usePaged<T>(items: T[]) {
+  const [page, setPage] = useState(1);
+  useEffect(() => setPage(1), [items]);
+
+  const pages = Math.max(1, Math.ceil(items.length / PAGE_SIZE));
+  const current = Math.min(page, pages);
+  const start = (current - 1) * PAGE_SIZE;
+  return { rows: items.slice(start, start + PAGE_SIZE), page: current, pages, start, total: items.length, setPage };
+}
+
+function Pager({ label, page, pages, start, total, setPage }: {
+  label: string;
+  page: number;
+  pages: number;
+  start: number;
+  total: number;
+  setPage: (page: number) => void;
+}) {
+  if (pages <= 1) return null;
+  return (
+    <nav className="sub-pager" aria-label={`${label} pagination`}>
+      <span className="s">{start + 1}–{Math.min(start + PAGE_SIZE, total)} of {total}</span>
+      <div className="sp" />
+      <button type="button" className="adm-btn ghost sm" disabled={page === 1} onClick={() => setPage(page - 1)}>Previous</button>
+      <span className="s">Page {page} of {pages}</span>
+      <button type="button" className="adm-btn ghost sm" disabled={page === pages} onClick={() => setPage(page + 1)}>Next</button>
+    </nav>
+  );
+}
+
 function DetailModal({ detail, onClose }: { detail: Detail; onClose: () => void }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -144,6 +177,9 @@ export function SubmissionsList({ messages, applications }: { messages: Message[
     });
   }, [applications, appQuery, appRole, from, to]);
 
+  const pagedMessages = usePaged(filteredMessages);
+  const pagedApplications = usePaged(filteredApplications);
+
   /** Rows open the detail view on click, Enter or Space. */
   const openable = (d: Detail) => ({
     role: "button" as const,
@@ -181,7 +217,7 @@ export function SubmissionsList({ messages, applications }: { messages: Message[
         </div>
         {filteredMessages.length === 0 ? (
           <div className="wp-row"><span className="s">{messages.length === 0 ? "No messages yet." : "No messages match the filters."}</span></div>
-        ) : filteredMessages.map((m) => (
+        ) : pagedMessages.rows.map((m) => (
           <div className="wp-row sub-row" key={m.id} {...openable(messageDetail(m))}>
             <div className="sub-row-main">
               <div className="t">{m.name || "—"} · <span className="s">{m.email}</span></div>
@@ -192,6 +228,7 @@ export function SubmissionsList({ messages, applications }: { messages: Message[
             <span className="adm-btn ghost sm">View</span>
           </div>
         ))}
+        <Pager label="Messages" {...pagedMessages} />
       </div>
 
       <div className="wp-panel">
@@ -211,7 +248,7 @@ export function SubmissionsList({ messages, applications }: { messages: Message[
         </div>
         {filteredApplications.length === 0 ? (
           <div className="wp-row"><span className="s">{applications.length === 0 ? "No applications yet." : "No applications match the filters."}</span></div>
-        ) : filteredApplications.map((a) => (
+        ) : pagedApplications.rows.map((a) => (
           <div className="wp-row sub-row" key={a.id} {...openable(applicationDetail(a))}>
             <div className="sub-row-main">
               <div className="t">{a.first_name} {a.last_name} · <span className="s">{a.role}</span></div>
@@ -223,6 +260,7 @@ export function SubmissionsList({ messages, applications }: { messages: Message[
             <span className="adm-btn ghost sm">View</span>
           </div>
         ))}
+        <Pager label="Applications" {...pagedApplications} />
       </div>
 
       {detail && <DetailModal detail={detail} onClose={() => setDetail(null)} />}

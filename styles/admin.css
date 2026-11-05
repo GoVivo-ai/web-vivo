@@ -47,6 +47,9 @@
 .sub-filters .ed-input, .sub-filters .ed-select { width: auto; flex: 0 1 auto; }
 .sub-filters input[type="search"] { flex: 1 1 220px; }
 .sub-filters .s { color: var(--vivo-mid); font-size: var(--fs-sm); }
+.sub-pager { display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-top: 1px solid var(--vivo-lgray); flex-wrap: wrap; }
+.sub-pager .sp { flex: 1; }
+.sub-pager .s { color: var(--vivo-mid); font-size: var(--fs-sm); }
 
 .wp-media { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 12px; }
 .wp-media .cell { border: 1px solid var(--vivo-border); border-radius: var(--radius-md); overflow: hidden; background: #fff; }
