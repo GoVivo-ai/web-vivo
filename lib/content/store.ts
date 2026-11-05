@@ -74,13 +74,23 @@ function withSeedMedia(doc: SiteContent): SiteContent {
  * table (id = 'main'). This keeps the editor simple and atomic. Falls back to
  * the seed when Supabase isn't configured or the row doesn't exist yet.
  */
+/**
+ * Webhook settings used to be stored in this document, which public pages
+ * receive. They now live in integration_settings; never let them back through.
+ */
+function withoutIntegrations(doc: SiteContent): SiteContent {
+  if (!doc.settings || !("integrations" in doc.settings)) return doc;
+  const { integrations: _dropped, ...settings } = doc.settings as SiteContent["settings"] & { integrations?: unknown };
+  return { ...doc, settings };
+}
+
 export async function getSiteContent(): Promise<SiteContent> {
   if (!hasSupabase) return SEED;
   try {
     const sb = supabaseAdmin();
     const { data, error } = await sb.from("site_content").select("doc").eq("id", SINGLETON_ID).maybeSingle();
     if (error || !data?.doc) return SEED;
-    return withSeedMedia(withNewSeedPages(data.doc as SiteContent));
+    return withoutIntegrations(withSeedMedia(withNewSeedPages(data.doc as SiteContent)));
   } catch {
     return SEED;
   }
@@ -92,7 +102,7 @@ export async function saveSiteContent(doc: SiteContent): Promise<{ ok: boolean; 
     const sb = supabaseAdmin();
     const { error } = await sb
       .from("site_content")
-      .upsert({ id: SINGLETON_ID, doc, updated_at: new Date().toISOString() });
+      .upsert({ id: SINGLETON_ID, doc: withoutIntegrations(doc), updated_at: new Date().toISOString() });
     if (error) return { ok: false, error: error.message };
     return { ok: true };
   } catch (e) {

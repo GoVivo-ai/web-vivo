@@ -63,6 +63,15 @@ Applications notify in two independent ways: an email to `APPLY_NOTIFY_EMAIL` (w
 7-day signed link to the CV) and a webhook to `APPLY_WEBHOOK_URL` for Martek. Both are
 best-effort — a failure is logged and never fails the applicant's submission.
 
+### Sending leads to a CRM
+
+In **Settings → Integrations**, paste a webhook URL from Zapier, n8n, Make or similar, then
+**Send test lead** to get fields to map. Every new lead is POSTed there as
+`{ "event": "contact.created" | "application.created" | "lead.test", "lead": { ... }, "sent_at": "..." }`
+(see `Lead` in `lib/leads.ts`). Contact-form leads go to this connector only, never to Martek.
+Delivery is one attempt: if the connector is down, the lead stays in the backoffice but is
+not re-sent. **Export all (CSV)** in Submissions covers existing leads and any gap.
+
 `NEXT_PUBLIC_*` are inlined at build time — in Coolify set them as **build args** too
 (see Dockerfile). The service-role key is used only server-side for content saves and
 form inserts.
@@ -73,6 +82,9 @@ form inserts.
    It creates `site_content`, `contact_messages`, `applications`, `admin_users`, plus RLS.
    Then run `supabase/migrations/0002_application_resume.sql`, which adds the resume
    columns and the private `applications` storage bucket that careers CVs land in.
+   Finally run `supabase/migrations/0003_integration_settings.sql`, the private table for
+   webhook URLs and secrets. Until it runs, the site works but leads are not forwarded
+   from the backoffice settings.
 2. Create your login: **Authentication → Users → Add user** (email + password).
 3. The **first** authenticated user is treated as admin automatically (bootstrap).
    To lock it down, insert your `user_id` into `admin_users` and remove others.

@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { hasSupabase } from "@/lib/supabase/config";
 import { supabaseAdmin } from "@/lib/supabase/server";
-import { fireWebhook } from "@/lib/webhooks";
+import { fireApplicationCreated } from "@/lib/webhooks";
+import { applicationLead } from "@/lib/leads";
 import { sendEmail, esc } from "@/lib/email";
 
 /** A resume is required, and only these document formats are accepted. */
@@ -80,7 +81,7 @@ export async function POST(req: Request) {
   // carries a long-lived signed link to the resume alongside the row.
   const resume_url = await signedResumeUrl(sb, data.resume_path, RESUME_LINK_TTL);
   await Promise.all([
-    fireWebhook("application.created", { ...data, resume_url }),
+    fireApplicationCreated({ ...data, resume_url }, applicationLead(data, resume_url)),
     notifyRecruiting(sb, data),
   ]);
   return NextResponse.json({ ok: true });

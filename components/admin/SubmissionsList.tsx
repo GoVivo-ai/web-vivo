@@ -214,6 +214,7 @@ export function SubmissionsList({ messages, applications }: { messages: Message[
             value={msgQuery}
             onChange={(e) => setMsgQuery(e.target.value)}
           />
+          <a className="adm-btn ghost sm" href="/api/admin/submissions/export?type=messages">Export all (CSV)</a>
         </div>
         {filteredMessages.length === 0 ? (
           <div className="wp-row"><span className="s">{messages.length === 0 ? "No messages yet." : "No messages match the filters."}</span></div>
@@ -245,6 +246,7 @@ export function SubmissionsList({ messages, applications }: { messages: Message[
             <option value="">All roles</option>
             {roles.map((r) => <option key={r} value={r}>{r}</option>)}
           </select>
+          <a className="adm-btn ghost sm" href="/api/admin/submissions/export?type=applications">Export all (CSV)</a>
         </div>
         {filteredApplications.length === 0 ? (
           <div className="wp-row"><span className="s">{applications.length === 0 ? "No applications yet." : "No applications match the filters."}</span></div>
