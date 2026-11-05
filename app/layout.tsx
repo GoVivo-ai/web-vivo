@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Nunito, Nunito_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { SITE_URL, OG_IMAGE } from "@/lib/seo";
 
-const nunito = Nunito({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700", "800", "900"], variable: "--font-nunito", display: "swap" });
-const nunitoSans = Nunito_Sans({ subsets: ["latin"], weight: ["300", "400", "600", "700", "800", "900"], variable: "--font-nunito-sans", display: "swap" });
+// Self-hosted so the build does not depend on Google Fonts responding well.
+const nunito = localFont({ src: "./fonts/Nunito-Variable-latin.woff2", weight: "200 1000", variable: "--font-nunito", display: "swap" });
+const nunitoSans = localFont({ src: "./fonts/NunitoSans-Variable-latin.woff2", weight: "200 1000", variable: "--font-nunito-sans", display: "swap" });
 
 export const metadata: Metadata = {
   title: { default: "Vivo — Get your time back without letting go of your business", template: "%s · Vivo" },
