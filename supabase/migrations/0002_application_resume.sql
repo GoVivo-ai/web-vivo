@@ -1,5 +1,5 @@
 -- Careers applications now require a resume, and every lead carries its source
--- so Martek can weight a website lead differently from a Meta Ads one.
+-- so Martech can weight a website lead differently from a Meta Ads one.
 
 alter table public.applications
   add column if not exists resume_path text,

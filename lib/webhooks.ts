@@ -8,7 +8,7 @@ type Target = { url: string; secret?: string };
  * so no deploy is needed to point the site somewhere new.
  *
  * - The CRM connector gets every lead as { event, lead, sent_at }.
- * - Martek gets careers applications only, as { event, data: row, sent_at }.
+ * - Martech gets careers applications only, as { event, data: row, sent_at }.
  *   APPLY_WEBHOOK_URL / APPLY_WEBHOOK_SECRET (env, comma-separated URLs) still
  *   work as an extra destination for these.
  *

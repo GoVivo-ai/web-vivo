@@ -77,7 +77,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
   }
 
-  // Receivers (Martek) can't sign bucket paths themselves, so the webhook
+  // Receivers (Martech) can't sign bucket paths themselves, so the webhook
   // carries a long-lived signed link to the resume alongside the row.
   const resume_url = await signedResumeUrl(sb, data.resume_path, RESUME_LINK_TTL);
   await Promise.all([

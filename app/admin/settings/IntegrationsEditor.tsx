@@ -105,12 +105,12 @@ export function IntegrationsEditor({ initial, canSave }: { initial: Integrations
         <SecretField label="Connector secret (optional)" has={hasCrmSecret} value={crmSecret} onChange={setCrmSecret} onRemove={() => removeSecret("crmWebhookSecret")} />
 
         <p style={{ margin: "12px 0 0", color: "#64748B", fontSize: 13 }}>
-          <b>Martek.</b> Careers applications only. In Martek, open Settings → Connections → Incoming leads webhook,
+          <b>Martech.</b> Careers applications only. In Martech, open Settings → Connections → Incoming leads webhook,
           generate the URL and paste it here.
         </p>
-        <div><label className="wp-flabel">Martek webhook URL</label>
+        <div><label className="wp-flabel">Martech webhook URL</label>
           <input className="ed-input" value={leadUrl} placeholder="https://…/api/webhooks/leads/…" onChange={(e) => setLeadUrl(e.target.value)} /></div>
-        <SecretField label="Martek secret (optional)" has={hasLeadSecret} value={leadSecret} onChange={setLeadSecret} onRemove={() => removeSecret("leadWebhookSecret")} />
+        <SecretField label="Martech secret (optional)" has={hasLeadSecret} value={leadSecret} onChange={setLeadSecret} onRemove={() => removeSecret("leadWebhookSecret")} />
 
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 6 }}>
           <button type="button" className="adm-btn" onClick={save} disabled={disabled}><Icon name="save" size={16} /> {busy ? "Working…" : "Save integrations"}</button>

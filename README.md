@@ -60,7 +60,7 @@ APPLY_WEBHOOK_SECRET=<shared secret>           # sent as X-Webhook-Secret
 ```
 
 Applications notify in two independent ways: an email to `APPLY_NOTIFY_EMAIL` (with a
-7-day signed link to the CV) and a webhook to `APPLY_WEBHOOK_URL` for Martek. Both are
+7-day signed link to the CV) and a webhook to `APPLY_WEBHOOK_URL` for Martech. Both are
 best-effort — a failure is logged and never fails the applicant's submission.
 
 ### Sending leads to a CRM
@@ -68,7 +68,7 @@ best-effort — a failure is logged and never fails the applicant's submission.
 In **Settings → Integrations**, paste a webhook URL from Zapier, n8n, Make or similar, then
 **Send test lead** to get fields to map. Every new lead is POSTed there as
 `{ "event": "contact.created" | "application.created" | "lead.test", "lead": { ... }, "sent_at": "..." }`
-(see `Lead` in `lib/leads.ts`). Contact-form leads go to this connector only, never to Martek.
+(see `Lead` in `lib/leads.ts`). Contact-form leads go to this connector only, never to Martech.
 Delivery is one attempt: if the connector is down, the lead stays in the backoffice but is
 not re-sent. **Export all (CSV)** in Submissions covers existing leads and any gap.
 
