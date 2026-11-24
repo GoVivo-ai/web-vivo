@@ -26,7 +26,7 @@ The Platform is provided as part of a managed engagement with Vivo. It is not a 
 
 Vivo creates accounts for named users identified by Customer. Each account is for one individual and credentials may not be shared.
 
-Customer is responsible for the activity of its accounts, for keeping credentials confidential, for enabling multi-factor authentication where offered, and for telling Vivo promptly at security@govivo.ai about any suspected unauthorized access.
+Customer is responsible for the activity of its accounts, for keeping credentials confidential, for enabling multi-factor authentication where offered, and for telling Vivo promptly at info@govivo.ai about any suspected unauthorized access.
 
 Customer must notify Vivo when a user should no longer have access. Vivo removes access within two (2) business days of notice.
 
@@ -216,4 +216,4 @@ These Terms, together with the [Privacy Policy](/privacy-policy) and any signed 
 4114 W Safflower Dr, Lehi, Utah 84043, United States
 Commercial and support: info@govivo.ai
 Privacy and data requests: privacy@govivo.ai
-Security: security@govivo.ai
+Security: info@govivo.ai
