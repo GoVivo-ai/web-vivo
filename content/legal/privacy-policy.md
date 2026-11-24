@@ -105,7 +105,7 @@ See our [SMS Terms](/sms-terms) for full details.
 
 We share personal information only in these cases:
 
-- **Service providers** who help us run our business under contracts that limit their use of the information to the services they provide to us. These include website hosting, analytics, advertising measurement, email delivery, scheduling, telephone and text messaging, cloud storage, and customer relationship management.
+- **Service providers** who help us run our business under contracts that limit their use of the information to the services they provide to us. These include website hosting, analytics, advertising measurement, email delivery, scheduling, telephone and text messaging, cloud storage, and customer relationship management. The current list is on our [Subprocessors](/subprocessors) page.
 - **Vivo team members and contractors**, including team members based in Latin America, who need the information to do their work and are bound by written confidentiality agreements.
 - **Advertising platforms**, only as described in Section 4 and only after you accept marketing cookies. Under some U.S. state laws this counts as "sharing" for targeted advertising. You can refuse or withdraw it at any time.
 - **Legal and safety reasons**, when required by law, subpoena, or court order, or to protect the rights, property, or safety of Vivo, our clients, or others.

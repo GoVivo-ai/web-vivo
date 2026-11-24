@@ -8,6 +8,7 @@ const LEGAL_LINKS = [
   { label: "Cookie Policy", href: "/cookie-policy" },
   { label: "Terms", href: "/terms" },
   { label: "SMS Terms", href: "/sms-terms" },
+  { label: "Subprocessors", href: "/subprocessors" },
 ];
 
 export function Footer({ settings }: { settings: SiteSettings }) {
