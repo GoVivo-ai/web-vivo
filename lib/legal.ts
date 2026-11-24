@@ -19,11 +19,10 @@ export const LEGAL_DOCS = {
 export type LegalSlug = keyof typeof LEGAL_DOCS;
 
 /**
- * Written but not live yet. Platform Terms wait on tenant isolation in the
- * platform; Subprocessors waits on the website database's hosting region.
- * Remove a slug from here to publish it.
+ * Written but not live yet. Subprocessors waits on the website database's
+ * hosting region. Remove a slug from here to publish it.
  */
-const HELD: ReadonlySet<LegalSlug> = new Set<LegalSlug>(["platform-terms", "subprocessors"]);
+const HELD: ReadonlySet<LegalSlug> = new Set<LegalSlug>(["subprocessors"]);
 
 export function isPublished(slug: LegalSlug): boolean {
   return !HELD.has(slug);
