@@ -47,7 +47,7 @@ You can also opt out by emailing privacy@govivo.ai with your mobile number, or b
 
 ## 5. How to get help
 
-Reply **HELP** to any message, email **hello@govivo.ai**, or call **(385) 342-5646**.
+Reply **HELP** to any message, email **info@govivo.ai**, or call **(385) 342-5646**.
 
 ---
 
@@ -85,5 +85,5 @@ We may update these SMS Terms. The "Last updated" date above shows when. Materia
 
 **Go Vivo Inc.**
 4114 W Safflower Dr, Lehi, Utah 84043, United States
-hello@govivo.ai · privacy@govivo.ai
+info@govivo.ai · privacy@govivo.ai
 (385) 342-5646

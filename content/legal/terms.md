@@ -12,7 +12,7 @@ By using the Site, you agree to these Terms. If you do not agree, please do not 
 
 ## 1. Who we are
 
-Go Vivo Inc. ("Vivo," "we," "us") is a Delaware corporation with offices at 4114 W Safflower Dr, Lehi, Utah 84043, United States. Contact: hello@govivo.ai.
+Go Vivo Inc. ("Vivo," "we," "us") is a Delaware corporation with offices at 4114 W Safflower Dr, Lehi, Utah 84043, United States. Contact: info@govivo.ai.
 
 ---
 
@@ -129,4 +129,4 @@ If any provision of these Terms is found unenforceable, the rest remains in effe
 
 **Go Vivo Inc.**
 4114 W Safflower Dr, Lehi, Utah 84043, United States
-hello@govivo.ai · privacy@govivo.ai (data requests)
+info@govivo.ai · privacy@govivo.ai (data requests)

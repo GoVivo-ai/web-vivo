@@ -214,6 +214,6 @@ These Terms, together with the [Privacy Policy](/privacy-policy) and any signed 
 
 **Go Vivo Inc.**
 4114 W Safflower Dr, Lehi, Utah 84043, United States
-Commercial and support: hello@govivo.ai
+Commercial and support: info@govivo.ai
 Privacy and data requests: privacy@govivo.ai
 Security: security@govivo.ai
