@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getSiteContent } from "@/lib/content/store";
 import { SITE_URL } from "@/lib/seo";
-import { LEGAL_DOCS } from "@/lib/legal";
+import { isPublished, LEGAL_DOCS, type LegalSlug } from "@/lib/legal";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: p.path.startsWith("/insights/") ? "yearly" : "monthly",
     priority: priority(p.path),
   }));
-  const legalPages: MetadataRoute.Sitemap = Object.keys(LEGAL_DOCS).map((slug) => ({
+  const legalPages: MetadataRoute.Sitemap = (Object.keys(LEGAL_DOCS) as LegalSlug[]).filter(isPublished).map((slug) => ({
     url: `${SITE_URL}/${slug}`,
     changeFrequency: "yearly",
     priority: 0.3,

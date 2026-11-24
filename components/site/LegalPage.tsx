@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { getSiteContent } from "@/lib/content/store";
-import { loadLegalDoc, LEGAL_DOCS, type LegalSlug } from "@/lib/legal";
+import { isPublished, loadLegalDoc, LEGAL_DOCS, type LegalSlug } from "@/lib/legal";
 import { SITE_URL } from "@/lib/seo";
 import { SiteChrome } from "./SiteChrome";
 
@@ -14,6 +15,7 @@ export function legalMetadata(slug: LegalSlug): Metadata {
 }
 
 export async function LegalPage({ slug }: { slug: LegalSlug }) {
+  if (!isPublished(slug)) notFound();
   const [content, doc] = await Promise.all([getSiteContent(), loadLegalDoc(slug)]);
   return (
     <SiteChrome settings={content.settings} activeGroup={null}>
