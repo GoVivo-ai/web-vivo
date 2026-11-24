@@ -638,3 +638,7 @@ textarea.input { resize: vertical; min-height: 120px; }
 .consent-check a, .consent-notice a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .consent-notice { font-size: var(--fs-xs); line-height: 1.55; opacity: .75; margin: 4px 0 0; }
 .consent-es { display: block; margin-top: 4px; font-size: .92em; font-style: italic; opacity: .85; }
+/* A white .panel inside a navy section: labels and consent copy go dark again
+   (`.on-dark .field label` would otherwise paint them white on white). */
+.on-dark .panel .field label { color: var(--vivo-navy); }
+.on-dark .panel .consent-check label, .on-dark .panel .consent-notice { color: var(--vivo-mid); opacity: 1; }
