@@ -630,3 +630,11 @@ textarea.input { resize: vertical; min-height: 120px; }
 .footer-legal { display: flex; flex-wrap: wrap; gap: 6px 18px; padding-top: var(--space-5); font-size: var(--fs-xs); }
 .footer-legal a, .footer-legal button { color: rgba(255,255,255,0.6); background: none; border: 0; padding: 0; font: inherit; cursor: pointer; text-decoration: none; }
 .footer-legal a:hover, .footer-legal button:hover { color: var(--vivo-green); }
+
+/* Consent checkboxes and notices (legal v1, doc 04) */
+.consent-check { display: flex; align-items: flex-start; gap: 10px; }
+.consent-check input { flex: none; width: 16px; height: 16px; margin-top: 3px; accent-color: var(--vivo-green, #04d98b); }
+.consent-check label { font-weight: 400; font-size: var(--fs-xs); line-height: 1.55; opacity: .85; text-transform: none; letter-spacing: 0; }
+.consent-check a, .consent-notice a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.consent-notice { font-size: var(--fs-xs); line-height: 1.55; opacity: .75; margin: 4px 0 0; }
+.consent-es { display: block; margin-top: 4px; font-size: .92em; font-style: italic; opacity: .85; }

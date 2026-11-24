@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { Reveal } from "../Reveal";
 import { Icon } from "../Icon";
 import { Rich } from "./ui";
+import { marketingCookieConsent } from "@/lib/consent-texts";
+import { BookingNoticeText, ConsentCheckbox, ContactNoticeText, EmailMarketingConsentText, SmsConsentText } from "./ConsentCopy";
 
 /* Cal.com official embed loader — the inline embed reports its own height,
    so the calendar grows with its content instead of scrolling inside an iframe. */
@@ -73,19 +75,29 @@ export function BookBlock({
 }) {
   const [tab, setTab] = useState<"calendar" | "message">("calendar");
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [error, setError] = useState("");
   const calLink = calendlyUrl ? calLinkFrom(calendlyUrl) : null;
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setState("sending");
+    setError("");
     const fd = new FormData(e.currentTarget);
+    const payload = {
+      ...Object.fromEntries(fd.entries()),
+      marketing_consent: marketingCookieConsent(),
+      page_url: window.location.href,
+    };
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Object.fromEntries(fd.entries())),
+        body: JSON.stringify(payload),
       });
-      setState(res.ok ? "done" : "error");
+      if (res.ok) return setState("done");
+      const body = await res.json().catch(() => null);
+      setError(body?.error ? String(body.error) : "");
+      setState("error");
     } catch {
       setState("error");
     }
@@ -123,7 +135,12 @@ export function BookBlock({
             )}
             {calendlyUrl && tab === "calendar" ? (
               calLink ? (
-                <CalInline calLink={calLink} />
+                <>
+                  <CalInline calLink={calLink} />
+                  <p className="consent-notice">
+                    <BookingNoticeText />
+                  </p>
+                </>
               ) : (
                 <div style={{ borderRadius: "var(--radius-lg)", overflow: "hidden" }}>
                   <iframe title="Book a call" src={calendlyUrl} style={{ width: "100%", height: 630, border: 0 }} />
@@ -148,11 +165,15 @@ export function BookBlock({
                 <form className="form" onSubmit={onSubmit}>
                   <div className="field"><label htmlFor="b-name">Name</label><input className="input" id="b-name" name="name" type="text" placeholder="Your name" required /></div>
                   <div className="field"><label htmlFor="b-email">Email</label><input className="input" id="b-email" name="email" type="email" placeholder="you@business.com" required /></div>
+                  <div className="field"><label htmlFor="b-phone">Phone <span className="hint">(optional)</span></label><input className="input" id="b-phone" name="phone" type="tel" placeholder="+1 555 000 0000" /></div>
                   <div className="field"><label htmlFor="b-msg">What would you like help with?</label><textarea className="input" id="b-msg" name="message" placeholder="A sentence or two about your operation" /></div>
+                  <ConsentCheckbox id="b-sms" name="sms_consent"><SmsConsentText /></ConsentCheckbox>
+                  <ConsentCheckbox id="b-email-mkt" name="email_marketing_consent"><EmailMarketingConsentText /></ConsentCheckbox>
                   <button className="btn btn-primary btn-lg" type="submit" disabled={state === "sending"}>
                     <span>{state === "sending" ? "Sending…" : "Send message"}</span>
                   </button>
-                  {state === "error" && <p className="sub" style={{ color: "var(--vivo-yellow-600)" }}>Something went wrong. Please try again.</p>}
+                  <p className="consent-notice"><ContactNoticeText /></p>
+                  {state === "error" && <p className="sub" style={{ color: "var(--vivo-yellow-600)" }}>{error || "Something went wrong. Please try again."}</p>}
                 </form>
               )
             )}

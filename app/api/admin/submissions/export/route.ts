@@ -1,11 +1,11 @@
 import { getAdminState } from "@/lib/auth";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { toCsv } from "@/lib/leads";
+import { resumeLink } from "@/lib/resume-link";
 
 export const dynamic = "force-dynamic";
 
 const BATCH = 1000;
-const RESUME_LINK_TTL = 60 * 60 * 24 * 7;
 
 const EXPORTS = {
   messages: { table: "contact_messages", columns: ["created_at", "name", "email", "message"] },
@@ -36,13 +36,9 @@ export async function GET(req: Request) {
   }
 
   if (type === "applications") {
-    const paths = rows.map((r) => r.resume_path).filter(Boolean) as string[];
-    const links = new Map<string, string>();
-    for (let i = 0; i < paths.length; i += BATCH) {
-      const { data } = await sb.storage.from("applications").createSignedUrls(paths.slice(i, i + BATCH), RESUME_LINK_TTL);
-      for (const l of data || []) if (l.path && l.signedUrl) links.set(l.path, l.signedUrl);
-    }
-    rows = rows.map((r) => ({ ...r, resume_url: links.get(r.resume_path) || "" }));
+    // Never bucket URLs in a file that gets forwarded: each link asks for a
+    // backoffice login and then opens a 15-minute signed URL.
+    rows = rows.map((r) => ({ ...r, resume_url: r.resume_path ? resumeLink(r.id, req) : "" }));
   }
 
   const day = new Date().toISOString().slice(0, 10);

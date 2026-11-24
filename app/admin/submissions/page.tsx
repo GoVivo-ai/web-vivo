@@ -3,6 +3,7 @@ import { Shell } from "@/components/admin/Shell";
 import { SubmissionsList } from "@/components/admin/SubmissionsList";
 import { hasSupabase } from "@/lib/supabase/config";
 import { supabaseAdmin } from "@/lib/supabase/server";
+import { resumeLink } from "@/lib/resume-link";
 
 export const dynamic = "force-dynamic";
 
@@ -20,13 +21,8 @@ export default async function Submissions() {
     messages = m.data || [];
     applications = a.data || [];
 
-    // Resumes live in a private bucket; hand the client short-lived signed URLs.
-    const paths = applications.map((a) => a.resume_path).filter(Boolean) as string[];
-    if (paths.length) {
-      const { data: signed } = await sb.storage.from("applications").createSignedUrls(paths, 60 * 60);
-      const byPath = new Map((signed || []).map((s) => [s.path, s.signedUrl]));
-      applications = applications.map((a) => ({ ...a, resume_url: byPath.get(a.resume_path) || null }));
-    }
+    // Resumes live in a private bucket; each link signs a 15-minute URL on click.
+    applications = applications.map((a) => ({ ...a, resume_url: a.resume_path ? resumeLink(a.id) : null }));
   }
 
   return (

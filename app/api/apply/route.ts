@@ -4,14 +4,9 @@ import { supabaseAdmin } from "@/lib/supabase/server";
 import { fireApplicationCreated } from "@/lib/webhooks";
 import { applicationLead } from "@/lib/leads";
 import { sendEmail, esc } from "@/lib/email";
-
-/** A resume is required, and only these document formats are accepted. */
-const RESUME_MAX_BYTES = 8 * 1024 * 1024;
-const RESUME_TYPES: Record<string, string> = {
-  "application/pdf": "pdf",
-  "application/msword": "doc",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "docx",
-};
+import { CONSENT_TEXT, RESUME_MAX_BYTES, RESUME_TYPES } from "@/lib/consent-texts";
+import { checked, recordConsents, requestEvidence } from "@/lib/consents";
+import { resumeLink } from "@/lib/resume-link";
 
 export async function POST(req: Request) {
   const form = await req.formData().catch(() => null);
@@ -32,6 +27,8 @@ export async function POST(req: Request) {
   const english = str("english");
   const experience = str("experience");
   const story = str("story");
+  const careersAuth = checked(form.get("careers_auth"));
+  const careersPool = checked(form.get("careers_pool"));
 
   // Everything except the role-specific questions (experience, story) is required.
   const required = { first_name, last_name, email, phone, linkedin, english };
@@ -40,11 +37,13 @@ export async function POST(req: Request) {
   const resume = form.get("resume");
   if (!(resume instanceof File) || resume.size === 0) missing.push("resume");
   if (missing.length) return NextResponse.json({ ok: false, error: `required: ${missing.join(", ")}` }, { status: 400 });
+  // The processing authorization is the legal basis for keeping any of this.
+  if (!careersAuth) return NextResponse.json({ ok: false, error: "the data processing authorization is required" }, { status: 400 });
 
   const file = resume as File;
   const ext = RESUME_TYPES[file.type];
-  if (!ext) return NextResponse.json({ ok: false, error: "resume must be a PDF, DOC or DOCX" }, { status: 400 });
-  if (file.size > RESUME_MAX_BYTES) return NextResponse.json({ ok: false, error: "resume must be 8 MB or less" }, { status: 400 });
+  if (!ext) return NextResponse.json({ ok: false, error: "resume must be a PDF or DOCX" }, { status: 400 });
+  if (file.size > RESUME_MAX_BYTES) return NextResponse.json({ ok: false, error: "resume must be 5 MB or less" }, { status: 400 });
 
   if (!hasSupabase) {
     console.log("[apply] (no supabase configured)", { ...required, role, resume: file.name });
@@ -67,7 +66,7 @@ export async function POST(req: Request) {
     .from("applications")
     .insert({
       role, first_name, last_name, email, phone, linkedin, english, experience, story,
-      resume_path, resume_name: file.name, source: "website",
+      resume_path, resume_name: file.name, source: "website", careers_pool: careersPool,
     })
     .select()
     .single();
@@ -77,46 +76,52 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
   }
 
-  // Receivers (Martech) can't sign bucket paths themselves, so the webhook
-  // carries a long-lived signed link to the resume alongside the row.
-  const resume_url = await signedResumeUrl(sb, data.resume_path, RESUME_LINK_TTL);
+  // No proof of consent, no application: undo the row and the file.
+  const consentError = await recordConsents(
+    sb,
+    {
+      form_id: "careers",
+      submission_id: data.id,
+      email,
+      marketing_cookies: checked(form.get("marketing_consent")),
+      evidence: requestEvidence(req, form.get("page_url")),
+    },
+    [
+      { type: "careers_auth", textId: CONSENT_TEXT.careersAuth, granted: true },
+      { type: "careers_pool", textId: CONSENT_TEXT.careersPool, granted: careersPool },
+      { type: "notice", textId: CONSENT_TEXT.careersCv, granted: true },
+    ],
+  );
+  if (consentError) {
+    console.error("[apply] consents insert failed:", consentError);
+    await sb.from("applications").delete().eq("id", data.id);
+    await sb.storage.from("applications").remove([resume_path]);
+    return NextResponse.json({ ok: false, error: "could not save your application" }, { status: 500 });
+  }
+
+  // Downstream systems get a stable link that only opens for a signed-in
+  // backoffice admin, who is then handed a 15-minute signed URL (doc 05 §6).
+  const resume_url = resumeLink(data.id, req);
   await Promise.all([
     fireApplicationCreated({ ...data, resume_url }, applicationLead(data, resume_url)),
-    notifyRecruiting(sb, data),
+    notifyRecruiting(data, resume_url),
   ]);
   return NextResponse.json({ ok: true });
 }
 
-/** How long a resume link handed to downstream systems stays valid. */
-const RESUME_LINK_TTL = 60 * 60 * 24 * 365;
-
-async function signedResumeUrl(
-  sb: ReturnType<typeof supabaseAdmin>,
-  path: string | null | undefined,
-  ttl: number,
-): Promise<string | null> {
-  if (!path) return null;
-  const { data } = await sb.storage.from("applications").createSignedUrl(path, ttl);
-  return data?.signedUrl ?? null;
-}
-
 /**
  * Email whoever runs recruiting (APPLY_NOTIFY_EMAIL, comma-separated) so an
- * application does not sit unseen in the backoffice. The resume travels as a
- * signed link valid for a week rather than an attachment.
+ * application does not sit unseen in the backoffice. The resume is never
+ * attached: the link only opens after signing in to the backoffice.
  */
-async function notifyRecruiting(sb: ReturnType<typeof supabaseAdmin>, a: Record<string, any>) {
+async function notifyRecruiting(a: Record<string, any>, resumeUrl: string) {
   const to = (process.env.APPLY_NOTIFY_EMAIL || "").split(",");
   if (!to.some((t) => t.trim())) return;
 
-  let resumeLink = "";
-  if (a.resume_path) {
-    const { data: signed } = await sb.storage.from("applications").createSignedUrl(a.resume_path, 60 * 60 * 24 * 7);
-    if (signed?.signedUrl) {
-      resumeLink = `<p><a href="${esc(signed.signedUrl)}">Download resume — ${esc(a.resume_name)}</a><br>
-        <span style="color:#64748B;font-size:13px">Link expires in 7 days; the resume stays in the backoffice.</span></p>`;
-    }
-  }
+  const resumeHtml = a.resume_path
+    ? `<p><a href="${esc(resumeUrl)}">Download resume — ${esc(a.resume_name)}</a><br>
+        <span style="color:#64748B;font-size:13px">Requires signing in to the backoffice.</span></p>`
+    : "";
 
   const row = (label: string, value: string, href?: string) =>
     value
@@ -141,7 +146,7 @@ async function notifyRecruiting(sb: ReturnType<typeof supabaseAdmin>, a: Record<
         ${row("Experience", a.experience)}
       </table>
       ${a.story ? `<p style="margin-top:16px"><b style="color:#011640">In their words</b><br>${esc(a.story)}</p>` : ""}
-      ${resumeLink}
+      ${resumeHtml}
       ${adminUrl.startsWith("http") ? `<p><a href="${esc(adminUrl)}">Open the backoffice</a></p>` : ""}
     </div>`,
   });

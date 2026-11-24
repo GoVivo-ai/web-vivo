@@ -33,7 +33,7 @@ export function contactLead(m: Row): Lead {
     first_name: space < 0 ? name : name.slice(0, space),
     last_name: space < 0 ? "" : name.slice(space + 1).trim(),
     email: m.email,
-    phone: null,
+    phone: m.phone ?? null,
     message: m.message ?? null,
     role: null,
     linkedin: null,

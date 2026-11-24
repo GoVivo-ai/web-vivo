@@ -22,7 +22,12 @@ export function LoginForm() {
       setErr(error.message);
       return;
     }
-    router.replace(params.get("next") || "/admin");
+    // Only same-site paths; "//host" would leave the site.
+    const raw = params.get("next") || "";
+    const next = raw.startsWith("/") && !raw.startsWith("//") ? raw : "/admin";
+    // API routes (a résumé link) need a full page load, not a client transition.
+    if (next.startsWith("/api/")) return window.location.assign(next);
+    router.replace(next);
     router.refresh();
   }
 

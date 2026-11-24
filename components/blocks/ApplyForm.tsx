@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { Icon } from "../Icon";
 import { Reveal } from "../Reveal";
+import { RESUME_MAX_BYTES, RESUME_TYPES } from "@/lib/consent-texts";
+import { CareersAuthText, CareersCvText, CareersPoolText, ConsentCheckbox } from "./ConsentCopy";
 
 export function ApplyForm({
   anchor,
@@ -31,6 +33,15 @@ export function ApplyForm({
     // Sent as multipart so the resume file travels with the rest of the answers.
     const fd = new FormData(e.currentTarget);
     if (role) fd.set("role", role);
+    fd.set("page_url", window.location.href);
+    // Careers never carries the cookie banner's marketing choice to ad
+    // platforms, but the consent record still notes it (doc 04).
+    fd.set("marketing_consent", String(Boolean((window as any).getCkyConsent?.()?.categories?.advertisement)));
+    const file = fd.get("resume");
+    if (file instanceof File && file.size > 0) {
+      if (!RESUME_TYPES[file.type]) { setError("Your résumé must be a PDF or DOCX file."); return setState("error"); }
+      if (file.size > RESUME_MAX_BYTES) { setError("Your résumé must be 5 MB or less."); return setState("error"); }
+    }
     try {
       const res = await fetch("/api/apply", { method: "POST", body: fd });
       if (res.ok) return setState("done");
@@ -70,13 +81,14 @@ export function ApplyForm({
             <div className="field full"><label>{storyLabel} <span className="hint">(optional · 2–3 sentences)</span></label><textarea className="input" name="story" /></div>
             <div className="field full">
               <label>Resume</label>
+              <p className="consent-notice" style={{ marginTop: 0 }}><CareersCvText /></p>
               <label className="file-drop" htmlFor="apply-file" data-filled={resumeName ? "" : undefined}>
-                {resumeName || "Drop your resume here or click to upload · PDF, DOC, DOCX · max 8 MB"}
+                {resumeName || "Drop your resume here or click to upload · PDF or DOCX · max 5 MB"}
                 <input
                   id="apply-file"
                   name="resume"
                   type="file"
-                  accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                   required
                   /* Not display:none — a hidden required input is unfocusable and blocks submit. */
                   style={{ position: "absolute", width: 1, height: 1, opacity: 0, pointerEvents: "none" }}
@@ -84,9 +96,11 @@ export function ApplyForm({
                 />
               </label>
             </div>
-            <div className="field full" style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-              <input type="checkbox" id="apply-consent" required />
-              <label htmlFor="apply-consent" style={{ color: "var(--text-on-dark-muted)", fontWeight: 400 }}>I agree to the privacy policy.</label>
+            <div className="field full">
+              <ConsentCheckbox id="apply-auth" name="careers_auth" required><CareersAuthText /></ConsentCheckbox>
+            </div>
+            <div className="field full">
+              <ConsentCheckbox id="apply-pool" name="careers_pool"><CareersPoolText /></ConsentCheckbox>
             </div>
             <div className="field full">
               <button className="btn btn-primary btn-lg" type="submit" disabled={state === "sending"}>
