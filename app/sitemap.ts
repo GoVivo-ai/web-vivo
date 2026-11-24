@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getSiteContent } from "@/lib/content/store";
 import { SITE_URL } from "@/lib/seo";
+import { LEGAL_DOCS } from "@/lib/legal";
 
 export const dynamic = "force-dynamic";
 
@@ -14,10 +15,16 @@ function priority(path: string): number {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { pages } = await getSiteContent();
   const lastModified = new Date();
-  return pages.map((p) => ({
+  const cmsPages: MetadataRoute.Sitemap = pages.map((p) => ({
     url: `${SITE_URL}${p.path === "/" ? "" : p.path}`,
     lastModified,
     changeFrequency: p.path.startsWith("/insights/") ? "yearly" : "monthly",
     priority: priority(p.path),
   }));
+  const legalPages: MetadataRoute.Sitemap = Object.keys(LEGAL_DOCS).map((slug) => ({
+    url: `${SITE_URL}/${slug}`,
+    changeFrequency: "yearly",
+    priority: 0.3,
+  }));
+  return [...cmsPages, ...legalPages];
 }

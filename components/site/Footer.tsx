@@ -1,5 +1,14 @@
 import Link from "next/link";
 import type { SiteSettings } from "@/lib/blocks/types";
+import { PrivacyChoicesButton } from "./PrivacyChoicesButton";
+
+/** Fixed on every page, outside the CMS, so no one can remove them from /admin. */
+const LEGAL_LINKS = [
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Cookie Policy", href: "/cookie-policy" },
+  { label: "Terms", href: "/terms" },
+  { label: "SMS Terms", href: "/sms-terms" },
+];
 
 export function Footer({ settings }: { settings: SiteSettings }) {
   const f = settings.footer;
@@ -33,6 +42,13 @@ export function Footer({ settings }: { settings: SiteSettings }) {
             {f.contactLine && <span>{f.contactLine}</span>}
           </span>
         </div>
+        <nav className="footer-legal" aria-label="Legal">
+          {LEGAL_LINKS.map((l) => (
+            <Link key={l.href} href={l.href}>{l.label}</Link>
+          ))}
+          <PrivacyChoicesButton label="Cookie Settings" />
+          <PrivacyChoicesButton label="Your Privacy Choices" />
+        </nav>
       </div>
     </footer>
   );

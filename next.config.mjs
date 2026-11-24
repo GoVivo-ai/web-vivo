@@ -11,6 +11,8 @@ const nextConfig = {
     config.cache = false;
     return config;
   },
+  // Legal pages read their Markdown at request time; ship it with the server bundle.
+  outputFileTracingIncludes: { "/**": ["./content/legal/**/*"] },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "**.supabase.co" },

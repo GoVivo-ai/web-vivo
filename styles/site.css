@@ -606,3 +606,27 @@ textarea.input { resize: vertical; min-height: 120px; }
 .hero--center .eyebrow { justify-content: center; }
 .hero--center .hero-cta { justify-content: center; }
 .hero--center .role-meta { justify-content: center; }
+
+/* ---------- Legal pages ---------- */
+.legal-hero { padding: var(--space-12) 0 var(--space-8); }
+.legal-hero h1 { font-size: var(--fs-h1); margin-top: 18px; }
+.legal-section { padding: var(--space-8) 0 var(--space-12); }
+.legal-doc { color: var(--text-body); font-size: var(--fs-body); line-height: 1.7; }
+.legal-doc > p:first-child { color: var(--text-muted); font-size: var(--fs-sm); }
+.legal-doc h1 { font-size: var(--fs-h2); margin: var(--space-10) 0 var(--space-4); padding-top: var(--space-6); border-top: 1px solid var(--vivo-border); }
+.legal-doc h2 { font-size: var(--fs-h3); margin: var(--space-8) 0 var(--space-3); }
+.legal-doc h3 { font-size: var(--fs-h4); margin: var(--space-6) 0 var(--space-2); }
+.legal-doc p, .legal-doc ul, .legal-doc ol { margin: 0 0 var(--space-4); }
+.legal-doc ul, .legal-doc ol { padding-left: 1.4em; }
+.legal-doc li { margin-bottom: 6px; }
+.legal-doc a { color: var(--vivo-green-700); text-decoration: underline; text-underline-offset: 2px; }
+.legal-doc hr { border: 0; border-top: 1px solid var(--vivo-border); margin: var(--space-7) 0; }
+.legal-doc blockquote { margin: 0 0 var(--space-4); padding: var(--space-4) var(--space-5); background: var(--vivo-gray-050); border-left: 3px solid var(--vivo-green); border-radius: var(--radius-sm); }
+.legal-doc table { width: 100%; border-collapse: collapse; margin: 0 0 var(--space-5); font-size: var(--fs-sm); display: block; overflow-x: auto; }
+.legal-doc th, .legal-doc td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--vivo-border); }
+.legal-doc th { color: var(--text-primary); font-weight: var(--fw-bold); background: var(--vivo-gray-050); }
+.legal-doc em { color: var(--vivo-dgray); }
+
+.footer-legal { display: flex; flex-wrap: wrap; gap: 6px 18px; padding-top: var(--space-5); font-size: var(--fs-xs); }
+.footer-legal a, .footer-legal button { color: rgba(255,255,255,0.6); background: none; border: 0; padding: 0; font: inherit; cursor: pointer; text-decoration: none; }
+.footer-legal a:hover, .footer-legal button:hover { color: var(--vivo-green); }
