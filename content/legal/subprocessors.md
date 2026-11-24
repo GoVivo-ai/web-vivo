@@ -13,7 +13,7 @@ This page lists the third parties Vivo uses to operate its website and the Vivo 
 | --- | --- | --- |
 | Vercel Inc. | Website and Vivo platform hosting and delivery | United States |
 | Supabase Inc. | Vivo platform database | United States |
-| Hostinger International Ltd. | Website database and file storage, including form submissions and candidate résumés | [CONFIRM REGION] |
+| Hostinger International Ltd. | Website database and file storage, including form submissions and candidate résumés | United States |
 
 ## Business operations
 

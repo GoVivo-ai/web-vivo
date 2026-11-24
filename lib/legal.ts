@@ -22,7 +22,7 @@ export type LegalSlug = keyof typeof LEGAL_DOCS;
  * Written but not live yet. Subprocessors waits on the website database's
  * hosting region. Remove a slug from here to publish it.
  */
-const HELD: ReadonlySet<LegalSlug> = new Set<LegalSlug>(["subprocessors"]);
+const HELD: ReadonlySet<LegalSlug> = new Set<LegalSlug>([]);
 
 export function isPublished(slug: LegalSlug): boolean {
   return !HELD.has(slug);
